@@ -80,6 +80,8 @@ USE_L10N = True
 
 USE_TZ = True
 
+# Makes sure that no files are over 2.5 MB in size
+MAX_UPLOAD_SIZE = 2621440
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
@@ -93,7 +95,17 @@ except ImportError:
     print "Make sure to create local settings"
     pass
 
-# Files that should be in the
+# Things that should be in the local settings:
+#BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+#SECURITY_KEY = 'jibberish'
 #
-#
-#
+#DATABASES = {
+#    'default': {
+#        'ENGINE': 'django.db.backends.mysql',
+#        'NAME': 'name',
+#        'USER': 'user',
+#        'PASSWORD': 'password',
+#        'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
+#        'PORT': '3306',
+#    }
+#}
