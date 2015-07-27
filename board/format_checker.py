@@ -29,6 +29,13 @@ class RestrictedFileField(forms.FileField):
 
         return data
 
+    def formfield(self, **kwargs):
+        # This is a fairly standard way to set up some defaults
+        # while letting the caller override them.
+        defaults = {'form_class': forms.FileField}
+        defaults.update(kwargs)
+        return super(RestrictedFileField, self).formfield(**defaults)
+
 
 class RestrictedImageField(forms.ImageField):
     def __init__(self, *args, **kwargs):
@@ -46,3 +53,10 @@ class RestrictedImageField(forms.ImageField):
             pass
 
         return data
+
+    def formfield(self, **kwargs):
+        # This is a fairly standard way to set up some defaults
+        # while letting the caller override them.
+        defaults = {'form_class': forms.ImageField}
+        defaults.update(kwargs)
+        return super(RestrictedImageField, self).formfield(**defaults)

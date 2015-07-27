@@ -29,16 +29,21 @@ class Post(models.Model):
     low_salary = models.IntegerField()
     high_salary = models.IntegerField()
 
+    categories = models.ManyToManyField('Category', blank=True)
+
     def __unicode__(self):
         return self.title
 
 
 class Company(models.Model):
     name = models.CharField(max_length=80)
-    picture = RestrictedImageField()
+    picture = models.ImageField(blank=True, null=True)
     description = models.TextField()
     website = models.URLField()
     location = models.CharField(max_length=30, default="Owatonna, MN")
+
+    class Meta:
+        verbose_name_plural = 'companies'
 
     def __unicode__(self):
         return self.name
@@ -47,7 +52,7 @@ class Company(models.Model):
 class User(models.Model):
     name = models.CharField(max_length=50)
     posts = models.ManyToManyField('Post')
-    resume = RestrictedFileField(content_types=['application/pdf'])
+    resume = models.FileField(blank=True, null=True)
 
     def __unicode__(self):
         return self.name
@@ -55,7 +60,9 @@ class User(models.Model):
 
 class Category(models.Model):
     name = models.CharField(max_length=80)
-    posts = models.ManyToManyField('Post')
-    
+
+    class Meta:
+        verbose_name_plural = 'categories'
+
     def __unicode__(self):
         return self.name
