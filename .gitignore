@@ -51,6 +51,7 @@ coverage.xml
 # Django stuff:
 bin/
 jobs/local_settings.py
+board/migrations
 *.log
 
 # PyCharm
