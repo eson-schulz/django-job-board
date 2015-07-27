@@ -1,0 +1,102 @@
+{% load endless %}
+{% load board_extras %}
+
+{% paginate 8 posts %}
+<div class="box-list">
+    {% for post in posts %}
+        <div class="item">
+          <div class="row">
+            <div class="col-md-12">
+              <h3 class="no-margin-top"><a href="job_details.html" class="">{{ post.title }} <i class="fa fa-link color-white-mute font-1x"></i></a></h3>
+              <h5><span class="color-black">{{ post.company.name }}</span> - <span class="color-white-mute">{{ post.location }}</span></h5>
+              <p class="text-truncate ">{{ post.description }}</p>
+              <div>
+                <span class="color-white-mute">{{ post.date|dayssince }}</span> -
+                <a href="#need-login" data-toggle="modal" class="btn btn-xs btn-theme btn-default">save job</a> -
+                <a href="#modal-email" data-toggle="modal"  class="btn btn-theme btn-xs btn-default">email</a> -
+                <a href="#" class="btn btn-theme btn-xs btn-default">more ...</a>
+              </div>
+            </div>
+          </div>
+        </div><!-- end item list -->
+    {% endfor %}
+</div>
+
+<!-- form get alert -->
+<div class="get_alert">
+<h4>Get email updates for the latest jobs in and around Owatonna</h4>
+<form>
+  <div class="row">
+    <div class="col-md-9">
+      <div class="form-group">
+        <label>My Email</label>
+        <input class="form-control" placeholder="Enter Email">
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="form-group">
+        <label class="hidden-sm hidden-xs ">&nbsp;</label>
+        <button class="btn btn-theme btn-success btn-block">Activate</button>
+      </div>
+    </div>
+  </div>
+  <small>You can cancel email alerts at any time.</small>
+</form>
+</div><!-- end form get alert -->
+
+{% get_pages %}
+
+{% show_current_number as current_number %}
+<!-- pagination -->
+<nav>
+<ul class="pagination pagination-theme  no-margin">
+    {% for page in pages %}
+        {% if page.is_first and not page.is_current %}
+            <li>{{ pages.previous }}</li>
+        {% endif %}
+
+        {% if page.number == 2 and current_number > 4 %}
+            <li>{{ pages.first }}</li>
+        {% endif %}
+
+        {% if page.is_current %}
+            <li class="active">{{ page }}</li>
+        {% else %}
+            {% if current_number > page.number %}
+                {% if current_number|add:"-3" <= page.number %}
+                    {% if current_number|add:"-3" == page.number %}
+                        {% if current_number == 4 %}
+                            <li>{{ pages.first }}</li>
+                        {% else %}
+                            <li><a>...</a></li>
+                        {% endif %}
+                    {% else %}
+                        <li>{{ page }}</li>
+                    {% endif %}
+                {% endif %}
+            {% else %}
+                    {% if current_number|add:"3" >= page.number %}
+                        {% if current_number|add:"3" == page.number %}
+                            {% if current_number == pages|length|add:"-3" %}
+                                <li>{{ pages.last }}</li>
+                            {% else %}
+                                <li><a>...</a></li>
+                            {% endif %}
+                        {% else %}
+                            <li>{{ page }}</li>
+                        {% endif %}
+                    {% endif %}
+            {% endif %}
+        {% endif %}
+
+        {% if page.number == pages|length|add:"-1" and current_number < pages|length|add:"-3" %}
+            <li>{{ pages.last }}</li>
+        {% endif %}
+
+        {% if page.is_last and not page.is_current %}
+            <li>{{ pages.next }}</li>
+        {% endif %}
+    {% endfor %}
+  <!--<li><span>...</span></li> -->
+</ul>
+</nav><!-- pagination -->

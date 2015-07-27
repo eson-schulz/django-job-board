@@ -168,6 +168,9 @@
     <!-- Theme JS -->
     <script src="{% static 'theme/js/theme.js' %}"></script>
 
+    <!-- Renders any js needed specifically by pages -->
+    {% block js %}{% endblock js %}
+
     <!-- maps -->
     <!--<script src="http://maps.googleapis.com/maps/api/js?sensor=false" type="text/javascript"></script>-->
     <!--<script src="assets/plugins/gmap3.min.js"></script>-->
