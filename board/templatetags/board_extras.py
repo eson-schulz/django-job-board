@@ -3,6 +3,7 @@ import datetime
 
 register = template.Library()
 
+
 # Thanks to https://djangosnippets.org/snippets/116/
 def dayssince(value):
     "Returns number of days between today and value."
@@ -17,6 +18,5 @@ def dayssince(value):
     else:
         # Date is in the future; return formatted date.
         return value.strftime("%B %d, %Y")
-
 
 register.filter('dayssince', dayssince)

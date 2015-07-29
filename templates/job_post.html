@@ -1,0 +1,105 @@
+{% extends 'skeleton/base.html' %}
+
+{% load staticfiles %}
+
+{% block title %}
+Post a Job - Owatonna Jobs Online
+{% endblock title %}
+
+{% block content %}
+        <div class="container">
+          <div class="text-center logo"> <a href="index.html"><img src="{% static 'theme/images/logo.png'  %}" alt=""></a></div>
+        </div>
+
+      </header><!-- end main-header -->
+
+
+      <!-- body-content -->
+      <div class="body-content clearfix" >
+
+        <div class="bg-color2 block-section line-bottom">
+          <div class="container">
+            <h1 class="text-center no-margin">Post a Job</h1>
+          </div>
+        </div>
+
+        <div class="bg-color1 block-section line-bottom">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-8 col-md-offset-2">
+
+                <!-- form post a job -->
+                <form id="post_form" method="post" action="{% url 'post_a_job' %}">
+                    {% csrf_token %}
+                  <div class="form-group">
+                    <label>Job title</label>
+                      {{ form.title }}
+                  </div>
+                  <div class="form-group">
+                    <label>Job description</label>
+                    <div class="color-white-mute"><small>Describe the responsibilities of this job, required work experience, skills, or education.</small></div>
+                      {{ form.description }}
+                    <small class="color-white-mute">Formatting Options:    ##heading      *bold*          _italic_          * bulleted list</small>
+                  </div>
+                  <div class="form-group">
+                    <label>Location</label>
+                      {{ form.location }}
+                  </div>
+
+                  <div class="form-group">
+                    <label>Job Type</label>
+                    <div class="row clearfix">
+                      <div class="col-xs-6">
+                          {{ form.job_type }}
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- checkboxs -->
+                  <div class="form-group">
+                    <label>Job Categories (up to three)</label>
+                    <div class="row clearfix">
+                        <div class="col-md-4">
+                            {% for category in form.categories %}
+                                {% if forloop.counter0 == category_column_size or forloop.counter0 == category_column_size|add:category_column_size %}
+                                    </div><div class="col-md-4">
+                                {% endif %}
+                                <div class="checkbox flat-checkbox">
+                                      <label>
+                                        <input type="checkbox">
+                                        <span class="fa fa-check"></span>
+                                        {{ category }}
+                                      </label>
+                                </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                  </div><!-- end checkboxs -->
+
+
+                  <div class="form-group">
+                    <label>Salary (optional)</label>
+                    <div class="row clearfix">
+                      <div class="col-xs-6">
+                          {{ form.low_salary }}
+                      </div>
+                      <div class="col-xs-6">
+                          {{ form.high_salary }}
+                      </div>
+                    </div>
+                  </div>
+                  <p>Applications will be emailed to: <a href="#">your@email.com</a> – <a href="#">change email</a></p>
+
+                  <div class="form-group ">
+                    <button class="btn btn-t-primary btn-theme">Continue</button>
+                  </div>
+
+
+                </form> <!-- end form post a job -->
+              </div>
+            </div>
+          </div>
+        </div>        
+      </div><!--end body-content -->
+
+{% endblock content %}

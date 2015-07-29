@@ -1,6 +1,7 @@
 from django.shortcuts import render, render_to_response
 from django.template.context import RequestContext
-from .models import Post
+from .forms import PostForm
+from .models import Post, Category
 from endless_pagination.decorators import page_template
 
 
@@ -15,12 +16,21 @@ def index(
     return render_to_response(
         template, context, context_instance=RequestContext(request))
 
-#def index(request):
-#    context = {}
 
-#    context['posts'] = Post.objects.all()
+def post_a_job(request):
 
-#    return render(request, 'index.html', context)
+    context = {}
+
+    if request.method == 'POST':
+        form = PostForm(request.POST)
+
+    else:
+        form = PostForm()
+
+    context['form'] = form
+    context['category_column_size'] = int(len(Category.objects.all()) / 3)
+    print context['category_column_size']
+    return render(request, 'job_post.html', context)
 
 
 def page_not_found(request):
