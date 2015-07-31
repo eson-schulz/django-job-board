@@ -27,23 +27,25 @@ Post a Job - Owatonna Jobs Online
           <div class="container">
             <div class="row">
               <div class="col-md-8 col-md-offset-2">
-
+                <p style="color:red">{{ form.non_field_errors }}</p>
                 <!-- form post a job -->
                 <form id="post_form" method="post" action="{% url 'post_a_job' %}">
                     {% csrf_token %}
                   <div class="form-group">
                     <label>Job title</label>
                       {{ form.title }}
+                    <small style="color:red">{{ form.title.errors|striptags }}</small>
                   </div>
                   <div class="form-group">
                     <label>Job description</label>
                     <div class="color-white-mute"><small>Describe the responsibilities of this job, required work experience, skills, or education.</small></div>
                       {{ form.description }}
-                    <small class="color-white-mute">Formatting Options:    ##heading      *bold*          _italic_          * bulleted list</small>
+                    <small style="color:red">{{ form.description.errors|striptags }}</small>
                   </div>
                   <div class="form-group">
                     <label>Location</label>
                       {{ form.location }}
+                      <small style="color:red">{{ form.location.errors|striptags }}</small>
                   </div>
 
                   <div class="form-group">
@@ -51,6 +53,7 @@ Post a Job - Owatonna Jobs Online
                     <div class="row clearfix">
                       <div class="col-xs-6">
                           {{ form.job_type }}
+                          <small style="color:red">{{ form.job_type.errors|striptags }}</small>
                       </div>
                     </div>
                   </div>
@@ -62,15 +65,19 @@ Post a Job - Owatonna Jobs Online
                         <div class="col-md-4">
                             {% for category in form.categories %}
                                 {% if forloop.counter0 == category_column_size or forloop.counter0 == category_column_size|add:category_column_size %}
+                                    {% if forloop.counter0 == category_column_size %}
+                                        <small style="color:red">{{ form.categories.errors|striptags }}</small>
+                                    {% endif %}
                                     </div><div class="col-md-4">
                                 {% endif %}
                                 <div class="checkbox flat-checkbox">
                                       <label>
-                                        <input type="checkbox">
+                                        {{ category.choice_label }}
+                                        {{ category.tag }}
                                         <span class="fa fa-check"></span>
-                                        {{ category }}
                                       </label>
                                 </div>
+
                             {% endfor %}
                         </div>
                     </div>
@@ -82,9 +89,11 @@ Post a Job - Owatonna Jobs Online
                     <div class="row clearfix">
                       <div class="col-xs-6">
                           {{ form.low_salary }}
+                          <small style="color:red">{{ form.low_salary.errors|striptags }}</small>
                       </div>
                       <div class="col-xs-6">
                           {{ form.high_salary }}
+                          <small style="color:red">{{ form.high_salary.errors|striptags }}</small>
                       </div>
                     </div>
                   </div>
