@@ -64,12 +64,15 @@ Post a Job - Owatonna Jobs Online
                     <div class="row clearfix">
                         <div class="col-md-4">
                             {% for category in form.categories %}
-                                {% if forloop.counter0 == category_column_size or forloop.counter0 == category_column_size|add:category_column_size %}
+
+                                <!-- If the forloop has gone through the first column -->
+                                {% if forloop.counter0 == category_column_size or forloop.counter0 == category_column_2_size %}
                                     {% if forloop.counter0 == category_column_size %}
                                         <small style="color:red">{{ form.categories.errors|striptags }}</small>
                                     {% endif %}
                                     </div><div class="col-md-4">
                                 {% endif %}
+
                                 <div class="checkbox flat-checkbox">
                                       <label>
                                         {{ category.choice_label }}

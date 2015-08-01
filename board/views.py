@@ -3,6 +3,7 @@ from django.template.context import RequestContext
 from .forms import PostForm
 from .models import Post, Category
 from endless_pagination.decorators import page_template
+import math
 
 
 @page_template('single_post_index.html')  # just add this decorator
@@ -28,8 +29,14 @@ def post_a_job(request):
         form = PostForm()
 
     context['form'] = form
-    context['category_column_size'] = int(len(Category.objects.all()) / 3)
-    print context['category_column_size']
+    context['category_column_size'] = int(math.ceil(len(Category.objects.all()) / 3.0))
+
+    # Decides what the second column size should be
+    if len(Category.objects.all()) - (context['category_column_size'] * 2) < (context['category_column_size'] - 1):
+        context['category_column_2_size'] = (context['category_column_size'] * 2) - 1
+    else:
+        context['category_column_2_size'] = context['category_column_size'] * 2
+
     return render(request, 'job_post.html', context)
 
 
