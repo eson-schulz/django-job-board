@@ -1,5 +1,6 @@
 from django.db import models
-from format_checker import RestrictedFileField, RestrictedImageField
+from django.template.defaultfilters import slugify
+import itertools
 
 
 class Post(models.Model):
@@ -19,28 +20,38 @@ class Post(models.Model):
         (INTERNSHIP, 'Internship'),
     )
 
-    title = models.CharField(max_length=80)
+    title = models.CharField(max_length=60)
     company = models.ForeignKey('Company')
     description = models.TextField()
     date = models.DateField()
 
     job_type = models.CharField(max_length=2, choices=JOB_TYPE_CHOICES)
     location = models.CharField(max_length=30, default="Owatonna, MN")
-    low_salary = models.IntegerField()
-    high_salary = models.IntegerField()
+    low_salary = models.IntegerField(blank=True, null=True)
+    high_salary = models.IntegerField(blank=True, null=True)
+
+    slug = models.SlugField(unique=True, max_length=70)
 
     categories = models.ManyToManyField('Category', blank=True)
+
+    def save(self, *args, **kwargs):
+
+        # TODO: Save the post's slug
+
+        super(Post, self).save(*args, **kwargs)
 
     def __unicode__(self):
         return self.title
 
 
 class Company(models.Model):
-    name = models.CharField(max_length=80)
+    name = models.CharField(max_length=60)
     picture = models.ImageField(blank=True, null=True)
     description = models.TextField()
     website = models.URLField()
     location = models.CharField(max_length=30, default="Owatonna, MN")
+
+    slug = models.SlugField(unique=True)
 
     class Meta:
         verbose_name_plural = 'companies'
@@ -54,12 +65,16 @@ class User(models.Model):
     posts = models.ManyToManyField('Post')
     resume = models.FileField(blank=True, null=True)
 
+    slug = models.SlugField(unique=True)
+
     def __unicode__(self):
         return self.name
 
 
 class Category(models.Model):
     name = models.CharField(max_length=80)
+
+    slug = models.SlugField(unique=True)
 
     class Meta:
         verbose_name_plural = 'categories'

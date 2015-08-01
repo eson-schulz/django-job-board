@@ -1,7 +1,8 @@
-from django.shortcuts import render, render_to_response
+import datetime
+from django.shortcuts import render, render_to_response, redirect
 from django.template.context import RequestContext
 from .forms import PostForm
-from .models import Post, Category
+from .models import Post, Category, Company
 from endless_pagination.decorators import page_template
 import math
 
@@ -10,7 +11,7 @@ import math
 def index(
         request, template='index.html', extra_context=None):
     context = {
-        'posts': Post.objects.all(),
+        'posts': Post.objects.order_by('-date'),
     }
     if extra_context is not None:
         context.update(extra_context)
@@ -25,6 +26,15 @@ def post_a_job(request):
     if request.method == 'POST':
         form = PostForm(request.POST)
 
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.company = Company.objects.get(id=1)
+            post.date = datetime.date.today()
+            post.save()
+
+            return redirect('index')
+        else:
+            print form.errors
     else:
         form = PostForm()
 
