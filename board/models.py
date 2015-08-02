@@ -30,18 +30,56 @@ class Post(models.Model):
     low_salary = models.IntegerField(blank=True, null=True)
     high_salary = models.IntegerField(blank=True, null=True)
 
-    slug = models.SlugField(unique=True, max_length=70)
+    slug = models.SlugField(unique=True)
 
     categories = models.ManyToManyField('Category', blank=True)
 
     def save(self, *args, **kwargs):
 
-        # TODO: Save the post's slug
+        if not self.id:
+            max_length = 50
+
+            self.slug = orig = slugify(self.title)[:max_length]
+
+            for x in itertools.count(1):
+                if not Post.objects.filter(slug=self.slug).exists():
+                    break
+
+                # Truncate the original slug dynamically. Minus 1 for the hyphen.
+                self.slug = "%s-%d" % (orig[:max_length - len(str(x)) - 1], x)
 
         super(Post, self).save(*args, **kwargs)
 
     def __unicode__(self):
         return self.title
+
+
+class Category(models.Model):
+    name = models.CharField(max_length=80)
+
+    slug = models.SlugField(unique=True)
+
+    def save(self, *args, **kwargs):
+
+        if not self.id:
+            max_length = 50
+
+            self.slug = orig = slugify(self.name)[:max_length]
+
+            for x in itertools.count(1):
+                if not Post.objects.filter(slug=self.slug).exists():
+                    break
+
+                # Truncate the original slug dynamically. Minus 1 for the hyphen.
+                self.slug = "%s-%d" % (orig[:max_length - len(str(x)) - 1], x)
+
+        super(Category, self).save(*args, **kwargs)
+
+    class Meta:
+        verbose_name_plural = 'categories'
+
+    def __unicode__(self):
+        return self.name
 
 
 class Company(models.Model):
@@ -52,6 +90,22 @@ class Company(models.Model):
     location = models.CharField(max_length=30, default="Owatonna, MN")
 
     slug = models.SlugField(unique=True)
+
+    def save(self, *args, **kwargs):
+
+        if not self.id:
+            max_length = 50
+
+            self.slug = orig = slugify(self.name)[:max_length]
+
+            for x in itertools.count(1):
+                if not Post.objects.filter(slug=self.slug).exists():
+                    break
+
+                # Truncate the original slug dynamically. Minus 1 for the hyphen.
+                self.slug = "%s-%d" % (orig[:max_length - len(str(x)) - 1], x)
+
+        super(Company, self).save(*args, **kwargs)
 
     class Meta:
         verbose_name_plural = 'companies'
@@ -64,20 +118,6 @@ class User(models.Model):
     name = models.CharField(max_length=50)
     posts = models.ManyToManyField('Post')
     resume = models.FileField(blank=True, null=True)
-
-    slug = models.SlugField(unique=True)
-
-    def __unicode__(self):
-        return self.name
-
-
-class Category(models.Model):
-    name = models.CharField(max_length=80)
-
-    slug = models.SlugField(unique=True)
-
-    class Meta:
-        verbose_name_plural = 'categories'
 
     def __unicode__(self):
         return self.name
