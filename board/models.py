@@ -84,7 +84,7 @@ class Category(models.Model):
 
 class Company(models.Model):
     name = models.CharField(max_length=60)
-    picture = models.ImageField(blank=True, null=True)
+    picture = models.ImageField(blank=True, upload_to="companies/", null=True)
     description = models.TextField()
     website = models.URLField()
     location = models.CharField(max_length=30, default="Owatonna, MN")

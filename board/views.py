@@ -1,5 +1,5 @@
 import datetime
-from django.shortcuts import render, render_to_response, redirect
+from django.shortcuts import render, render_to_response, redirect, get_object_or_404
 from django.template.context import RequestContext
 from .forms import PostForm
 from .models import Post, Category, Company
@@ -49,6 +49,14 @@ def post_a_job(request):
 
     return render(request, 'job_post.html', context)
 
+
+def job_details(request, company_slug, post_slug):
+
+    context = {}
+
+    context['job'] = get_object_or_404(Post, slug=post_slug, company__slug=company_slug)
+
+    return render(request, 'job_details.html', context)
 
 def page_not_found(request):
     return render(request, '404.html')

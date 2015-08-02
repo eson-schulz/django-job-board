@@ -7,7 +7,7 @@
         <div class="item">
           <div class="row">
             <div class="col-md-12">
-              <h3 class="no-margin-top"><a href="job_details.html" class="">{{ post.title }} <i class="fa fa-link color-white-mute font-1x"></i></a></h3>
+              <h3 class="no-margin-top"><a href="{% url 'job_details' post.company.slug post.slug %}" class="">{{ post.title }} <i class="fa fa-link color-white-mute font-1x"></i></a></h3>
               <h5><span class="color-black">{{ post.company.name }}</span> - <span class="color-white-mute">{{ post.location }}</span></h5>
               <p class="text-truncate ">{{ post.description }}</p>
               <div>

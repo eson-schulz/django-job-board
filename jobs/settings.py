@@ -34,6 +34,7 @@ INSTALLED_APPS = (
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.humanize',
     'endless_pagination',
     'board',
 )
@@ -92,6 +93,9 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+MEDIA_URL = '/media/'
+MEDIA_ROOT = os.path.join(BASE_DIR + '/media/')
+
 # Import local settings
 try:
     from local_settings import *
@@ -100,10 +104,10 @@ except ImportError:
     pass
 
 # Things that should be in the local settings:
-#BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
-#SECURITY_KEY = 'jibberish'
+# BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+# SECURITY_KEY = 'jibberish'
 #
-#DATABASES = {
+# DATABASES = {
 #    'default': {
 #        'ENGINE': 'django.db.backends.mysql',
 #        'NAME': 'name',
@@ -112,4 +116,4 @@ except ImportError:
 #        'HOST': 'localhost',   # Or an IP Address that your DB is hosted on
 #        'PORT': '3306',
 #    }
-#}
+# }

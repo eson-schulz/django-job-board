@@ -50,6 +50,7 @@ coverage.xml
 
 # Django stuff:
 bin/
+media/
 jobs/local_settings.py
 board/migrations
 *.log
