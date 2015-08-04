@@ -37,6 +37,7 @@ INSTALLED_APPS = (
     'django.contrib.humanize',
     'endless_pagination',
     'board',
+    'tinymce',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -92,13 +93,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/1.8/howto/static-files/
 
 STATIC_URL = '/static/'
+STATIC_ROOT = 'staticfiles'
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR + '/media/')
 
 # Tags that are allowed in the posts
 ALLOWED_TAGS = ('p', 'h4', 'h5', 'h6', 'ul', 'li', 'br')
-
 
 # Import local settings
 try:
