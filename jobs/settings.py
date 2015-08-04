@@ -99,12 +99,12 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR + '/media/')
 
 # Tags that are allowed in the posts
-ALLOWED_TAGS = ('p', 'h4', 'h5', 'h6', 'ul', 'li', 'br')
+ALLOWED_TAGS = ('p', 'strong', 'ol', 'ul', 'li', 'br', 'em', 'h4', 'h5', 'h6')
 
 TINYMCE_DEFAULT_CONFIG = {
     'theme' : 'advanced',
     'theme_advanced_blockformats': 'p,h4,h5,h6',
-    'theme_advanced_buttons1' : 'formatselect,separator,bold,italic,underline,separator,bullist,numlist',
+    'theme_advanced_buttons1' : 'formatselect,separator,bold,italic,separator,bullist,numlist',
     'theme_advanced_buttons2' : '',
     'theme_advanced_buttons3' : '',
     'theme_advanced_toolbar_location' : 'top',
