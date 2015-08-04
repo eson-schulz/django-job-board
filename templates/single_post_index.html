@@ -6,10 +6,15 @@
     {% for post in posts %}
         <div class="item">
           <div class="row">
-            <div class="col-md-12">
+            <div class="col-md-1 hidden-sm hidden-xs">
+                <div class="img-item">
+                    <img src="{{ post.company.picture.url }}" alt="">
+                </div>
+            </div>
+            <div class="col-md-11">
               <h3 class="no-margin-top"><a href="{% url 'job_details' post.company.slug post.slug %}" class="">{{ post.title }} <i class="fa fa-link color-white-mute font-1x"></i></a></h3>
-              <h5><span class="color-black">{{ post.company.name }}</span> - <span class="color-white-mute">{{ post.location }}</span></h5>
-              <p class="text-truncate ">{{ post.description }}</p>
+              <h5><a href="{% url 'company_details' post.company.slug %}"><span class="color-black">{{ post.company.name }}</span></a> - <span class="color-white-mute">{{ post.location }}</span></h5>
+              <p class="text-truncate ">{{ post.description|striptags }}</p>
               <div>
                 <span class="color-white-mute">{{ post.date|dayssince }}</span> -
                 <a href="#need-login" data-toggle="modal" class="btn btn-xs btn-theme btn-default">save job</a> -
@@ -97,6 +102,5 @@
             <li>{{ pages.next }}</li>
         {% endif %}
     {% endfor %}
-  <!--<li><span>...</span></li> -->
 </ul>
 </nav><!-- pagination -->

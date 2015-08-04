@@ -2,29 +2,28 @@
 
 {% load staticfiles %}
 {% load board_extras %}
-{% load humanize %}
 
-{% block title %}Owatonna Jobs Online - {{ job.title }}{% endblock title %}
+{% block title %}{{ company.name }} - Owatonna Jobs Online{% endblock title %}
 
 {% block content %}
-
       <!-- body-content -->
       <div class="body-content clearfix" >
 
-        <!-- link top -->
+        <!-- top link -->
         <div class="bg-color2 block-section-xs line-bottom">
           <div class="container">
             <div class="row">
               <div class="col-sm-6 hidden-xs">
-                <div>Job details :</div>
+                <div>Company profile :</div>
               </div>
               <div class="col-sm-6">
                 <div class="text-right"><a style="cursor:pointer;" onclick="history.back();">&laquo; Go back to job listings</a></div>
               </div>
             </div>
           </div>
-        </div><!-- end link top -->
+        </div><!-- end top link -->
 
+        <!-- company profile -->
         <div class="bg-color2">
           <div class="container">
             <div class="row">
@@ -32,63 +31,77 @@
 
                 <!-- box item details -->
                 <div class="block-section box-item-details">
+                  <!-- logo company-->
                   <div class="row">
                     <div class="col-md-8">
-                      <a href="{% url 'company_details' job.company.slug %}"><img style="max-width:220px; max-height:60px;" src="{{ job.company.picture.url }}" alt=""></a>
+                      <a><img style="max-width:220px; max-height:60px;" src="{{ company.picture.url }}" alt=""></a>
                     </div>
                     <div class="col-md-4">
-                      <p class="text-right"><a href="{{ job.company.website }}">Go to our website &raquo;</a></p>
+                      <p class="text-right"><a href="{{ company.website }}">Go to our website &raquo;</a></p>
                     </div>
-                  </div>
+                  </div><!-- end logo company-->
 
-                  <h2 class="title"><a href="#">{{ job.title }}</a></h2>
-                  <div class="job-meta">
-                    <ul class="list-inline">
-                      <li><i class="fa fa-briefcase"></i> {{ job.get_job_type_display }}</li>
-                      <li><i class="fa fa-map-marker"></i> {{ job.location }}</li>
-                        {% if job.low_salary and job.high_salary %}
-                            <li><i class="fa fa-money"></i> ${{ job.low_salary|intcomma }} - ${{ job.high_salary|intcomma }}</li>
-                        {% else %}
-                            {% if job.low_salary %}
-                                <li><i class="fa fa-money"></i> ${{ job.low_salary|intcomma }}+</li>
-                            {% endif %}
-                            {% if job.high_salary  %}
-                                <li><i class="fa fa-money"></i> Up to ${{ job.high_salary|intcomma }}</li>
-                            {% endif %}
-                        {% endif %}
-                    </ul>
-                  </div>
-                  {{ job.description|safe|bleach_escape }}
+                  <!-- About Company-->
+                  <h3 class="title" id="cp-about">About</h3>
+
+                  {{ company.description|safe|bleach_escape }}
+
+
+                  <!-- Jobs list-->
+                  <h3 class="title" id="cp-jobs">Jobs <small>({{ jobs|length }})</small></h3>
+                    {% if jobs %}
+                        {% for job in jobs %}
+                          <div class="mt-20">
+                            <h4><a href="{% url 'job_details' company.slug job.slug %}" class="">{{ job.title }} <i class="fa fa-link color-white-mute font-1x"></i></a></h4>
+                            <p>{{ job.location }}</p>
+                          </div>
+                        {% endfor %}
+                    {% else %}
+                        <div class="mt-20">
+                            <h4>This company is currently not hiring</h4>
+                            <p>{{ job.location }}</p>
+                          </div>
+                    {% endif %}
+
+                  <!--<p><a href="#" class="btn btn-theme btn-line dark btn-sm btn-pill">Load More</a></p>-->
                 </div><!-- end box item details -->
+
 
               </div>
               <div class="col-md-3">
 
-                <!-- box affix right -->
+                <!-- box afix right -->
                 <div class="block-section " id="affix-box">
-                  <div class="text-right">
-                    <p><a href="#" class="btn btn-theme btn-line dark btn-block-xs">Apply With Linkedin</a></p>
-                    <p><a href="#modal-apply"  data-toggle="modal" class="btn btn-theme btn-t-primary btn-block-xs">Apply for this Job</a></p>
-                    <p><a href="#" class="btn btn-theme btn-t-primary btn-block-xs">Login to Save This Job</a></p>
-                    <p>Share This Job <span class="space-inline-10"></span> :</p>
-                    <p class="share-btns btn-block-xs">
+                  <div class="text-center">
+                    <!--<p><a href="#" class="btn btn-theme btn-t-primary btn-block">Follow</a></p>-->
+
+                    <ul class="list-unstyled nav-sidebar">
+                      <li>
+                        <a href="#cp-about" class="link-innerpage">About</a>
+                      </li>
+                      <li>
+                        <a href="#cp-jobs" class="link-innerpage">Jobs</a>
+                      </li>
+                    </ul>
+                    <p>Share This Company </p>
+                    <p class="share-btns">
                       <a href="#" class="btn btn-primary"><i class="fa fa-facebook"></i></a>
                       <a href="#" class="btn btn-info"><i class="fa fa-twitter"></i></a>
                       <a href="#" class="btn btn-danger"><i class="fa fa-google-plus"></i></a>
                       <a href="#" class="btn btn-warning"><i class="fa fa-envelope"></i></a>
                     </p>
                   </div>
-                </div><!-- box affix right -->
+                </div><!-- end box afix right -->
+
 
               </div>
             </div>
           </div>
-        </div>
-
+        </div> <!-- end company profile -->
 
         <!-- modal apply -->
         <div class="modal fade" id="modal-apply">
-          <div class="modal-dialog ">
+          <div class="modal-dialog modal-md">
             <div class="modal-content">
               <form>
                 <div class="modal-header ">

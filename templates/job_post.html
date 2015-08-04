@@ -34,6 +34,7 @@ Post a Job - Owatonna Jobs Online
                     <label>Job description</label>
                     <div class="color-white-mute"><small>Describe the responsibilities of this job, required work experience, skills, or education.</small></div>
                       {{ form.description }}
+                    <div class="color-white-mute"><small>Allowed tags: {{ allowed_tags }}</small></div>
                     <small style="color:red">{{ form.description.errors|striptags }}</small>
                   </div>
                   <div class="form-group">

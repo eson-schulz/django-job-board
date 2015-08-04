@@ -1,5 +1,7 @@
+import bleach
 from django import template
 import datetime
+from jobs import settings
 
 register = template.Library()
 
@@ -18,5 +20,12 @@ def dayssince(value):
     else:
         # Date is in the future; return formatted date.
         return value.strftime("%B %d, %Y")
+
+
+@register.filter(is_safe=True)
+def bleach_escape(text):
+    allowed_tags = settings.ALLOWED_TAGS
+    return bleach.clean(text, allowed_tags)
+
 
 register.filter('dayssince', dayssince)

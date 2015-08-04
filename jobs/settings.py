@@ -96,6 +96,10 @@ STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR + '/media/')
 
+# Tags that are allowed in the posts
+ALLOWED_TAGS = ('p', 'h4', 'h5', 'h6', 'ul', 'li', 'br')
+
+
 # Import local settings
 try:
     from local_settings import *
