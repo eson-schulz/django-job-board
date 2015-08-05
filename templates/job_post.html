@@ -92,13 +92,17 @@ Post a Job - Owatonna Jobs Online
                   <div class="form-group">
                     <label>Salary (optional)</label>
                     <div class="row clearfix">
-                      <div class="col-xs-6">
+                      <div class="col-xs-4">
                           {{ form.low_salary }}
                           <small style="color:red">{{ form.low_salary.errors|striptags }}</small>
                       </div>
-                      <div class="col-xs-6">
+                      <div class="col-xs-4">
                           {{ form.high_salary }}
                           <small style="color:red">{{ form.high_salary.errors|striptags }}</small>
+                      </div>
+                      <div class="col-xs-4">
+                          {{ form.type_salary }}
+                          <small style="color:red">{{ form.type_salary.errors|striptags }}</small>
                       </div>
                     </div>
                   </div>

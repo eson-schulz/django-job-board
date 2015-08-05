@@ -54,6 +54,29 @@ Owatonna Jobs Online
                     </div>
                   </div>
 
+
+                <h5 class="font-bold  margin-b-20"><a href="#s_collapse_2" data-toggle="collapse" >Category <i class="fa ic-arrow-toogle fa-angle-right pull-right"></i></a>  </h5>
+                <div class="collapse in" id="s_collapse_2">
+                  <div class="list-area">
+                    <ul class="list-unstyled ">
+                        {% for category in categories %}
+                            <li>
+                            {% if category.0.slug == category_slug %}
+                                <strong style="color:dimgrey"><a  href="{% url 'category_search' category.0.slug %}" style="color:black">{{ category.0 }}</a> ({{ category.1 }})</strong>
+                            {% else %}
+                                <a  href="{% url 'category_search' category.0.slug %}">{{ category.0 }}</a> ({{ category.1 }})
+                            {% endif %}
+
+                            </li>
+                        {% endfor %}
+                      <li>
+                        <a  href="#" >More ... </a>
+                      </li>
+                    </ul>
+
+                  </div>
+                </div>
+
                   <div class="result-filter">
                     <h5 class="no-margin-top font-bold margin-b-20 " ><a href="#s_collapse_1" data-toggle="collapse" >Job Type <i class="fa ic-arrow-toogle fa-angle-right pull-right"></i> </a></h5>
                     <div class="collapse in" id="s_collapse_1">
@@ -79,33 +102,6 @@ Owatonna Jobs Online
                     </div>
 
 
-                    <h5 class="font-bold  margin-b-20"><a href="#s_collapse_2" data-toggle="collapse" >Title <i class="fa ic-arrow-toogle fa-angle-right pull-right"></i></a>  </h5>
-                    <div class="collapse in" id="s_collapse_2">
-                      <div class="list-area">
-                        <ul class="list-unstyled ">
-                          <li>
-                            <a  href="#" >web developer</a> (558)
-                          </li>
-                          <li>
-                            <a  href="#" >PHP Developer</a> (438)
-                          </li>
-                          <li>
-                            <a  href="#" >Software Engineer </a> (313)
-                          </li>
-                          <li>
-                            <a  href="#" >Senior Software Engineer </a> (169)
-                          </li>
-                          <li>
-                            <a  href="#" >Front End Developer </a> (156)
-                          </li>
-                          <li>
-                            <a  href="#" >More ... </a>
-                          </li>
-                        </ul>
-
-                      </div>
-                    </div>
-
 
                     <h5 class="font-bold  margin-b-20"><a href="#s_collapse_3" data-toggle="collapse" >Company <i class="fa ic-arrow-toogle fa-angle-right pull-right"></i></a> </h5>
                     <div class="collapse in" id="s_collapse_3">
@@ -125,34 +121,6 @@ Owatonna Jobs Online
                           </li>
                           <li>
                             <a  href="#" >Jobspring Partners </a> (156)
-                          </li>
-                          <li>
-                            <a  href="#" >More ... </a>
-                          </li>
-                        </ul>
-
-                      </div>
-                    </div>
-
-
-                    <h5 class="font-bold  margin-b-20" ><a href="#s_collapse_4" data-toggle="collapse" class="collapsed" >Location  <i class="fa ic-arrow-toogle fa-angle-right pull-right"></i> </a></h5>
-                    <div class="collapse" id='s_collapse_4'>
-                      <div class="list-area">
-                        <ul class="list-unstyled ">
-                          <li>
-                            <a  href="#" >New York, NY </a> (558)
-                          </li>
-                          <li>
-                            <a  href="#" >San Francisco, CA </a> (438)
-                          </li>
-                          <li>
-                            <a  href="#" >Washington, DC </a> (313)
-                          </li>
-                          <li>
-                            <a  href="#" >Chicago, IL</a> (169)
-                          </li>
-                          <li>
-                            <a  href="#" >Austin, TX  </a> (156)
                           </li>
                           <li>
                             <a  href="#" >More ... </a>

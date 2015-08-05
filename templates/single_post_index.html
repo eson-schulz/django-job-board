@@ -16,10 +16,10 @@
               <h5><a href="{% url 'company_details' post.company.slug %}"><span class="color-black">{{ post.company.name }}</span></a> - <span class="color-white-mute">{{ post.location }}</span></h5>
               <p class="text-truncate ">{{ post.description|striptags }}</p>
               <div>
-                <span class="color-white-mute">{{ post.date|dayssince }}</span> -
-                <a href="#need-login" data-toggle="modal" class="btn btn-xs btn-theme btn-default">save job</a> -
-                <a href="#modal-email" data-toggle="modal"  class="btn btn-theme btn-xs btn-default">email</a> -
-                <a href="#" class="btn btn-theme btn-xs btn-default">more ...</a>
+                <span class="color-white-mute">{{ post.date|dayssince }}</span> {% if post.categories.all %}-{% endif %}
+                  {% for category in post.categories.all %}
+                    <a href="{% url 'category_search' category.slug %}" data-toggle="modal" class="btn btn-xs btn-theme btn-default">{{ category.name }}</a>{% if not forloop.last %} -{% endif %}
+                  {% endfor %}
               </div>
             </div>
           </div>

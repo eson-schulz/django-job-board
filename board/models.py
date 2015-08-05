@@ -20,6 +20,20 @@ class Post(models.Model):
         (INTERNSHIP, 'Internship'),
     )
 
+    HOURLY = "HR"
+    DAILY = "DA"
+    WEEKLY = "WK"
+    MONTHLY = "MO"
+    YEARLY = "YR"
+
+    SALARY_TYPE_CHOICES = (
+        (HOURLY, 'Hourly'),
+        (DAILY, 'Daily'),
+        (WEEKLY, 'Weekly'),
+        (MONTHLY, 'Monthly'),
+        (YEARLY, 'Yearly'),
+    )
+
     title = models.CharField(max_length=60)
     company = models.ForeignKey('Company')
     description = models.TextField()
@@ -27,8 +41,10 @@ class Post(models.Model):
 
     job_type = models.CharField(max_length=2, choices=JOB_TYPE_CHOICES)
     location = models.CharField(max_length=30, default="Owatonna, MN")
+
     low_salary = models.IntegerField(blank=True, null=True)
     high_salary = models.IntegerField(blank=True, null=True)
+    type_salary = models.CharField(max_length=2, choices=SALARY_TYPE_CHOICES, blank=True, null=True)
 
     slug = models.SlugField(unique=True)
 

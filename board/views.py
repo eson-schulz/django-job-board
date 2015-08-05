@@ -1,4 +1,5 @@
 import datetime
+from django import forms
 from django.shortcuts import render, render_to_response, redirect, get_object_or_404
 from django.template.context import RequestContext
 from .forms import PostForm
@@ -9,11 +10,22 @@ from jobs import settings
 
 
 @page_template('single_post_index.html')  # just add this decorator
-def index(
-        request, template='index.html', extra_context=None):
-    context = {
-        'posts': Post.objects.order_by('-date'),
-    }
+def index(request, category_slug=None, template='index.html', extra_context=None):
+    context = {}
+
+    if category_slug:
+        context['posts'] = Post.objects.filter(categories__slug=category_slug).order_by('-date', '-id')
+        context['category_slug'] = category_slug
+    else:
+        context['posts'] = Post.objects.order_by('-date', '-id')
+
+    # Sort the categories from most to least jobs
+    category_tuples = []
+    for category in Category.objects.all():
+        category_tuples.append((category, len(category.post_set.all())))
+
+    context['categories'] = sorted(category_tuples, key=lambda cat: cat[1], reverse=True)
+
     if extra_context is not None:
         context.update(extra_context)
     return render_to_response(
@@ -26,14 +38,16 @@ def post_a_job(request):
 
     if request.method == 'POST':
         form = PostForm(request.POST)
-
         if form.is_valid():
-            post = form.save(commit=False)
-            post.company = Company.objects.get(id=1)
-            post.date = datetime.date.today()
-            post.save()
+            if len(form.cleaned_data['categories']) > 3:
+                form.add_error('categories', forms.ValidationError("Only up to three categories are allowed", code="invalid"))
+            else:
+                post = form.save(commit=False)
+                post.company = Company.objects.get(id=1)
+                post.date = datetime.date.today()
+                post.save()
 
-            return redirect('index')
+                return redirect('index')
         else:
             print form.errors
     else:

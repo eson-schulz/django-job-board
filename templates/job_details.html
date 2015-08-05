@@ -47,13 +47,18 @@
                       <li><i class="fa fa-briefcase"></i> {{ job.get_job_type_display }}</li>
                       <li><i class="fa fa-map-marker"></i> {{ job.location }}</li>
                         {% if job.low_salary and job.high_salary %}
-                            <li><i class="fa fa-money"></i> ${{ job.low_salary|intcomma }} - ${{ job.high_salary|intcomma }}</li>
+                            <li><i class="fa fa-money"></i> ${{ job.low_salary|intcomma }} - ${{ job.high_salary|intcomma }}
                         {% else %}
                             {% if job.low_salary %}
-                                <li><i class="fa fa-money"></i> ${{ job.low_salary|intcomma }}+</li>
+                                <li><i class="fa fa-money"></i> ${{ job.low_salary|intcomma }}+
                             {% endif %}
                             {% if job.high_salary  %}
-                                <li><i class="fa fa-money"></i> Up to ${{ job.high_salary|intcomma }}</li>
+                                <li><i class="fa fa-money"></i> Up to ${{ job.high_salary|intcomma }}
+                            {% endif %}
+                        {% endif %}
+                        {% if job.low_salary or job.high_salary %}
+                            {% if job.type_salary %}
+                                    {{ job.get_type_salary_display }}</li>
                             {% endif %}
                         {% endif %}
                     </ul>
