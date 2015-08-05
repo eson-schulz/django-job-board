@@ -24,7 +24,7 @@ def index(request, category_slug=None, template='index.html', extra_context=None
     for category in Category.objects.all():
         category_tuples.append((category, len(category.post_set.all())))
 
-    context['categories'] = sorted(category_tuples, key=lambda cat: cat[1], reverse=True)
+    context['categories'] = sorted(category_tuples, key=lambda cat: cat[1], reverse=True)[:5]
 
     if extra_context is not None:
         context.update(extra_context)
