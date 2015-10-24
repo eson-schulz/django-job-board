@@ -34,4 +34,4 @@ def register(request):
         user_form = UserForm()
         company_form = CompanyForm()
 
-    return render(request, {'user_form': user_form, 'company_form': company_form, 'registered': registered})
+    return render(request, 'account/register.html', {'user_form': user_form, 'company_form': company_form, 'registered': registered})
