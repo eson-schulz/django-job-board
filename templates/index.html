@@ -82,21 +82,11 @@ Owatonna Jobs Online
                     <div class="collapse in" id="s_collapse_1">
                       <div class="list-area">
                         <ul class="list-unstyled ">
-                          <li>
-                            <a  href="#" >Full-time </a> (558)
-                          </li>
-                          <li>
-                            <a  href="#" >Part-time </a> (438)
-                          </li>
-                          <li>
-                            <a  href="#" >Contract </a> (313)
-                          </li>
-                          <li>
-                            <a  href="#" >Internship</a> (169)
-                          </li>
-                          <li>
-                            <a  href="#" >Temporary  </a> (156)
-                          </li>
+                          {% for type in job_types %}
+                            <li>
+                                <a  href="#" >{{ type.0 }} </a> ({{ type.1 }})
+                            </li>
+                          {% endfor %}
                         </ul>
                       </div>
                     </div>
@@ -107,24 +97,11 @@ Owatonna Jobs Online
                     <div class="collapse in" id="s_collapse_3">
                       <div class="list-area">
                         <ul class="list-unstyled ">
-                          <li>
-                            <a  href="#" >Unlisted Company</a> (558)
-                          </li>
-                          <li>
-                            <a  href="#" >CyberCoders</a> (438)
-                          </li>
-                          <li>
-                            <a  href="#" >Smith & Keller </a> (313)
-                          </li>
-                          <li>
-                            <a  href="#" >Robert Half Technology </a> (169)
-                          </li>
-                          <li>
-                            <a  href="#" >Jobspring Partners </a> (156)
-                          </li>
-                          <li>
-                            <a  href="#" >More ... </a>
-                          </li>
+                            {% for company in companies %}
+                                <li>
+                                    <a  href="{% url 'company_details' company.0.slug %}">{{ company.0 }}</a> ({{ company.1 }})
+                                </li>
+                            {% endfor %}
                         </ul>
 
                       </div>

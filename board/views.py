@@ -26,6 +26,32 @@ def index(request, category_slug=None, template='index.html', extra_context=None
 
     context['categories'] = sorted(category_tuples, key=lambda cat: cat[1], reverse=True)[:5]
 
+    # Sort the companies from most to least jobs
+    company_tuples = []
+    for company in Company.objects.all():
+        company_tuples.append((company, len(company.post_set.all())))
+
+    context['companies'] = sorted(company_tuples, key=lambda comp: comp[1], reverse=True)[:5]
+
+    # Sort the job types from most to least job types
+    job_dict = {}
+    for job_type in Post.JOB_TYPE_CHOICES:
+        job_dict[job_type[0]] = 0
+
+    # Create a count of job types
+    for post in Post.objects.all():
+        job_dict[post.job_type] += 1
+
+    job_type_list = job_dict.items()
+
+    # Convert job types from short name to full name
+    for job_index in range(0, len(job_type_list)):
+        for key, value in Post.JOB_TYPE_CHOICES:
+            if key == job_type_list[job_index][0]:
+                job_type_list[job_index] = (value, job_type_list[job_index][1])
+
+    context['job_types'] = sorted(job_type_list, key=lambda job: job[1], reverse=True)[:5]
+
     if extra_context is not None:
         context.update(extra_context)
     return render_to_response(
