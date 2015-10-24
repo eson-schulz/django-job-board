@@ -52,7 +52,6 @@ coverage.xml
 bin/
 media/
 jobs/local_settings.py
-board/migrations
 *.log
 
 # PyCharm
