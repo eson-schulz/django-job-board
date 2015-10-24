@@ -9,8 +9,8 @@ import math
 from jobs import settings
 
 
-@page_template('single_post_index.html')  # just add this decorator
-def index(request, category_slug=None, template='index.html', extra_context=None):
+@page_template('board/single_post_index.html')  # just add this decorator
+def index(request, category_slug=None, template='board/index.html', extra_context=None):
     context = {}
 
     if category_slug:
@@ -89,7 +89,7 @@ def post_a_job(request):
     else:
         context['category_column_2_size'] = context['category_column_size'] * 2
 
-    return render(request, 'job_post.html', context)
+    return render(request, 'board/job_post.html', context)
 
 
 def job_details(request, company_slug, post_slug):
@@ -98,7 +98,7 @@ def job_details(request, company_slug, post_slug):
 
     context['job'] = get_object_or_404(Post, slug=post_slug, company__slug=company_slug)
 
-    return render(request, 'job_details.html', context)
+    return render(request, 'board/job_details.html', context)
 
 
 def company_details(request, company_slug):
@@ -109,8 +109,8 @@ def company_details(request, company_slug):
 
     context['jobs'] = context['company'].post_set.all()
 
-    return render(request, 'company_details.html', context)
+    return render(request, 'board/company_details.html', context)
 
 
 def page_not_found(request):
-    return render(request, '404.html')
+    return render(request, 'general/404.html')
