@@ -1,5 +1,6 @@
 from django.db import models
 from django.template.defaultfilters import slugify
+from account.models import Company
 import itertools
 
 
@@ -35,7 +36,7 @@ class Post(models.Model):
     )
 
     title = models.CharField(max_length=60)
-    company = models.ForeignKey('Company')
+    company = models.ForeignKey(Company)
     description = models.TextField()
     date = models.DateField()
 
@@ -93,38 +94,6 @@ class Category(models.Model):
 
     class Meta:
         verbose_name_plural = 'categories'
-
-    def __unicode__(self):
-        return self.name
-
-
-class Company(models.Model):
-    name = models.CharField(max_length=60)
-    picture = models.ImageField(blank=True, upload_to="companies/")
-    description = models.TextField()
-    website = models.URLField()
-    location = models.CharField(max_length=30, default="Owatonna, MN")
-
-    slug = models.SlugField(unique=True)
-
-    def save(self, *args, **kwargs):
-
-        if not self.id:
-            max_length = 50
-
-            self.slug = orig = slugify(self.name)[:max_length]
-
-            for x in itertools.count(1):
-                if not Post.objects.filter(slug=self.slug).exists():
-                    break
-
-                # Truncate the original slug dynamically. Minus 1 for the hyphen.
-                self.slug = "%s-%d" % (orig[:max_length - len(str(x)) - 1], x)
-
-        super(Company, self).save(*args, **kwargs)
-
-    class Meta:
-        verbose_name_plural = 'companies'
 
     def __unicode__(self):
         return self.name

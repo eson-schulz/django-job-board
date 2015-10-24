@@ -36,6 +36,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.humanize',
     'endless_pagination',
+    'account',
     'board',
     'tinymce',
 )
