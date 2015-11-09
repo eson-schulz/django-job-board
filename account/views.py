@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
-from .forms import CompanyForm, UserForm
+from .forms import CompanyForm, UserForm, CompanyUpdateForm
 
 
 def register(request):
@@ -45,7 +45,13 @@ def register(request):
 def update_info(request):
     if request.user.is_authenticated():
         company = request.user.company
-        return render(request, 'account/update_info.html', {'company': company})
+
+        if request.method == 'POST':
+            pass
+        else:
+            form = CompanyUpdateForm(initial={'description': company.description, 'website': company.website, 'location': company.location})
+
+        return render(request, 'account/update_info.html', {'company': company, 'form': form})
     else:
         return redirect('register')
 

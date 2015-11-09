@@ -1,8 +1,17 @@
 {% extends 'general/skeleton/base_with_logo.html' %}
 
+{% load staticfiles %}
+
 {% block title %}
 Update Information
 {% endblock title %}
+
+{% block head_extras %}
+    {{ form.media }}
+    <script>
+
+    </script>
+{% endblock head_extras %}
 
 {% block content %}
       <!-- body-content -->
@@ -20,34 +29,32 @@ Update Information
                 <h4>{{ company.name }}</h4>
                 <div class="white-space-20"></div>
                 <ul class="list-unstyled">
-                  <li><a href="my_alerts.html"> My Alerts </a></li>
-                  <li><a href="my_notifications.html"> Notifications (5)</a></li>
-                  <li><a href="change_password.html"> Change Password</a></li>
+                  <li><a href="change_password.html"> Reset Password</a></li>
 
                 </ul>
                 <div class="white-space-20"></div>
                 <a href="#" class="btn  btn-line soft btn-theme btn-pill btn-block">Post a Job</a>
-                <a href="#" class="btn  btn-line soft  btn-theme btn-pill btn-block">Build Resume</a>
               </div>    </div>
             <div class="col-md-9 col-sm-9">
               <!-- Block side right -->
               <div class="block-section box-side-account">
-                <h3 class="no-margin-top">Change Password</h3>
+                <h3 class="no-margin-top">Update Information</h3>
                 <hr/>
                 <div class="row">
-                  <div class="col-md-7">
-                    <form>
+                  <div class="col-md-12">
+                    <form id="update-form" method="post" action="{% url 'update_info' %}">
+                        {% csrf_token %}
                       <div class="form-group">
-                        <label>Old Password</label>
-                        <input type="password" class="form-control">
+                        <label>Company Description</label>
+                        {{ form.description }}
                       </div>
                       <div class="form-group">
-                        <label>New Password</label>
-                        <input type="password" class="form-control">
+                        <label>Website</label>
+                        {{ form.website }}
                       </div>
                       <div class="form-group">
-                        <label>Re-type New Password</label>
-                        <input type="password" class="form-control">
+                        <label>Location</label>
+                        {{ form.location }}
                       </div>
                       <div class="form-group">
                         <button type="submit" class="btn btn-theme btn-t-primary">Change Password</button>

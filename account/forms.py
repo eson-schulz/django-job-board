@@ -1,5 +1,6 @@
 from django import forms
 from django.contrib.auth.models import User
+from tinymce.widgets import TinyMCE
 from .models import Company
 
 
@@ -18,3 +19,11 @@ class CompanyForm(forms.ModelForm):
     class Meta:
         model = Company
         fields = ('name',)
+
+
+class CompanyUpdateForm(forms.ModelForm):
+    description = forms.CharField(widget=TinyMCE(attrs={'class':'form-control', 'rows':'28', 'placeholder': 'Enter Company Description'}))
+
+    class Meta:
+        model = Company
+        fields = ('description', 'picture', 'website', 'location')
