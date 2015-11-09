@@ -45,7 +45,6 @@ def register(request):
 def update_info(request):
     if request.user.is_authenticated():
         company = request.user.company
-        print(company.name)
         return render(request, 'account/update_info.html', {'company': company})
     else:
         return redirect('register')
@@ -60,4 +59,22 @@ def company_logout(request):
 
 def company_login(request):
 
-    return render(request, 'account/login.html')
+    context = {}
+
+    if request.user.is_authenticated():
+        return redirect('update_info')
+
+    if request.method == 'POST':
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+
+        user = authenticate(username=username, password=password)
+
+        if user:
+            login(request, user)
+            return redirect('update_info')
+
+        else:
+            context['issues'] = True
+
+    return render(request, 'account/login.html', context)
