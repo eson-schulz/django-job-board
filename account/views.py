@@ -11,7 +11,9 @@ def register(request):
         company_form = CompanyForm(data=request.POST)
 
         if user_form.is_valid() and company_form.is_valid():
-            user = user_form.save()
+            user = user_form.save(commit=False)
+            user.username = user_form.cleaned_data['email']
+            user.save()
 
             # Hash the password with the set_password
             user.set_password(user.password)
