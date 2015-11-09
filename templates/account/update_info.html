@@ -13,9 +13,11 @@ Update Information
             <div class="col-md-3 col-sm-3">
 
               <div class="block-section text-center ">
-                <img src="./assets/theme/images/people/4.jpg" class="img-rounded" alt="">
+                  {% if company.picture %}
+                    <img src="{{ company.picture.url }}" class="img-rounded" alt="">
+                  {% endif %}
                 <div class="white-space-20"></div>
-                <h4>Jhone Doe</h4>
+                <h4>{{ company.name }}</h4>
                 <div class="white-space-20"></div>
                 <ul class="list-unstyled">
                   <li><a href="my_alerts.html"> My Alerts </a></li>

@@ -1,10 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+from django.contrib.auth import login, authenticate
 from .forms import CompanyForm, UserForm
 
 
 def register(request):
-
-    registered = False
 
     if request.method == 'POST':
         user_form = UserForm(data=request.POST)
@@ -27,7 +26,11 @@ def register(request):
 
             company.save()
 
-            registered = True
+            user = authenticate(username=user_form.cleaned_data['email'],
+                                password=user_form.cleaned_data['password'])
+
+            login(request, user)
+            return redirect('update_info')
 
         else:
             print user_form.errors, company_form.errors
@@ -36,9 +39,13 @@ def register(request):
         user_form = UserForm()
         company_form = CompanyForm()
 
-    return render(request, 'account/register.html', {'user_form': user_form, 'company_form': company_form, 'registered': registered})
+    return render(request, 'account/register.html', {'user_form': user_form, 'company_form': company_form})
 
 
 def update_info(request):
-
-    return render(request, 'account/update_info.html')
+    if request.user.is_authenticated():
+        company = request.user.company
+        print(company.name)
+        return render(request, 'account/update_info.html', {'company': company})
+    else:
+        return redirect('register')

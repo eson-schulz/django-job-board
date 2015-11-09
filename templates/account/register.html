@@ -12,9 +12,6 @@
                   <div class="col-md-12">
                     <!-- form login -->
                     <h3 class="text-center">Company Registration</h3>
-                      {% if registered %}
-                          <p>Example text to say thank you for registering!</p>
-                      {% else %}
                         <form method="post" action="{% url 'register' %}">
                             {% csrf_token %}
                               <div class="form-group">
@@ -37,7 +34,6 @@
                             <button class="btn btn-theme btn-lg btn-t-primary btn-block">Register</button>
                           </div>
                         </form><!-- form login -->
-                      {% endif %}
                   </div>
                 </div>
               </div>
