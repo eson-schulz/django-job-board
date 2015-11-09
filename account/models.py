@@ -9,9 +9,9 @@ class Company(models.Model):
 
     name = models.CharField(max_length=60)
     picture = models.ImageField(blank=True, upload_to="companies/")
-    description = models.TextField()
-    website = models.URLField()
-    location = models.CharField(max_length=30, default="Owatonna, MN")
+    description = models.TextField(blank=True)
+    website = models.URLField(blank=True)
+    location = models.CharField(blank=True, max_length=30, default="Owatonna, MN")
 
     slug = models.SlugField(unique=True)
 
