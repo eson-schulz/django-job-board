@@ -34,18 +34,25 @@
                   <!-- logo company-->
                   <div class="row">
                     <div class="col-md-8">
-                      <a><img style="max-width:220px; max-height:60px;" src="{{ company.picture.url }}" alt=""></a>
+                        {% if company.picture %}
+                            <a><img style="max-width:220px; max-height:60px;" src="{{ company.picture.url }}" alt=""></a>
+                        {% else %}
+                            <h2 style="margin-top:10px">{{ company.name }}</h2>
+                        {% endif %}
                     </div>
                     <div class="col-md-4">
-                      <p class="text-right"><a href="{{ company.website }}">Go to our website &raquo;</a></p>
+                        {% if company.website %}
+                            <p class="text-right"><a href="{{ company.website }}">Go to our website &raquo;</a></p>
+                        {% endif %}
                     </div>
                   </div><!-- end logo company-->
 
+                {% if company.description %}
                   <!-- About Company-->
                   <h3 class="title" id="cp-about">About</h3>
 
                   {{ company.description|safe|bleach_escape }}
-
+                {% endif %}
 
                   <!-- Jobs list-->
                   <h3 class="title" id="cp-jobs">Jobs <small>({{ jobs|length }})</small></h3>
