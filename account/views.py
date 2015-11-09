@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login, authenticate, logout
 from .forms import CompanyForm, UserForm
 
 
@@ -49,3 +49,10 @@ def update_info(request):
         return render(request, 'account/update_info.html', {'company': company})
     else:
         return redirect('register')
+
+
+def company_logout(request):
+
+    logout(request)
+
+    return redirect('index')
