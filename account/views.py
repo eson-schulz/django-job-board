@@ -56,3 +56,8 @@ def company_logout(request):
     logout(request)
 
     return redirect('index')
+
+
+def company_login(request):
+
+    return render(request, 'account/login.html')
