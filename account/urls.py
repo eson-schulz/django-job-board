@@ -8,4 +8,6 @@ import views
 
 urlpatterns = [
     url(r'^register/$', views.register, name='register'),
+    url(r'^update/$', views.update_info, name='update_info'),
+
 ]

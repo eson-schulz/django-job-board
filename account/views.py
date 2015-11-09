@@ -37,3 +37,8 @@ def register(request):
         company_form = CompanyForm()
 
     return render(request, 'account/register.html', {'user_form': user_form, 'company_form': company_form, 'registered': registered})
+
+
+def update_info(request):
+
+    return render(request, 'account/update_info.html')
