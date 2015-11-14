@@ -43,15 +43,39 @@ def register(request):
 
 
 def update_info(request):
+    context = {}
+
+    message = None
+    update_success = False
+
     if request.user.is_authenticated():
         company = request.user.company
 
         if request.method == 'POST':
-            pass
-        else:
-            form = CompanyUpdateForm(initial={'description': company.description, 'website': company.website, 'location': company.location})
+            company_form = CompanyUpdateForm(data=request.POST)
 
-        return render(request, 'account/update_info.html', {'company': company, 'form': form})
+            if company_form.is_valid():
+                company.website = company_form.cleaned_data['website']
+                company.description = company_form.cleaned_data['description']
+                company.location = company_form.cleaned_data['location']
+
+                company.save()
+
+                message = "Company settings updated successfully"
+                update_success = True
+            else:
+                message = "Company settings failed"
+
+        form = CompanyUpdateForm(initial={'description': company.description, 'website': company.website, 'location': company.location})
+
+        context['company'] = company
+        context['form'] = form
+
+        if message:
+            context['message'] = message
+            context['update_success'] = update_success
+
+        return render(request, 'account/update_info.html', context)
     else:
         return redirect('register')
 

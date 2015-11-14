@@ -33,13 +33,21 @@ Update Information
 
                 </ul>
                 <div class="white-space-20"></div>
-                <a href="#" class="btn  btn-line soft btn-theme btn-pill btn-block">Post a Job</a>
-              </div>    </div>
+                <a href="#" class="btn btn-pill btn-theme btn-block btn-success">Post a Job</a>
+              </div>
+            </div>
             <div class="col-md-9 col-sm-9">
               <!-- Block side right -->
               <div class="block-section box-side-account">
                 <h3 class="no-margin-top">Update Information</h3>
                 <hr/>
+                  {% if message %}
+                    {% if update_success %}
+                        <div class="alert alert-success" role="alert">{{ message }}</div>
+                    {% else %}
+                        <div class="alert alert-danger" role="alert">{{ message }}</div>
+                    {% endif %}
+                  {% endif %}
                 <div class="row">
                   <div class="col-md-12">
                     <form id="update-form" method="post" action="{% url 'update_info' %}">
@@ -57,7 +65,7 @@ Update Information
                         {{ form.location }}
                       </div>
                       <div class="form-group">
-                        <button type="submit" class="btn btn-theme btn-t-primary">Change Password</button>
+                        <button type="submit" class="btn btn-theme btn-t-primary">Save Changes</button>
                       </div>
                     </form>
                   </div>
