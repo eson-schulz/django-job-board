@@ -39,10 +39,10 @@ Post a Job - Owatonna Jobs Online
                                 {% endif %}
 
                             <div>
-                              <a href="{% url 'category_search' category.slug %}">
-                                  <h5>
-                                    {{ category.name }}
-                                  </h5>
+                              <a href="{% url 'category_search' category.0.slug %}">
+                                  <h4 class="text-center">
+                                    {{ category.0.name }} ({{ category.1 }})
+                                  </h4>
                               </a>
                             </div>
                             {% endfor %}

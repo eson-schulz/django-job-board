@@ -99,10 +99,20 @@ def post_a_job(request):
 def categories(request):
     context = {}
 
-    context['categories'] = Category.objects.all()
+    category_list = Category.objects.all()
+
+    # Gets the number of posts associated with each category
+    category_count = []
+    for i in range(0, len(category_list)):
+        count = len(category_list[i].post_set.all())
+
+        if count > 0:
+            category_count.append((category_list[i], count))
+
+    context['categories'] = category_count
 
     # Decides what the second column size should be
-    context['category_column_size'] = int(math.ceil(len(Category.objects.all()) / 3.0))
+    context['category_column_size'] = int(math.ceil(len(category_count) / 3.0))
 
     if len(Category.objects.all()) - (context['category_column_size'] * 2) < (context['category_column_size'] - 1):
         context['category_column_2_size'] = (context['category_column_size'] * 2) - 1
