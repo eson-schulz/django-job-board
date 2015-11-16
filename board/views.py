@@ -62,34 +62,37 @@ def post_a_job(request):
 
     context = {}
 
-    if request.method == 'POST':
-        form = PostForm(request.POST)
-        if form.is_valid():
-            if len(form.cleaned_data['categories']) > 3:
-                form.add_error('categories', forms.ValidationError("Only up to three categories are allowed", code="invalid"))
+    if request.user.is_authenticated():
+        if request.method == 'POST':
+            form = PostForm(request.POST)
+            if form.is_valid():
+                if len(form.cleaned_data['categories']) > 3:
+                    form.add_error('categories', forms.ValidationError("Only up to three categories are allowed", code="invalid"))
+                else:
+                    post = form.save(commit=False)
+                    post.company = request.user.company
+                    post.date = datetime.date.today()
+                    post.save()
+
+                    return redirect('index')
             else:
-                post = form.save(commit=False)
-                post.company = Company.objects.get(id=1)
-                post.date = datetime.date.today()
-                post.save()
-
-                return redirect('index')
+                print form.errors
         else:
-            print form.errors
+            form = PostForm()
+
+        context['form'] = form
+        context['category_column_size'] = int(math.ceil(len(Category.objects.all()) / 3.0))
+        context['allowed_tags'] = ", ".join(settings.ALLOWED_TAGS)
+
+        # Decides what the second column size should be
+        if len(Category.objects.all()) - (context['category_column_size'] * 2) < (context['category_column_size'] - 1):
+            context['category_column_2_size'] = (context['category_column_size'] * 2) - 1
+        else:
+            context['category_column_2_size'] = context['category_column_size'] * 2
+
+        return render(request, 'board/job_post.html', context)
     else:
-        form = PostForm()
-
-    context['form'] = form
-    context['category_column_size'] = int(math.ceil(len(Category.objects.all()) / 3.0))
-    context['allowed_tags'] = ", ".join(settings.ALLOWED_TAGS)
-
-    # Decides what the second column size should be
-    if len(Category.objects.all()) - (context['category_column_size'] * 2) < (context['category_column_size'] - 1):
-        context['category_column_2_size'] = (context['category_column_size'] * 2) - 1
-    else:
-        context['category_column_2_size'] = context['category_column_size'] * 2
-
-    return render(request, 'board/job_post.html', context)
+        return redirect('login')
 
 
 def job_details(request, company_slug, post_slug):

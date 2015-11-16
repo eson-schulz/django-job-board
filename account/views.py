@@ -3,6 +3,7 @@ from django.contrib.auth import login, authenticate, logout
 from .forms import CompanyForm, UserForm, CompanyUpdateForm
 from jobs import settings
 
+
 def register(request):
 
     if request.method == 'POST':
