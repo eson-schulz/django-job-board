@@ -1,0 +1,58 @@
+{% extends 'general/skeleton/base_with_logo.html' %}
+
+{% load staticfiles %}
+
+{% block title %}
+Post a Job - Owatonna Jobs Online
+{% endblock title %}
+
+{% block head_extras %}
+    {{ form.media }}
+    <script>
+
+    </script>
+{% endblock head_extras %}
+
+{% block content %}
+
+      <!-- body-content -->
+      <div class="body-content clearfix" >
+
+        <div class="bg-color2 block-section line-bottom">
+          <div class="container">
+            <h1 class="text-center no-margin">Categories</h1>
+          </div>
+        </div>
+
+        <div class="bg-color1 block-section line-bottom">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-8 col-md-offset-2">
+                  <div class="form-group">
+                    <div class="row clearfix">
+                        <div class="col-md-4">
+                            {% for category in categories %}
+
+                                <!-- If the forloop has gone through the first column -->
+                                {% if forloop.counter0 == category_column_size or forloop.counter0 == category_column_2_size %}
+                                    </div><div class="col-md-4">
+                                {% endif %}
+
+                            <div>
+                              <a href="{% url 'category_search' category.slug %}">
+                                  <h5>
+                                    {{ category.name }}
+                                  </h5>
+                              </a>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                  </div><!-- end checkboxs -->
+            </div>
+          </div>
+        </div>        
+      </div><!--end body-content -->
+  </div>
+
+{% endblock content %}

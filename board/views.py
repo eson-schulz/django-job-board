@@ -81,10 +81,11 @@ def post_a_job(request):
             form = PostForm()
 
         context['form'] = form
-        context['category_column_size'] = int(math.ceil(len(Category.objects.all()) / 3.0))
         context['allowed_tags'] = ", ".join(settings.ALLOWED_TAGS)
 
         # Decides what the second column size should be
+        context['category_column_size'] = int(math.ceil(len(Category.objects.all()) / 3.0))
+
         if len(Category.objects.all()) - (context['category_column_size'] * 2) < (context['category_column_size'] - 1):
             context['category_column_2_size'] = (context['category_column_size'] * 2) - 1
         else:
@@ -93,6 +94,22 @@ def post_a_job(request):
         return render(request, 'board/job_post.html', context)
     else:
         return redirect('login')
+
+
+def categories(request):
+    context = {}
+
+    context['categories'] = Category.objects.all()
+
+    # Decides what the second column size should be
+    context['category_column_size'] = int(math.ceil(len(Category.objects.all()) / 3.0))
+
+    if len(Category.objects.all()) - (context['category_column_size'] * 2) < (context['category_column_size'] - 1):
+        context['category_column_2_size'] = (context['category_column_size'] * 2) - 1
+    else:
+        context['category_column_2_size'] = context['category_column_size'] * 2
+
+    return render(request, 'board/categories.html', context)
 
 
 def job_details(request, company_slug, post_slug):
