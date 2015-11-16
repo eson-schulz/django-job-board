@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
 from .forms import CompanyForm, UserForm, CompanyUpdateForm
-
+from jobs import settings
 
 def register(request):
 
@@ -64,12 +64,13 @@ def update_info(request):
                 message = "Company settings updated successfully"
                 update_success = True
             else:
-                message = "Company settings failed"
+                message = "Company settings failed, please try again"
 
         form = CompanyUpdateForm(initial={'description': company.description, 'website': company.website, 'location': company.location})
 
         context['company'] = company
         context['form'] = form
+        context['allowed_tags'] = ", ".join(settings.ALLOWED_TAGS)
 
         if message:
             context['message'] = message
