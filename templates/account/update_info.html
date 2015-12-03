@@ -1,79 +1,43 @@
-{% extends 'general/skeleton/base_with_logo.html' %}
+{% extends 'account/skeleton/account_base.html' %}
 
 {% load staticfiles %}
 
 {% block title %}
-Update Information
+Update Posts
 {% endblock title %}
 
-{% block head_extras %}
-    {{ form.media }}
-    <script>
-
-    </script>
-{% endblock head_extras %}
-
-{% block content %}
-      <!-- body-content -->
-      <div class="body-content clearfix" >
-
-        <div class="bg-color2">
-          <div class="container">
-            <div class="col-md-3 col-sm-3">
-
-              <div class="block-section text-center ">
-                  {% if company.picture %}
-                    <img style="max-width: 100%;" src="{{ company.picture.url }}" class="img-rounded" alt="">
-                  {% endif %}
-                <div class="white-space-20"></div>
-                <h4>{{ company.name }}</h4>
-                <div class="white-space-20"></div>
-                <ul class="list-unstyled">
-                  <li><a href="change_password.html"> Reset Password</a></li>
-
-                </ul>
-                <div class="white-space-20"></div>
-                <a href="{% url 'post_a_job' %}" class="btn btn-pill btn-theme btn-block btn-success">Post a Job</a>
-              </div>
-            </div>
-            <div class="col-md-9 col-sm-9">
-              <!-- Block side right -->
-              <div class="block-section box-side-account">
-                <h3 class="no-margin-top">Update Information</h3>
-                <hr/>
-                  {% if message %}
-                    {% if update_success %}
-                        <div class="alert alert-success" role="alert">{{ message }}</div>
-                    {% else %}
-                        <div class="alert alert-danger" role="alert">{{ message }}</div>
-                    {% endif %}
-                  {% endif %}
-                <div class="row">
-                  <div class="col-md-12">
-                    <form id="update-form" method="post" action="{% url 'update_info' %}">
-                        {% csrf_token %}
-                      <div class="form-group">
-                        <label>Company Description</label>
-                        {{ form.description }}
-                        <div class="color-white-mute"><small>Allowed tags: {{ allowed_tags }}</small></div>
-                      </div>
-                      <div class="form-group">
-                        <label>Website</label>
-                        {{ form.website }}
-                      </div>
-                      <div class="form-group">
-                        <label>Location</label>
-                        {{ form.location }}
-                      </div>
-                      <div class="form-group">
-                        <button type="submit" class="btn btn-theme btn-t-primary">Save Changes</button>
-                      </div>
-                    </form>
-                  </div>
-                </div>
-              </div><!-- end Block side right -->
-            </div>
+{% block info %}
+    <!-- body-content -->
+    <h3 class="no-margin-top">Update Information</h3>
+    <hr/>
+      {% if message %}
+        {% if update_success %}
+            <div class="alert alert-success" role="alert">{{ message }}</div>
+        {% else %}
+            <div class="alert alert-danger" role="alert">{{ message }}</div>
+        {% endif %}
+      {% endif %}
+    <div class="row">
+      <div class="col-md-12">
+        <form id="update-form" method="post" action="{% url 'update_info' %}">
+            {% csrf_token %}
+          <div class="form-group">
+            <label>Company Description</label>
+            {{ form.description }}
+            <div class="color-white-mute"><small>Allowed tags: {{ allowed_tags }}</small></div>
           </div>
-        </div>        
-      </div><!--end body-content -->
-{% endblock content %}
+          <div class="form-group">
+            <label>Website</label>
+            {{ form.website }}
+          </div>
+          <div class="form-group">
+            <label>Location</label>
+            {{ form.location }}
+          </div>
+          <div class="form-group">
+            <button type="submit" class="btn btn-theme btn-t-primary">Save Changes</button>
+          </div>
+        </form>
+      </div>
+    </div>
+{% endblock info %}

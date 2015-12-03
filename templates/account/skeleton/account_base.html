@@ -1,0 +1,45 @@
+{% extends 'general/skeleton/base_with_logo.html' %}
+
+{% load staticfiles %}
+
+{% block head_extras %}
+    {{ form.media }}
+    <script>
+
+    </script>
+{% endblock head_extras %}
+
+{% block content %}
+      <!-- body-content -->
+      <div class="body-content clearfix" >
+
+        <div class="bg-color2">
+          <div class="container">
+            <div class="col-md-3 col-sm-3">
+
+              <div class="block-section text-center ">
+                  {% if company.picture %}
+                    <img style="max-width: 100%;" src="{{ company.picture.url }}" class="img-rounded" alt="">
+                  {% endif %}
+                <div class="white-space-20"></div>
+                <h4>{{ company.name }}</h4>
+                <div class="white-space-20"></div>
+                <ul class="list-unstyled">
+                    <li><a href="change_password.html"> Update Posts</a></li>
+                  <li><a href="change_password.html"> Reset Password</a></li>
+                </ul>
+                <div class="white-space-20"></div>
+                <a href="{% url 'post_a_job' %}" class="btn btn-pill btn-theme btn-block btn-success">Post a Job</a>
+              </div>
+            </div>
+            <div class="col-md-9 col-sm-9">
+              <!-- Block side right -->
+              <div class="block-section box-side-account">
+                {% block info %}
+                {% endblock info %}
+              </div><!-- end Block side right -->
+            </div>
+          </div>
+        </div>        
+      </div><!--end body-content -->
+{% endblock content %}
