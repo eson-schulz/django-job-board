@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth.decorators import login_required
 from .forms import CompanyForm, UserForm, CompanyUpdateForm
+from board.models import Company
 from jobs import settings
 
 
@@ -43,43 +45,53 @@ def register(request):
     return render(request, 'account/register.html', {'user_form': user_form, 'company_form': company_form})
 
 
+@login_required
 def update_info(request):
     context = {}
 
     message = None
     update_success = False
 
-    if request.user.is_authenticated():
-        company = request.user.company
+    company = request.user.company
 
-        if request.method == 'POST':
-            company_form = CompanyUpdateForm(data=request.POST)
+    if request.method == 'POST':
+        company_form = CompanyUpdateForm(data=request.POST)
 
-            if company_form.is_valid():
-                company.website = company_form.cleaned_data['website']
-                company.description = company_form.cleaned_data['description']
-                company.location = company_form.cleaned_data['location']
+        if company_form.is_valid():
+            company.website = company_form.cleaned_data['website']
+            company.description = company_form.cleaned_data['description']
+            company.location = company_form.cleaned_data['location']
 
-                company.save()
+            company.save()
 
-                message = "Company settings updated successfully"
-                update_success = True
-            else:
-                message = "Company settings failed, please try again"
+            message = "Company settings updated successfully"
+            update_success = True
+        else:
+            message = "Company settings failed, please try again"
 
-        form = CompanyUpdateForm(initial={'description': company.description, 'website': company.website, 'location': company.location})
+    form = CompanyUpdateForm(initial={'description': company.description, 'website': company.website, 'location': company.location})
 
-        context['company'] = company
-        context['form'] = form
-        context['allowed_tags'] = ", ".join(settings.ALLOWED_TAGS)
+    context['company'] = company
+    context['form'] = form
+    context['allowed_tags'] = ", ".join(settings.ALLOWED_TAGS)
 
-        if message:
-            context['message'] = message
-            context['update_success'] = update_success
+    if message:
+        context['message'] = message
+        context['update_success'] = update_success
 
-        return render(request, 'account/update_info.html', context)
-    else:
-        return redirect('register')
+    return render(request, 'account/update_info.html', context)
+
+
+@login_required
+def update_posts_base(request):
+
+    context = {}
+
+    company = request.user.company
+    context['company'] = company
+    context['posts'] = company.post_set.all()
+
+    return render(request, 'account/update_posts_base.html', context)
 
 
 def company_logout(request):

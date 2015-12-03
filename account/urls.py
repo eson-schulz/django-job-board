@@ -10,6 +10,7 @@ urlpatterns = [
     url(r'^register/$', views.register, name='register'),
     url(r'^update/$', views.update_info, name='update_info'),
     url(r'^logout/$', views.company_logout, name='logout'),
-    url(r'^login/$', views.company_login, name='login')
+    url(r'^login/$', views.company_login, name='login'),
+    url(r'^update-posts/$', views.update_posts_base, name='update_posts'),
 
 ]

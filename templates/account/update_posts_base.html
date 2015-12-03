@@ -1,0 +1,40 @@
+{% extends 'account/skeleton/account_base.html' %}
+
+{% load staticfiles %}
+{% load board_extras %}
+
+{% block title %}
+Update Posts
+{% endblock title %}
+
+{% block info %}
+    <!-- body-content -->
+    <h3 class="no-margin-top">Update Posts</h3>
+    <hr/>
+    <div class="row">
+      <div class="col-md-12">
+        <div class="box-list">
+            {% if posts %}
+            {% for post in posts %}
+                <div class="item">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <h3 class="no-margin-top"><a href="{% url 'job_details' post.company.slug post.slug %}" class="">{{ post.title }} <i class="fa fa-link color-white-mute font-1x"></i></a></h3>
+                      <p class="text-truncate ">{{ post.description|striptags }}</p>
+                      <div>
+                        <span class="color-white-mute">{{ post.date|dayssince }}</span> {% if post.categories.all %}-{% endif %}
+                          {% for category in post.categories.all %}
+                            <a data-toggle="modal" class="btn btn-xs btn-theme btn-default">{{ category.name }}</a>{% if not forloop.last %} -{% endif %}
+                          {% endfor %}
+                      </div>
+                    </div>
+                  </div>
+                </div><!-- end item list -->
+            {% endfor %}
+            {% else %}
+                No previous posts found, try <a href="{% url 'post_a_job' %}">creating</a> one!
+            {% endif %}
+        </div>
+      </div>
+    </div>
+{% endblock info %}

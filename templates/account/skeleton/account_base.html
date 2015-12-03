@@ -20,12 +20,12 @@
               <div class="block-section text-center ">
                   {% if company.picture %}
                     <img style="max-width: 100%;" src="{{ company.picture.url }}" class="img-rounded" alt="">
+                    <div class="white-space-20"></div>
                   {% endif %}
-                <div class="white-space-20"></div>
                 <h4>{{ company.name }}</h4>
                 <div class="white-space-20"></div>
                 <ul class="list-unstyled">
-                    <li><a href="change_password.html"> Update Posts</a></li>
+                    <li><a href="{% url 'update_posts' %}"> Update Posts</a></li>
                   <li><a href="change_password.html"> Reset Password</a></li>
                 </ul>
                 <div class="white-space-20"></div>

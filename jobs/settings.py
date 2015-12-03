@@ -114,6 +114,8 @@ TINYMCE_DEFAULT_CONFIG = {
     'paste_text_sticky_default' : True,
 }
 
+LOGIN_URL = 'login'
+
 # Import local settings
 try:
     from local_settings import *
