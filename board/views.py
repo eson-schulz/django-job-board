@@ -1,5 +1,3 @@
-import datetime
-from django import forms
 from django.shortcuts import render, render_to_response, redirect, get_object_or_404
 from django.template.context import RequestContext
 from .forms import PostForm
@@ -56,44 +54,6 @@ def index(request, category_slug=None, template='board/index.html', extra_contex
         context.update(extra_context)
     return render_to_response(
         template, context, context_instance=RequestContext(request))
-
-
-def post_a_job(request):
-
-    context = {}
-
-    if request.user.is_authenticated():
-        if request.method == 'POST':
-            form = PostForm(request.POST)
-            if form.is_valid():
-                if len(form.cleaned_data['categories']) > 3:
-                    form.add_error('categories', forms.ValidationError("Only up to three categories are allowed", code="invalid"))
-                else:
-                    post = form.save(commit=False)
-                    post.company = request.user.company
-                    post.date = datetime.date.today()
-                    post.save()
-
-                    return redirect('index')
-            else:
-                print form.errors
-        else:
-            form = PostForm()
-
-        context['form'] = form
-        context['allowed_tags'] = ", ".join(settings.ALLOWED_TAGS)
-
-        # Decides what the second column size should be
-        context['category_column_size'] = int(math.ceil(len(Category.objects.all()) / 3.0))
-
-        if len(Category.objects.all()) - (context['category_column_size'] * 2) < (context['category_column_size'] - 1):
-            context['category_column_2_size'] = (context['category_column_size'] * 2) - 1
-        else:
-            context['category_column_2_size'] = context['category_column_size'] * 2
-
-        return render(request, 'board/job_post.html', context)
-    else:
-        return redirect('login')
 
 
 def categories(request):

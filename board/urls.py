@@ -15,9 +15,6 @@ urlpatterns = [
     # The category search page
     url(r'^search/categories/$', views.categories, name='category_list'),
 
-    # For employers to post a job
-    url(r'^company/post-a-job/$', views.post_a_job, name='post_a_job'),
-
     # The company details of any company
     url(r'^jobs/(?P<company_slug>[\w\-]+)/$', views.company_details, name='company_details'),
 

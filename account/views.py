@@ -1,9 +1,14 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
+import math
 from .forms import CompanyForm, UserForm, CompanyUpdateForm
 from board.models import Company
+import datetime
+from django import forms
 from jobs import settings
+from board.forms import PostForm
+from board.models import Category
 
 
 def register(request):
@@ -43,6 +48,42 @@ def register(request):
         company_form = CompanyForm()
 
     return render(request, 'account/register.html', {'user_form': user_form, 'company_form': company_form})
+
+
+@login_required
+def post_a_job(request):
+
+    context = {}
+
+    if request.method == 'POST':
+        form = PostForm(request.POST)
+        if form.is_valid():
+            if len(form.cleaned_data['categories']) > 3:
+                form.add_error('categories', forms.ValidationError("Only up to three categories are allowed", code="invalid"))
+            else:
+                post = form.save(commit=False)
+                post.company = request.user.company
+                post.date = datetime.date.today()
+                post.save()
+
+                return redirect('index')
+        else:
+            print form.errors
+    else:
+        form = PostForm()
+
+    context['form'] = form
+    context['allowed_tags'] = ", ".join(settings.ALLOWED_TAGS)
+
+    # Decides what the second column size should be
+    context['category_column_size'] = int(math.ceil(len(Category.objects.all()) / 3.0))
+
+    if len(Category.objects.all()) - (context['category_column_size'] * 2) < (context['category_column_size'] - 1):
+        context['category_column_2_size'] = (context['category_column_size'] * 2) - 1
+    else:
+        context['category_column_2_size'] = context['category_column_size'] * 2
+
+    return render(request, 'board/job_post.html', context)
 
 
 @login_required
@@ -92,6 +133,10 @@ def update_posts_base(request):
     context['posts'] = company.post_set.all()
 
     return render(request, 'account/update_posts_base.html', context)
+
+
+def update_post(request, post_job):
+    pass
 
 
 def company_logout(request):
