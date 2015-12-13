@@ -1,14 +1,13 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
 import math
 from .forms import CompanyForm, UserForm, CompanyUpdateForm
-from board.models import Company
 import datetime
 from django import forms
 from jobs import settings
 from board.forms import PostForm
-from board.models import Category
+from board.models import Category, Post
 
 
 def register(request):
@@ -51,26 +50,45 @@ def register(request):
 
 
 @login_required
-def post_a_job(request):
+def post_a_job(request, post_slug=None):
 
     context = {}
 
+    print post_slug
+
+    if post_slug:
+        context['post_slug'] = True
+        post = get_object_or_404(Post, company=request.user.company, slug=post_slug)
+
     if request.method == 'POST':
-        form = PostForm(request.POST)
+
+        if post_slug:
+            form = PostForm(request.POST, instance=post)
+        else:
+            form = PostForm(request.POST)
+
         if form.is_valid():
             if len(form.cleaned_data['categories']) > 3:
                 form.add_error('categories', forms.ValidationError("Only up to three categories are allowed", code="invalid"))
             else:
-                post = form.save(commit=False)
-                post.company = request.user.company
-                post.date = datetime.date.today()
-                post.save()
+                if post_slug:
+                    form.save()
 
-                return redirect('index')
+                    return redirect('job_details', request.user.company.slug, post.slug)
+                else:
+                    post = form.save(commit=False)
+                    post.company = request.user.company
+                    post.date = datetime.date.today()
+                    post.save()
+
+                    return redirect('index')
         else:
             print form.errors
     else:
-        form = PostForm()
+        if post_slug:
+            form = PostForm(instance=post)
+        else:
+            form = PostForm()
 
     context['form'] = form
     context['allowed_tags'] = ", ".join(settings.ALLOWED_TAGS)
@@ -133,10 +151,6 @@ def update_posts_base(request):
     context['posts'] = company.post_set.all()
 
     return render(request, 'account/update_posts_base.html', context)
-
-
-def update_post(request, post_job):
-    pass
 
 
 def company_logout(request):

@@ -20,7 +20,13 @@ Post a Job - Owatonna Jobs Online
 
         <div class="bg-color2 block-section line-bottom">
           <div class="container">
-            <h1 class="text-center no-margin">Post a Job</h1>
+              <h1 class="text-center no-margin">
+                  {% if post_slug %}
+                      Update Job
+                  {% else %}
+                      Post a Job
+                  {% endif %}
+              </h1>
           </div>
         </div>
 
@@ -30,7 +36,7 @@ Post a Job - Owatonna Jobs Online
               <div class="col-md-8 col-md-offset-2">
                 <p style="color:red">{{ form.non_field_errors }}</p>
                 <!-- form post a job -->
-                <form id="post_form" method="post" action="{% url 'post_a_job' %}">
+                <form id="post_form" method="post" action="{{ request.path }}">
                     {% csrf_token %}
                   <div class="form-group">
                     <label>Job title</label>
@@ -109,7 +115,13 @@ Post a Job - Owatonna Jobs Online
                   <p>Applications will be emailed to: <a href="#">your@email.com</a> – <a href="#">change email</a></p>
 
                   <div class="form-group ">
-                    <button class="btn btn-t-primary btn-theme">Continue</button>
+                    <button class="btn btn-t-primary btn-theme">
+                        {% if post_slug %}
+                            Save Changes
+                        {% else %}
+                            Continue
+                        {% endif %}
+                    </button>
                   </div>
 
 

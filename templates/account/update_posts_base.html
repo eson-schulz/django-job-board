@@ -19,7 +19,7 @@ Update Posts
                 <div class="item">
                   <div class="row">
                     <div class="col-md-12">
-                      <h3 class="no-margin-top"><a href="{% url 'job_details' post.company.slug post.slug %}" class="">{{ post.title }} <i class="fa fa-link color-white-mute font-1x"></i></a></h3>
+                      <h3 class="no-margin-top"><a href="{% url 'job_details' post.company.slug post.slug %}" class="">{{ post.title }} <i class="fa fa-link color-white-mute font-1x"></i></a><a role="button" style="padding-top:5px; padding-bottom:5px" class="btn btn-theme btn-primary pull-right" href="{% url 'update_post' post.slug %}">Edit</a></h3>
                       <p class="text-truncate ">{{ post.description|striptags }}</p>
                       <div>
                         <span class="color-white-mute">{{ post.date|dayssince }}</span> {% if post.categories.all %}-{% endif %}
