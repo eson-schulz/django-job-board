@@ -12,8 +12,11 @@ urlpatterns = [
     # Search function for categories
     url(r'^search/category/(?P<category_slug>[\w\-]+)/$', views.index, name='category_search'),
 
-    # The category search page
+    # The category list page
     url(r'^search/categories/$', views.categories, name='category_list'),
+
+    # The company list page
+    url(r'^search/companies/$', views.company_list, name='company_list'),
 
     # The company details of any company
     url(r'^jobs/(?P<company_slug>[\w\-]+)/$', views.company_details, name='company_details'),

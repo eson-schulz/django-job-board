@@ -1,0 +1,64 @@
+{% extends 'general/skeleton/base_with_logo.html' %}
+
+{% load staticfiles %}
+
+{% block title %}
+Post a Job - Owatonna Jobs Online
+{% endblock title %}
+
+{% block head_extras %}
+    {{ form.media }}
+    <script>
+
+    </script>
+{% endblock head_extras %}
+
+{% block content %}
+
+      <!-- body-content -->
+      <div class="body-content clearfix" >
+
+        <div class="bg-color2 block-section line-bottom">
+          <div class="container">
+            <h1 class="text-center no-margin">Companies</h1>
+          </div>
+        </div>
+
+        <div class="bg-color1 block-section line-bottom">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-8 col-md-offset-2">
+                  <div class="form-group">
+                  <div class="row clearfix">
+                  {% for company in companies %}
+                    <div class="col-md-4">
+                        <div>
+                          <div class="image-div">
+                              {% if company.picture %}
+                                <img class="image-in-image-div" src="{{ company.picture.url }}" />
+                              {% else %}
+                                <img class="image-in-image-div" src="{% static 'theme/images/patner/2.png' %}" />
+                              {% endif %}
+                          </div>
+                          <a href="{% url 'company_details' company.slug %}">
+                              <h4 class="text-center">
+                                {{ company.name }} ({{ company.post_count }})
+                              </h4>
+                          </a>
+                        </div>
+
+                        <!-- If the forloop has gone through the first column -->
+                        {% if forloop.counter|divisibleby:"3" %}
+                            </div><div class="row clearfix">
+                        {% endif %}
+                    </div>
+                  {% endfor %}
+                  </div>
+                  </div><!-- end checkboxs -->
+            </div>
+          </div>
+        </div>        
+      </div><!--end body-content -->
+  </div>
+
+{% endblock content %}

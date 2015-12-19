@@ -1,0 +1,9 @@
+.image-div {
+    text-align:center;
+    height:60px;
+}
+
+.image-in-image-div {
+    max-width: 80%;
+    height:60px;
+}
