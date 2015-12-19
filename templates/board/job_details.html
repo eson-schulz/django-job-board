@@ -34,7 +34,15 @@
                 <div class="block-section box-item-details">
                   <div class="row">
                     <div class="col-md-8">
-                      <a href="{% url 'company_details' job.company.slug %}"><img style="max-width:220px; max-height:60px;" src="{{ job.company.picture.url }}" alt=""></a>
+                      <a href="{% url 'company_details' job.company.slug %}">
+                          <img style="max-width:220px; max-height:60px;" src="
+                              {% if job.company.picture %}
+                                {{ job.company.picture.url }}
+                              {% else %}
+                                {% static 'theme/images/patner/2.png' %}
+                              {% endif %}
+                          " alt="">
+                      </a>
                     </div>
                     <div class="col-md-4">
                       <p class="text-right"><a href="{{ job.company.website }}">Go to our website &raquo;</a></p>
