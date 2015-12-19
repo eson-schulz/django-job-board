@@ -33,14 +33,16 @@ Post a Job - Owatonna Jobs Online
                   {% for company in companies %}
                     <div class="col-md-4">
                         <div>
-                          <div class="image-div">
-                              {% if company.picture %}
-                                <img class="image-in-image-div" src="{{ company.picture.url }}" />
-                              {% else %}
-                                <img class="image-in-image-div" src="{% static 'theme/images/patner/2.png' %}" />
-                              {% endif %}
-                          </div>
                           <a href="{% url 'company_details' company.slug %}">
+                          <div class="image-div">
+                              <img class="image-in-image-div" src="
+                                  {% if company.picture %}
+                                    {{ company.picture.url }}
+                                  {% else %}
+                                    {% static 'theme/images/patner/2.png' %}
+                                  {% endif %}
+                              " />
+                          </div>
                               <h4 class="text-center">
                                 {{ company.name }} ({{ company.post_count }})
                               </h4>
