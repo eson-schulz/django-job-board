@@ -29,25 +29,24 @@ Post a Job - Owatonna Jobs Online
             <div class="row">
               <div class="col-md-8 col-md-offset-2">
                   <div class="form-group">
-                    <div class="row clearfix">
-                        <div class="col-md-4">
-                            {% for category in categories %}
-
-                                <!-- If the forloop has gone through the first column -->
-                                {% if forloop.counter0 == category_column_size or forloop.counter0 == category_column_2_size %}
-                                    </div><div class="col-md-4">
-                                {% endif %}
-
-                            <div>
-                              <a href="{% url 'category_search' category.0.slug %}">
-                                  <h4 class="text-center">
-                                    {{ category.0.name }} ({{ category.1 }})
-                                  </h4>
-                              </a>
-                            </div>
-                            {% endfor %}
+                  <div class="row clearfix">
+                  {% for category in categories %}
+                    <div class="col-md-4">
+                        <div>
+                          <a href="{% url 'category_search' category.slug %}">
+                              <h4 class="text-center">
+                                {{ category.name }} ({{ category.post_count }})
+                              </h4>
+                          </a>
                         </div>
+
+                        <!-- If the forloop has gone through the first column -->
+                        {% if forloop.counter|divisibleby:"3" %}
+                            </div><div class="row clearfix">
+                        {% endif %}
                     </div>
+                  {% endfor %}
+                  </div>
                   </div><!-- end checkboxs -->
             </div>
           </div>

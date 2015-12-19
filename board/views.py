@@ -59,27 +59,18 @@ def index(request, category_slug=None, template='board/index.html', extra_contex
 def categories(request):
     context = {}
 
-    category_list = Category.objects.all()
-
-    # Gets the number of posts associated with each category
-    category_count = []
-    for i in range(0, len(category_list)):
-        count = len(category_list[i].post_set.all())
-
-        if count > 0:
-            category_count.append((category_list[i], count))
-
-    context['categories'] = category_count
-
-    # Decides what the second column size should be
-    context['category_column_size'] = int(math.ceil(len(category_count) / 3.0))
-
-    if len(Category.objects.all()) - (context['category_column_size'] * 2) < (context['category_column_size'] - 1):
-        context['category_column_2_size'] = (context['category_column_size'] * 2) - 1
-    else:
-        context['category_column_2_size'] = context['category_column_size'] * 2
+    # Gets all categories in alphabetical order that have more than 0 related posts
+    context['categories'] = filter(lambda x: x.post_count() > 0, Category.objects.all().order_by('name'))
 
     return render(request, 'board/categories.html', context)
+
+
+def company_list(request):
+    context = {}
+
+    context['companies'] = filter(lambda x: x.post_count() > 0, Company.objects.all().order_by('name'))
+
+    return render(request, 'board/company_list.html', context)
 
 
 def job_details(request, company_slug, post_slug):

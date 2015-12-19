@@ -15,6 +15,9 @@ class Company(models.Model):
 
     slug = models.SlugField(unique=True)
 
+    def post_count(self):
+        return len(self.post_set.all())
+
     def save(self, *args, **kwargs):
 
         if not self.id:
