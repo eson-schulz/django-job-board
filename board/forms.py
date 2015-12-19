@@ -5,6 +5,11 @@ from tinymce.widgets import TinyMCE
 
 class PostForm(forms.ModelForm):
 
+    def __init__(self, *args, **kwargs):
+        # This is required since the form doesn't automatically choose the categories
+        super(PostForm, self).__init__(*args, **kwargs)
+        self.fields['categories'].initial = [c for c in self.CATEGORY_CHOICES]
+
     CATEGORY_CHOICES = [[x.id, x.name] for x in Category.objects.all()]
 
     title = forms.CharField(max_length=60, widget=forms.TextInput(attrs={'class': 'form-control', 'type': 'text', 'placeholder': 'Enter Job Title'}))
