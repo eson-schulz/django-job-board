@@ -181,3 +181,8 @@ def company_login(request):
             context['issues'] = True
 
     return render(request, 'account/login.html', context)
+
+
+def password_reset_done(request):
+
+    return render(request, 'account/password/password_reset_done.html')
