@@ -186,3 +186,8 @@ def company_login(request):
 def password_reset_done(request):
 
     return render(request, 'account/password/password_reset_done.html')
+
+
+def password_reset_complete(request):
+
+    return redirect('login')
