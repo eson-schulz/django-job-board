@@ -108,8 +108,6 @@ def post_a_job(request, post_slug=None):
 def update_info(request):
     context = {}
 
-    print request.META.get('HTTP_REFERER')
-
     message = None
     update_success = False
 
@@ -128,6 +126,7 @@ def update_info(request):
             message = "Company settings updated successfully"
             update_success = True
         else:
+            print company_form.errors
             message = "Company settings failed, please try again"
     else:
         if '/account/password-change/' in request.META.get('HTTP_REFERER'):

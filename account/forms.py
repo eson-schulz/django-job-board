@@ -22,9 +22,9 @@ class CompanyForm(forms.ModelForm):
 
 
 class CompanyUpdateForm(forms.ModelForm):
-    description = forms.CharField(widget=TinyMCE(attrs={'class':'form-control', 'rows':'28', 'placeholder': 'Enter Company Description'}))
-    website = forms.URLField(widget=forms.EmailInput(attrs={'class': 'form-control', 'type': 'url', 'placeholder': 'Website URL', 'maxlength': '200'}))
-    location = forms.CharField(widget=forms.TextInput(attrs={'class': 'form-control', 'type': 'text', 'placeholder': 'Location, Ex: Owatonna, MN', 'maxlength': '200'}))
+    description = forms.CharField(required=False, widget=TinyMCE(attrs={'class':'form-control', 'rows':'28', 'placeholder': 'Enter Company Description'}))
+    website = forms.URLField(required=False, widget=forms.EmailInput(attrs={'class': 'form-control', 'type': 'url', 'placeholder': 'Website URL', 'maxlength': '200'}))
+    location = forms.CharField(required=False, widget=forms.TextInput(attrs={'class': 'form-control', 'type': 'text', 'placeholder': 'Location, Ex: Owatonna, MN', 'maxlength': '200'}))
 
     class Meta:
         model = Company
