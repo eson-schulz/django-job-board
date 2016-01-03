@@ -129,7 +129,8 @@ def update_info(request):
             print company_form.errors
             message = "Company settings failed, please try again"
     else:
-        if '/account/password-change/' in request.META.get('HTTP_REFERER'):
+        referer = request.META.get('HTTP_REFERER')
+        if referer and '/account/password-change/' in referer:
             message = "Password updated successfully"
             update_success = True
 
