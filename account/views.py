@@ -114,27 +114,33 @@ def update_info(request):
     company = request.user.company
 
     if request.method == 'POST':
-        company_form = CompanyUpdateForm(data=request.POST)
+        form = CompanyUpdateForm(request.POST, request.FILES)
 
-        if company_form.is_valid():
-            company.website = company_form.cleaned_data['website']
-            company.description = company_form.cleaned_data['description']
-            company.location = company_form.cleaned_data['location']
+        if form.is_valid():
+            company.website = form.cleaned_data['website']
+            company.description = form.cleaned_data['description']
+            company.location = form.cleaned_data['location']
+
+            # This is used since if the user doesn't upload anything, it's None.
+            # If they click clear, it is False
+            picture = form.cleaned_data['picture']
+            if picture is not None:
+                company.picture = form.cleaned_data['picture']
 
             company.save()
 
             message = "Company settings updated successfully"
             update_success = True
         else:
-            print company_form.errors
-            message = "Company settings failed, please try again"
+            print form.errors
+            message = "Company settings failed, look for errors below"
     else:
         referer = request.META.get('HTTP_REFERER')
         if referer and '/account/password-change/' in referer:
             message = "Password updated successfully"
             update_success = True
 
-    form = CompanyUpdateForm(initial={'description': company.description, 'website': company.website, 'location': company.location})
+        form = CompanyUpdateForm(initial={'description': company.description, 'website': company.website, 'location': company.location, 'picture': company.picture})
 
     context['company'] = company
     context['form'] = form
