@@ -15,7 +15,7 @@ def index(request, category_slug=None, template='board/index.html', extra_contex
         context['posts'] = Post.objects.filter(categories__slug=category_slug).order_by('-date', '-id')
         context['category_slug'] = category_slug
     else:
-        context['posts'] = Post.objects.order_by('-date', '-id')
+        context['posts'] = Post.objects.filter(paid=True).order_by('-date', '-id')
 
     # Sort the categories from most to least jobs
     category_tuples = []

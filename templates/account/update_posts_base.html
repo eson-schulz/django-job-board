@@ -16,10 +16,14 @@ Update Posts
         <div class="box-list">
             {% if posts %}
             {% for post in posts %}
-                <div class="item">
+                <div class="item" {% if not post.paid %}style="padding-bottom:5px"{% endif %}>
                   <div class="row">
                     <div class="col-md-12">
-                      <h3 class="no-margin-top"><a href="{% url 'job_details' post.company.slug post.slug %}" class="">{{ post.title }} <i class="fa fa-link color-white-mute font-1x"></i></a><a role="button" style="padding-top:5px; padding-bottom:5px" class="btn btn-theme btn-primary pull-right" href="{% url 'update_post' post.slug %}">Edit</a></h3>
+                      <h3 class="no-margin-top">
+                          <a href="{% url 'job_details' post.company.slug post.slug %}" class="">{{ post.title }}<i class="fa fa-link color-white-mute font-1x"></i></a>
+                          <a role="button" style="padding-top:5px; padding-bottom:5px" class="btn btn-theme btn-primary pull-right" href="{% url 'update_post' post.slug %}">Edit</a>
+                          {% if not post.paid %}<a role="button" style="padding-top:5px; padding-bottom:5px; margin-right:5px;" class="btn btn-theme btn-success pull-right" href="{% url 'update_post' post.slug %}">Purchase</a> {% endif %}
+                          </h3>
                       <p class="text-truncate ">{{ post.description|striptags }}</p>
                       <div>
                         <span class="color-white-mute">{{ post.date|dayssince }}</span> {% if post.categories.all %}-{% endif %}
@@ -27,6 +31,9 @@ Update Posts
                             <a data-toggle="modal" class="btn btn-xs btn-theme btn-default">{{ category.name }}</a>{% if not forloop.last %} -{% endif %}
                           {% endfor %}
                       </div>
+                      {% if not post.paid %}
+                        <small style="padding-top:10px; color:red;">This post is current not displayed due to not being paid for</small>
+                      {% endif %}
                     </div>
                   </div>
                 </div><!-- end item list -->
