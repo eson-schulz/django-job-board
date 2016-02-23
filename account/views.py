@@ -1,13 +1,17 @@
+from django import forms
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
-import math
-from .forms import CompanyForm, UserForm, CompanyUpdateForm
+
 import datetime
-from django import forms
+import math
+
 from jobs import settings
+from .forms import CompanyForm, UserForm, CompanyUpdateForm
 from board.forms import PostForm
 from board.models import Category, Post
+
+import stripe
 
 
 def register(request):
@@ -30,6 +34,9 @@ def register(request):
 
             if 'picture' in request.FILES:
                 company.picture = request.FILES['picture']
+
+            # Creates an account with Stripe and gets the user id
+            company.stripe_id = create_account(company)
 
             company.save()
 
@@ -203,3 +210,17 @@ def password_reset_done(request):
 def password_reset_complete(request):
 
     return redirect('login')
+
+
+# Takes in a company, tries to create a stripe account linked and returns the customer id
+def create_account(company):
+
+    try:
+        customer = stripe.Customer.create(
+            email=company.user.email,
+            description=company.name
+        )
+
+        return customer.id
+    except Exception, e:
+        print e.message

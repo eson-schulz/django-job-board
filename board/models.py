@@ -48,7 +48,6 @@ class Post(models.Model):
     type_salary = models.CharField(max_length=2, choices=SALARY_TYPE_CHOICES, blank=True, null=True)
 
     # Used for dealing with purchases
-    user_id = models.CharField(max_length=50)
     paid = models.BooleanField(default=False)
 
     slug = models.SlugField(unique=True)

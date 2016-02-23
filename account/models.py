@@ -13,6 +13,9 @@ class Company(models.Model):
     website = models.URLField(blank=True)
     location = models.CharField(blank=True, max_length=30, default="Owatonna, MN")
 
+    # Used for Stripe communication
+    stripe_id = models.CharField(max_length=50, blank=True, null=True)
+
     slug = models.SlugField(unique=True)
 
     def post_count(self):
