@@ -111,6 +111,11 @@ def post_a_job(request, post_slug=None):
     return render(request, 'board/job_post.html', context)
 
 
+def checkout(request, post_slug=None):
+    context = {}
+
+    return render(request, 'account/checkout.html', context)
+
 @login_required
 def update_info(request):
     context = {}

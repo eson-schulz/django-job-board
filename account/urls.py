@@ -22,6 +22,7 @@ urlpatterns = [
     url(r'^update/$', views.update_info, name='password_change_done'),
 
     url(r'^company/post-a-job/$', views.post_a_job, name='post_a_job'),
+    url(r'^company/checkout/(?P<post_slug>[\w\-]+)/$', views.checkout, name='checkout'),
     url(r'^update-posts/$', views.update_posts_base, name='update_posts'),
     url(r'^update-posts/(?P<post_slug>[\w\-]+)/$', views.post_a_job, name='update_post'),
 ]
