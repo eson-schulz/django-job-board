@@ -25,77 +25,50 @@ Post a Job - Owatonna Jobs Online
             <!-- text centered -->
             <div class="text-center">
               <strong class="text-uppercase">select your plan</strong>
-              <h2>Plan pricing three columns no space.</h2>
+              <h2>{{ post.title }}</h2>
               <div class="white-space-30"></div>
             </div><!-- text centered -->
 
             <div class="row plan-nospace">
               <div class=" col-md-4 plan-item">
-                <!-- plan box -->
-                <div class="plan">
-                  <div class="plan-title">
-                    <h3>1 Job Posting</h3>
-                  </div>
 
-                  <div class="plan-price">
-                    <span class="price ">$25</span>  
-                  </div>
-
-                  <div class="plan-list">
-                    <ul class="item-list list-unstyled">
-                      <li><strong>1</strong> Credit</li>
-                      <li><strong>1 Year</strong> Credit Expires</li>
-                      <li><strong>Unable</strong> Search Resume</li>
-
-                    </ul>
-                    <button type="button" class="btn btn-t-primary btn-theme btn-lg btn-square btn-block"> Purchase</button>
-                  </div> 
-                </div><!-- plan box -->
               </div>
 
               <div class=" col-md-4 plan-item">
                 <!-- plan box -->
                 <div class="plan popular">
                   <div class="plan-title">
-                    <h3 >5 Job Postings</h3>
+                    <h3 >1 Job Posting</h3>
 
                   </div>
 
                   <div class="plan-price">
-                    <span class="price ">$35</span>
+                    <span class="price ">$49.99</span>
                   </div>
 
-                  <div class="plan-list">
+                  <div class="plan-list" style="padding-bottom:20px;">
                     <ul class="item-list list-unstyled">
-                      <li><strong>5</strong> Credits</li>
-                      <li><strong>1 Year</strong> Credit Expires</li>
-                      <li><strong>Enable</strong> Search Resume</li>
+                      <li>1 Month</li>
+                      <li>Auto Renews Monthly</li>
                     </ul>
-                    <button type="button" class="btn btn-t-primary btn-theme btn-lg btn-square btn-block"> Purchase</button>
+                    <form action="#" method="POST">
+                        {% csrf_token %}
+                      <script
+                        src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                        data-key="{{ pushable_key }}"
+                        data-image="{% static 'theme/images/logo/case.png' %}"
+                        data-name="Owatonna Jobs Online"
+                        data-description="Monthly Job Post Subscription"
+                        data-amount="4999"
+                        data-locale="auto">
+                      </script>
+                    </form>
                   </div>
                 </div><!-- end plan box -->
               </div>
 
               <div class=" col-md-4 plan-item">
-                <!-- plan box -->
-                <div class="plan">
-                  <div class="plan-title">
-                    <h3>20 Job Postings</h3>
-                  </div>
 
-                  <div class="plan-price">
-                    <span class="price ">$45</span>  
-                  </div>
-
-                  <div class="plan-list">
-                    <ul class="item-list list-unstyled">
-                      <li><strong>20</strong> Credits</li>
-                      <li><strong>1 Year</strong> Credit Expires</li>
-                      <li><strong>Enable</strong> Search Resume</li>
-                    </ul>
-                    <button type="button" class="btn btn-t-primary btn-theme btn-lg btn-square btn-block"> Purchase</button>
-                  </div> 
-                </div><!-- end plan box -->
               </div>
 
             </div>

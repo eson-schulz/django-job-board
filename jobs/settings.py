@@ -145,3 +145,4 @@ except ImportError:
 # DEFAULT_FROM_EMAIL = 'testing@example.com'
 #
 # stripe.api_key = "sk_test_999"
+# STRIPE_PUSHABLE_KEY = "pk_test_999"

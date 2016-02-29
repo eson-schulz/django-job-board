@@ -1,4 +1,5 @@
 from django import forms
+from django.conf import settings
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
@@ -113,6 +114,20 @@ def post_a_job(request, post_slug=None):
 
 def checkout(request, post_slug=None):
     context = {}
+
+    company = request.user.company
+
+    if request.method == 'POST':
+
+        # Subscribe them to the job
+        token = request.POST.get("stripeToken", "")
+
+        customer = stripe.Customer.retrieve(company.stripe_id)
+        print customer.subscriptions
+        customer.subscriptions.create(plan=settings.STRIPE_PLAN_NAME, source=token)
+
+    context['pushable_key'] = settings.STRIPE_PUSHABLE_KEY
+    context['post'] = get_object_or_404(Post, company=company, slug=post_slug)
 
     return render(request, 'account/checkout.html', context)
 
@@ -229,3 +244,4 @@ def create_account(company):
         return customer.id
     except Exception, e:
         print e.message
+
