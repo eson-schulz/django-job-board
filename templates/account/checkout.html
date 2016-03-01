@@ -52,11 +52,8 @@ Post a Job - Owatonna Jobs Online
                       <li>Auto Renews Monthly</li>
                     </ul>
                     {% if four_digits %}
-                    <form action="" method = "post">
-                        {% csrf_token %}
-                        <input class="btn btn-default" type="submit" name="checkout" value="Checkout with Card {{ four_digits }}" />
-                    </form>
-                    <p class="text-center" style="margin-top:10px;"><span class="span-line">or</span></p>
+                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#confirmPayment">Subscribe with Card {{ four_digits }}</button>
+                        <p class="text-center" style="margin-top:10px;"><span class="span-line">or</span></p>
                     {% endif %}
                     <form action="#" method="POST">
                         {% csrf_token %}
@@ -151,6 +148,30 @@ Post a Job - Owatonna Jobs Online
             <a href="#" class="btn btn-t-primary  btn-theme">Contact Us</a>
           </div>
         </div><!-- end block bottom -->
+
+      {% if four_digits %}
+        <!-- Modal -->
+      <div class="modal fade" id="confirmPayment" role="dialog">
+        <div class="modal-dialog modal-md">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title">Confirm Purchase</h4>
+            </div>
+            <div class="modal-body">
+              <p>Confirm subscription for posting using card <b>{{ four_digits }}</b></p>
+            </div>
+            <div class="modal-footer">
+              <form action="" method = "post">
+                  {% csrf_token %}
+                  <input class="btn btn-primary" type="submit" name="checkout" value="Subscribe with Card {{ four_digits }}" />
+              <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+      {% endif %}
+
 
       </div><!--end body-content -->
 

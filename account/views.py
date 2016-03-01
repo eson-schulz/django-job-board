@@ -119,6 +119,10 @@ def checkout(request, post_slug=None):
     company = request.user.company
     post = get_object_or_404(Post, company=company, slug=post_slug)
 
+    # Makes sure the user doesn't pay for a post twice
+    if post.paid:
+        return redirect('job_details', company_slug=company.slug, post_slug=post.slug)
+
     if not company.stripe_id:
         company.stripe_id = create_account(company)
         company.save()
@@ -132,9 +136,16 @@ def checkout(request, post_slug=None):
         if token:
             customer = stripe.Customer.retrieve(company.stripe_id)
             subscribe_user(customer, settings.STRIPE_PLAN_NAME, token)
+
+            post.paid = True
+            post.save()
         else:
+            # TODO - make sure that the customer actually has previous payments
             customer = stripe.Customer.retrieve(company.stripe_id)
             subscribe_user(customer, settings.STRIPE_PLAN_NAME)
+
+            post.paid = True
+            post.save()
 
     context['four_digits'] = get_credit_digits(company)
     context['pushable_key'] = settings.STRIPE_PUSHABLE_KEY
