@@ -1,5 +1,4 @@
 from django import forms
-from django.conf import settings
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
@@ -40,10 +39,14 @@ def register(request):
             if 'picture' in request.FILES:
                 company.picture = request.FILES['picture']
 
-            # Creates an account with Stripe and gets the user id
-            company.stripe_id = create_account(company)
-
             company.save()
+
+            # Tries to generate stripe id
+            # Not important that it gets generated here
+            try:
+                company.get_stripe_customer()
+            except Exception, e:
+                logger.error(e.message)
 
             user = authenticate(username=user_form.cleaned_data['email'],
                                 password=user_form.cleaned_data['password'])
@@ -127,33 +130,50 @@ def checkout(request, post_slug=None):
     if post.paid:
         return redirect('job_details', company_slug=company.slug, post_slug=post.slug)
 
-    if not company.stripe_id:
-        company.stripe_id = create_account(company)
-        company.save()
+    error = None
+    customer = None
+    try:
+        customer = company.get_stripe_customer()
+    except Exception as error:
+        error = "Can't connect to payment processing"
 
-    if request.method == 'POST':
+    if not error and request.method == 'POST':
 
         # Subscribe them to the job
         token = request.POST.get("stripeToken", "")
 
         # if they inputted a new card, or otherwise
         if token:
-            customer = stripe.Customer.retrieve(company.stripe_id)
-            subscribe_user(customer, settings.STRIPE_PLAN_NAME, token)
+            try:
+                company.subscribe_user(settings.STRIPE_PLAN_NAME, customer=customer, token=token)
 
-            post.paid = True
-            post.save()
+                post.paid = True
+                post.save()
+            except stripe.error.CardError as error:
+                error = "Credit card declined. Try using a new one."
+            except Exception as Error:
+                error = "An error occurred."
         else:
             # TODO - make sure that the customer actually has previous payments
-            customer = stripe.Customer.retrieve(company.stripe_id)
-            subscribe_user(customer, settings.STRIPE_PLAN_NAME)
+            try:
+                company.subscribe_user(settings.STRIPE_PLAN_NAME, customer=customer)
 
-            post.paid = True
-            post.save()
+                post.paid = True
+                post.save()
+            except stripe.error.CardError as error:
+                error = "Credit card declined. Try using a new one."
+            except Exception as Error:
+                error = "An error occurred."
 
-    context['four_digits'] = get_credit_digits(company)
+    if customer:
+        try:
+            context['four_digits'] = company.get_four_digits(customer=customer)
+        except Exception as error:
+            error = "Can't get previous card info"
+
     context['pushable_key'] = settings.STRIPE_PUSHABLE_KEY
     context['post'] = post
+    context['error'] = error
 
     return render(request, 'account/checkout.html', context)
 
@@ -256,47 +276,3 @@ def password_reset_done(request):
 def password_reset_complete(request):
 
     return redirect('login')
-
-
-# Subscribe user
-# TODO - Catch exceptions in here and the view
-def subscribe_user(customer, plan_name, token=None):
-
-    subscription = None
-    for sub in customer.subscriptions.data:
-        if sub.plan.id == plan_name:
-            subscription = sub
-
-    if not subscription:
-        subscription = customer.subscriptions.create(plan=settings.STRIPE_PLAN_NAME, source=token)
-    else:
-        if token:
-            subscription.source = token
-        subscription.quantity += 1
-        subscription.save()
-
-
-def get_credit_digits(company):
-    if not company.stripe_id:
-        return None
-
-    customer = stripe.Customer.retrieve(company.stripe_id)
-
-    if customer.default_source:
-        card = customer.sources.retrieve(customer.default_source)
-        return card.last4
-
-
-# Takes in a company, tries to create a stripe account linked and returns the customer id
-def create_account(company):
-
-    try:
-        customer = stripe.Customer.create(
-            email=company.user.email,
-            description=company.name
-        )
-
-        return customer.id
-    except Exception, e:
-        print e.message
-

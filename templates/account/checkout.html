@@ -18,10 +18,18 @@ Post a Job - Owatonna Jobs Online
       <!-- body-content -->
       <div class="body-content clearfix" >
 
-
         <!-- pricing 3 cols -->
         <div class="block-section bg-color1 line-bottom">
+          {% if error %}
           <div class="container ">
+            <div class="col-md-8 col-md-offset-2">
+                <div class="alert alert-danger" role="alert">Error, please try again<br />{{ error }}</div>
+            </div>
+          </div>
+          {% endif %}
+
+          <div class="container ">
+
             <!-- text centered -->
             <div class="text-center">
               <strong class="text-uppercase">select your plan</strong>

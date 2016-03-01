@@ -1,7 +1,14 @@
 from django.db import models
 from django.contrib.auth.models import User
 from django.template.defaultfilters import slugify
+from django.conf import settings
+
 import itertools
+import stripe
+import logging
+
+# Get an instance of the logger
+logger = logging.getLogger(__name__)
 
 
 class Company(models.Model):
@@ -17,6 +24,73 @@ class Company(models.Model):
     stripe_id = models.CharField(max_length=50, blank=True, null=True)
 
     slug = models.SlugField(unique=True)
+
+    # Returns a customer that is
+    def get_stripe_customer(self):
+        try:
+            if not self.stripe_id:
+                customer = stripe.Customer.create(
+                    email=self.user.email,
+                    description=self.name
+                )
+
+                self.stripe_id = customer.id
+                self.save()
+
+                return customer
+            else:
+                return stripe.Customer.retrieve(self.stripe_id)
+
+        except (stripe.error.CardError, stripe.error.APIConnectionError, stripe.error.APIError,
+                stripe.error.AuthenticationError, stripe.error.InvalidRequestError,
+                stripe.error.RateLimitError, stripe.error.StripeError) as error:
+            logger.error(error.message)
+            raise
+
+    # Returns the 4 digits of the attached credit card
+    # No exceptions, just None if there was an error
+    def get_four_digits(self, customer=None):
+        if not self.stripe_id:
+            return None
+
+        try:
+            if not customer:
+                customer = self.get_stripe_customer()
+
+            if customer.default_source:
+                card = customer.sources.retrieve(customer.default_source)
+                return card.last4
+
+        except (stripe.error.CardError, stripe.error.APIConnectionError, stripe.error.APIError,
+                stripe.error.AuthenticationError, stripe.error.InvalidRequestError,
+                stripe.error.RateLimitError, stripe.error.StripeError) as error:
+            logger.error(error.message)
+            raise
+
+    # Increases the subscription count for the user
+    def subscribe_user(self, plan_name, customer=None, token=None):
+        try:
+            if not customer:
+                customer = self.get_stripe_customer()
+
+            subscription = None
+            for sub in customer.subscriptions.data:
+                if sub.plan.id == plan_name:
+                    subscription = sub
+
+            if not subscription:
+                customer.subscriptions.create(plan=plan_name, source=token)
+            else:
+                if token:
+                    subscription.source = token
+                subscription.quantity += 1
+                subscription.save()
+
+        except (stripe.error.CardError, stripe.error.APIConnectionError, stripe.error.APIError,
+                stripe.error.AuthenticationError, stripe.error.InvalidRequestError,
+                stripe.error.RateLimitError, stripe.error.StripeError) as error:
+            logger.error(error.message)
+            raise
 
     def post_count(self):
         return len(self.post_set.all())
