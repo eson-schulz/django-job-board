@@ -13,6 +13,10 @@ from board.forms import PostForm
 from board.models import Category, Post
 
 import stripe
+import logging
+
+# Get an instance of the logger
+logger = logging.getLogger(__name__)
 
 
 def register(request):

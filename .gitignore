@@ -53,6 +53,7 @@ bin/
 media/
 jobs/local_settings.py
 *.log
+*.log~
 
 # PyCharm
 .idea/

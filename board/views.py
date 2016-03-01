@@ -1,10 +1,12 @@
-from django.shortcuts import render, render_to_response, redirect, get_object_or_404
+from django.shortcuts import render, render_to_response, get_object_or_404
 from django.template.context import RequestContext
-from .forms import PostForm
 from .models import Post, Category, Company
 from endless_pagination.decorators import page_template
-import math
-from jobs import settings
+
+import logging
+
+# Get an instance of the logger
+logger = logging.getLogger(__name__)
 
 
 @page_template('board/single_post_index.html')  # just add this decorator
