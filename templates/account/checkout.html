@@ -51,6 +51,13 @@ Post a Job - Owatonna Jobs Online
                       <li>1 Month</li>
                       <li>Auto Renews Monthly</li>
                     </ul>
+                    {% if four_digits %}
+                    <form action="" method = "post">
+                        {% csrf_token %}
+                        <input class="btn btn-default" type="submit" name="checkout" value="Checkout with Card {{ four_digits }}" />
+                    </form>
+                    <p class="text-center" style="margin-top:10px;"><span class="span-line">or</span></p>
+                    {% endif %}
                     <form action="#" method="POST">
                         {% csrf_token %}
                       <script
@@ -60,7 +67,13 @@ Post a Job - Owatonna Jobs Online
                         data-name="Owatonna Jobs Online"
                         data-description="Monthly Job Post Subscription"
                         data-amount="4999"
-                        data-locale="auto">
+                        data-locale="auto"
+                        data-panel-label="Subscribe for {{ amount }}"
+                        {% if four_digits %}
+                            data-label="Change Subscription Card"
+                        {% else %}
+                            data-label="Checkout"
+                        {% endif %}>
                       </script>
                     </form>
                   </div>

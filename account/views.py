@@ -112,22 +112,33 @@ def post_a_job(request, post_slug=None):
     return render(request, 'board/job_post.html', context)
 
 
+@login_required
 def checkout(request, post_slug=None):
     context = {}
 
     company = request.user.company
+    post = get_object_or_404(Post, company=company, slug=post_slug)
+
+    if not company.stripe_id:
+        company.stripe_id = create_account(company)
+        company.save()
 
     if request.method == 'POST':
 
         # Subscribe them to the job
         token = request.POST.get("stripeToken", "")
 
-        customer = stripe.Customer.retrieve(company.stripe_id)
-        print customer.subscriptions
-        customer.subscriptions.create(plan=settings.STRIPE_PLAN_NAME, source=token)
+        # if they inputted a new card, or otherwise
+        if token:
+            customer = stripe.Customer.retrieve(company.stripe_id)
+            subscribe_user(customer, settings.STRIPE_PLAN_NAME, token)
+        else:
+            customer = stripe.Customer.retrieve(company.stripe_id)
+            subscribe_user(customer, settings.STRIPE_PLAN_NAME)
 
+    context['four_digits'] = get_credit_digits(company)
     context['pushable_key'] = settings.STRIPE_PUSHABLE_KEY
-    context['post'] = get_object_or_404(Post, company=company, slug=post_slug)
+    context['post'] = post
 
     return render(request, 'account/checkout.html', context)
 
@@ -230,6 +241,35 @@ def password_reset_done(request):
 def password_reset_complete(request):
 
     return redirect('login')
+
+
+# Subscribe user
+# TODO - Catch exceptions in here and the view
+def subscribe_user(customer, plan_name, token=None):
+
+    subscription = None
+    for sub in customer.subscriptions.data:
+        if sub.plan.id == plan_name:
+            subscription = sub
+
+    if not subscription:
+        subscription = customer.subscriptions.create(plan=settings.STRIPE_PLAN_NAME, source=token)
+    else:
+        if token:
+            subscription.source = token
+        subscription.quantity += 1
+        subscription.save()
+
+
+def get_credit_digits(company):
+    if not company.stripe_id:
+        return None
+
+    customer = stripe.Customer.retrieve(company.stripe_id)
+
+    if customer.default_source:
+        card = customer.sources.retrieve(customer.default_source)
+        return card.last4
 
 
 # Takes in a company, tries to create a stripe account linked and returns the customer id
