@@ -38,6 +38,7 @@ INSTALLED_APPS = (
     'endless_pagination',
     'account',
     'board',
+    'email_user',
     'tinymce',
 )
 
@@ -101,6 +102,9 @@ MEDIA_ROOT = os.path.join(BASE_DIR + '/media/')
 
 # Tags that are allowed in the posts
 ALLOWED_TAGS = ('p', 'strong', 'ol', 'ul', 'li', 'br', 'em', 'h4', 'h5', 'h6')
+
+# Settings up a user that only has an email field - no username
+AUTH_USER_MODEL = 'email_user.EmailUser'
 
 TINYMCE_DEFAULT_CONFIG = {
     'theme' : 'advanced',
