@@ -14,22 +14,22 @@ def index(request, category_slug=None, template='board/index.html', extra_contex
     context = {}
 
     if category_slug:
-        context['posts'] = Post.objects.filter(categories__slug=category_slug).order_by('-date', '-id')
+        context['posts'] = get_valid_posts().filter(categories__slug=category_slug).order_by('-date', '-id')
         context['category_slug'] = category_slug
     else:
-        context['posts'] = Post.objects.filter(paid=True).order_by('-date', '-id')
+        context['posts'] = get_valid_posts().order_by('-date', '-id')
 
     # Sort the categories from most to least jobs
     category_tuples = []
     for category in Category.objects.all():
-        category_tuples.append((category, len(category.post_set.all())))
+        category_tuples.append((category, len(get_valid_category_posts(category))))
 
     context['categories'] = sorted(category_tuples, key=lambda cat: cat[1], reverse=True)[:5]
 
     # Sort the companies from most to least jobs
     company_tuples = []
     for company in Company.objects.all():
-        company_tuples.append((company, len(company.post_set.all())))
+        company_tuples.append((company, len(get_valid_company_posts(company))))
 
     context['companies'] = sorted(company_tuples, key=lambda comp: comp[1], reverse=True)[:5]
 
@@ -39,7 +39,7 @@ def index(request, category_slug=None, template='board/index.html', extra_contex
         job_dict[job_type[0]] = 0
 
     # Create a count of job types
-    for post in Post.objects.all():
+    for post in get_valid_posts():
         job_dict[post.job_type] += 1
 
     job_type_list = job_dict.items()
@@ -90,10 +90,22 @@ def company_details(request, company_slug):
 
     context['company'] = get_object_or_404(Company, slug=company_slug)
 
-    context['jobs'] = context['company'].post_set.all()
+    context['jobs'] = get_valid_company_posts(context['company'])
 
     return render(request, 'board/company_details.html', context)
 
 
 def page_not_found(request):
     return render(request, 'general/404.html')
+
+
+def get_valid_posts():
+    return Post.objects.filter(paid=True)
+
+
+def get_valid_category_posts(category):
+    return category.post_set.filter(paid=True)
+
+
+def get_valid_company_posts(company):
+    return company.post_set.filter(paid=True)
