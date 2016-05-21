@@ -60,8 +60,6 @@ def post_a_job(request, post_slug=None):
 
     context = {}
 
-    print post_slug
-
     if post_slug:
         context['post_slug'] = True
         post = get_object_or_404(Post, company=request.user.company, slug=post_slug)
@@ -85,6 +83,10 @@ def post_a_job(request, post_slug=None):
                     post = form.save(commit=False)
                     post.company = request.user.company
                     post.date = datetime.date.today()
+                    post.save()
+
+                    # Post needs to be created before many-to-one relationship can be created
+                    post.categories = form.cleaned_data['categories']
                     post.save()
 
                     return redirect('index')
