@@ -25,19 +25,10 @@ def register(request):
         company_form = CompanyForm(data=request.POST)
 
         if user_form.is_valid() and company_form.is_valid():
-            user = user_form.save(commit=False)
-            user.username = user_form.cleaned_data['email']
-            user.save()
-
-            # Hash the password with the set_password
-            user.set_password(user.password)
-            user.save()
-
+            user = user_form.save()
+            
             company = company_form.save(commit=False)
             company.user = user
-
-            if 'picture' in request.FILES:
-                company.picture = request.FILES['picture']
 
             company.save()
 
@@ -48,7 +39,7 @@ def register(request):
             except Exception, e:
                 logger.error(e.message)
 
-            user = authenticate(username=user_form.cleaned_data['email'],
+            user = authenticate(email=user_form.cleaned_data['email'],
                                 password=user_form.cleaned_data['password'])
 
             login(request, user)

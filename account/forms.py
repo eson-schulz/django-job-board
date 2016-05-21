@@ -1,17 +1,25 @@
 from django import forms
-from django.contrib.auth.models import User
 from django.core.exceptions import ValidationError
 from tinymce.widgets import TinyMCE
 from .models import Company
+from email_user.models import EmailUser
 
 
 class UserForm(forms.ModelForm):
     password = forms.CharField(widget=forms.PasswordInput(attrs={'class': 'form-control', 'type': 'password', 'placeholder': 'Password'}))
-    email = forms.CharField(widget=forms.EmailInput(attrs={'class': 'form-control', 'type': 'email', 'placeholder': 'Email', 'maxlength': '254'}))
+    email = forms.CharField(widget=forms.EmailInput(attrs={'class': 'form-control', 'type': 'email', 'placeholder': 'Email', 'maxlength': '100'}))
 
     class Meta:
-        model = User
+        model = EmailUser
         fields = ('email', 'password')
+
+    def save(self, commit=True):
+        # Save the password in hashed format
+        user = super(UserForm, self).save(commit=False)
+        user.set_password(self.cleaned_data["password"])
+        if commit:
+            user.save()
+        return user
 
 
 class CompanyForm(forms.ModelForm):

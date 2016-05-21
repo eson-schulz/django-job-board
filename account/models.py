@@ -1,7 +1,6 @@
 from django.db import models
-from django.contrib.auth.models import User
 from django.template.defaultfilters import slugify
-from django.conf import settings
+from email_user.models import EmailUser
 
 import itertools
 import stripe
@@ -12,7 +11,7 @@ logger = logging.getLogger(__name__)
 
 
 class Company(models.Model):
-    user = models.OneToOneField(User)
+    user = models.OneToOneField(EmailUser)
 
     name = models.CharField(max_length=60)
     picture = models.ImageField(blank=True, upload_to="companies/")
