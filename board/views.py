@@ -95,6 +95,10 @@ def company_details(request, company_slug):
     return render(request, 'board/company_details.html', context)
 
 
+def employer_information(request):
+    return render(request, 'board/information/employer_info.html')
+
+
 def page_not_found(request):
     return render(request, 'general/404.html')
 

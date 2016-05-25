@@ -1,0 +1,161 @@
+{% extends 'general/skeleton/base_with_logo.html' %}
+
+{% load staticfiles %}
+
+{% block title %}
+Employer Information - Owatonna Jobs Online
+{% endblock title %}
+
+{% block content %}
+
+      <!-- body-content -->
+      <div class="body-content clearfix" >
+
+
+        <!-- pricing 3 cols -->
+        <div class="block-section bg-color1 line-bottom">
+          <div class="container ">
+            <!-- text centered -->
+            <div class="text-center">
+              <strong class="text-uppercase">select your plan</strong>
+              <h2>Free for as long as you want.</h2>
+              <div class="white-space-30"></div>
+            </div><!-- text centered -->
+
+            <div class="row plan-nospace">
+              <div class=" col-md-4 plan-item">
+                <!-- plan box -->
+                <div class="plan">
+                  <div class="plan-title">
+                    <h3>Basic Plan</h3>
+                  </div>
+
+                  <div class="plan-price">
+                    <span class="price ">FREE</span>
+                  </div>
+
+                  <div class="plan-list">
+                    <ul class="item-list list-unstyled">
+                      <li><strong>2</strong> Posts</li>
+                      <li><strong>0</strong> Upgraded Posts</li>
+                      <li><strong>0</strong> Front-Page Ads</li>
+                    </ul>
+                    <button type="button" class="btn btn-t-primary btn-theme btn-lg btn-square btn-block"> Sign Up</button>
+                  </div>
+                </div><!-- plan box -->
+              </div>
+
+              <div class=" col-md-4 plan-item">
+                <!-- plan box -->
+                <div class="plan popular">
+                  <div class="plan-title">
+                    <h3>Advanced Plan</h3>
+
+                  </div>
+
+                  <div class="plan-price">
+                    <span class="price ">$100</span>
+                  </div>
+
+                  <div class="plan-list">
+                    <ul class="item-list list-unstyled">
+                      <li><strong>5</strong> Posts</li>
+                      <li><strong>1</strong> Upgraded Post</li>
+                      <li><strong>0</strong> Front-Page Ads</li>
+                    </ul>
+                    <button type="button" class="btn btn-t-primary btn-theme btn-lg btn-square btn-block"> Purchase</button>
+                  </div>
+                </div><!-- end plan box -->
+              </div>
+
+              <div class=" col-md-4 plan-item">
+                <!-- plan box -->
+                <div class="plan">
+                  <div class="plan-title">
+                    <h3>Premium Plan</h3>
+                  </div>
+
+                  <div class="plan-price">
+                    <span class="price ">$500</span>
+                  </div>
+
+                  <div class="plan-list">
+                    <ul class="item-list list-unstyled">
+                      <li><strong>Unlimited</strong> Posts</li>
+                      <li><strong>3</strong> Upgraded Posts</li>
+                      <li><strong>1</strong> Front-Page Ad</li>
+                    </ul>
+                    <button type="button" class="btn btn-t-primary btn-theme btn-lg btn-square btn-block"> Purchase</button>
+                  </div> 
+                </div><!-- end plan box -->
+              </div>
+
+            </div>
+
+            <p class="text-center"><span class="span-line">Learn More</span></p>
+
+          </div>
+        </div><!-- end pricing 3 cols -->
+
+        <!-- block promo -->
+        <div class="block-section bg-color2 line-bottom">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-6 text-center-sm">
+                <h2>Post a Job</h2>
+                <p>Post your jobs directly to Owatonna Jobs Online in minutes. You'll get quality applicants sent to you how you want, no website required.</p>
+                <p><a href="{% url 'post_a_job' %}" class=" btn btn-theme btn-t-primary">Post On Owatonna Jobs</a></p>
+                <p><a href="#">Learn more about posting your jobs on Owatonna Jobs Online</a></p>
+              </div>
+              <div class="col-md-6 text-center hidden-sm hidden-xs">
+                <img src="./assets/theme/images/mac1.png" alt="">
+              </div>
+            </div>
+          </div>
+        </div><!-- end block promo -->
+
+        <!-- block promo -->
+        <div class="block-section bg-color1 line-bottom">
+          <div class="container">
+            <div class="row">
+
+              <div class="col-md-6 text-center hidden-sm hidden-xs"> <img src="./assets/theme/images/mac.png" alt=""></div>
+              <div class="col-md-6 text-center-sm">
+                <h2>Company Profile</h2>
+                <p>No matter what plan you choose, a custom, searchable company profile is generated. Job seekers can get to know you better.</p>
+                <p><a href="{% url 'company_list' %}" class=" btn btn-theme btn-t-primary">Look at other joined companies</a></p>
+
+              </div>
+            </div>
+          </div>
+        </div> <!-- end block promo -->
+
+
+        <!-- block promo -->
+        <div class="block-section bg-color2 line-bottom">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-6 text-center-sm">
+                <h2>Upgraded Posts</h2>
+                <p>Upgraded posts put you at the top of the categories.</p>
+                <p><a href="resume_list.html" class=" btn btn-theme btn-t-primary">Find Resumes</a></p>
+              </div>
+              <div class="col-md-6 text-center hidden-sm hidden-xs">
+                <img src="./assets/theme/images/mac2.png" alt="">
+              </div>
+            </div>
+          </div>
+        </div><!-- end block promo -->
+
+        <!-- block bottom -->
+        <div class="block-section bg-color1">
+          <div class="container text-center">
+            <strong class="text-uppercase">support</strong>
+            <h2 >Any questions?</h2>
+            <div class="white-space-20"></div>
+            <a href="#" class="btn btn-t-primary  btn-theme">Contact Us</a>
+          </div>
+        </div><!-- end block bottom -->
+
+      </div><!--end body-content -->
+{% endblock content %}

@@ -23,6 +23,9 @@ urlpatterns = [
 
     # The job details of any job
     url(r'^jobs/(?P<company_slug>[\w\-]+)/(?P<post_slug>[\w\-]+)/$', views.job_details, name='job_details'),
+
+    # General information for employers
+    url(r'^employers/', views.employer_information, name='employer_info'),
 ]
 
 
