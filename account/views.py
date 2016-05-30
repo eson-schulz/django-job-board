@@ -60,6 +60,12 @@ def post_a_job(request, post_slug=None):
 
     context = {}
 
+    # Checks to see if we can post any more
+    if request.user.company.max_posts > len(request.user.company.post_set.filter(paid=True)):
+        context['can_post'] = True
+    else:
+        context['can_post'] = False
+
     if post_slug:
         context['post_slug'] = True
         post = get_object_or_404(Post, company=request.user.company, slug=post_slug)
@@ -83,13 +89,21 @@ def post_a_job(request, post_slug=None):
                     post = form.save(commit=False)
                     post.company = request.user.company
                     post.date = datetime.date.today()
+                    
+                    # Check to see if this is posted right away or not
+                    if context['can_post']:
+                        post.paid = True
+                    
                     post.save()
 
                     # Post needs to be created before many-to-one relationship can be created
                     post.categories = form.cleaned_data['categories']
                     post.save()
 
-                    return redirect('index')
+                    if context['can_post']:
+                        return redirect('job_details', request.user.company.slug, post.slug)
+                    else:
+                        return redirect('checkout', post.slug)
         else:
             print form.errors
     else:

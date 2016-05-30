@@ -119,7 +119,11 @@ Post a Job - Owatonna Jobs Online
                         {% if post_slug %}
                             Save Changes
                         {% else %}
-                            Continue
+                            {% if can_post %}
+                                Post Job
+                            {% else %}
+                                Save and Upgrade
+                            {% endif %}
                         {% endif %}
                     </button>
                   </div>
