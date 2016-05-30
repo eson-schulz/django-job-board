@@ -99,6 +99,10 @@ def employer_information(request):
     return render(request, 'board/information/employer_info.html')
 
 
+def about_us(request):
+    return render(request, 'board/information/about.html')
+
+
 def page_not_found(request):
     return render(request, 'general/404.html')
 

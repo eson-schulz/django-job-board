@@ -1,0 +1,133 @@
+{% extends 'general/skeleton/base_with_logo.html' %}
+
+{% load staticfiles %}
+
+{% block title %}
+About Us - Owatonna Jobs Online
+{% endblock title %}
+
+{% block content %}
+      <!-- body-content -->
+      <div class="body-content clearfix" >
+
+        <!-- block top -->
+        <div class="bg-color1 block-section line-bottom">
+          <div class="container text-center">
+            <h2 class="">We help connect employers and job seekers in Owatonna</h2>
+            <div class="white-space-15"></div>
+            <p></p>
+
+            <!-- world map -->
+            <div class="row">
+              <div class="col-md-8 col-md-offset-2">
+                <img src="{% static 'theme/images/world-map.png' %}" alt="" class="img-full">
+              </div>
+            </div><!-- world map -->
+
+            <h4>Owatonna Jobs Online helps people get jobs</h4>
+            <hr/>
+            <div class="white-space-15"></div>
+            <h2>We can help you get a job</h2>
+            <p>We have local jobs that you will be unable to find on other sites</p>
+            <div class="white-space-15"></div>
+
+            <!-- box with icon center -->
+            <div class="row">
+              <div class="col-md-4">
+                <div class="box-ic-center">
+                  <i class="fa fa-laptop ic-box"></i>
+                  <h4>Web</h4>
+                  <p>Our desktop website lists all the new jobs in Owatonna.</p>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="box-ic-center ">
+                  <i class="fa fa-tablet ic-box"></i>
+                  <h4>Mobile</h4>
+                  <p>With full support for mobile web-browsing, you can check for new jobs wherever you are.</p>
+                </div>
+              </div>
+              <div class="col-md-4">
+                <div class="box-ic-center">
+                  <i class="fa fa-exclamation ic-box"></i>
+                  <h4>Future</h4>
+                  <p>We will consistently update our website with new features. Any suggestions? Please <a>contact us</a>.</p>
+                </div>
+              </div>
+            </div><!-- box with icon center -->
+
+            <hr/>
+            <div class="white-space-15"></div>
+            <h2>We can help you hire</h2>
+            <p>JobPlanet for Employers provides easy and effective ways to hire.</p>
+            <div class="white-space-15"></div>
+
+            <!-- box with icon center -->
+            <div class="row">
+              <div class="col-md-6">
+                <div class="box-ic-center">
+                  <i class="fa fa-clipboard ic-box"></i>
+                  <h4>Post a job</h4>
+                  <p>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, </p>
+                  <a href="#" class="btn btn-sm btn-pill btn-theme btn-line dark">Post a Job</a>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="box-ic-center ">
+                  <i class="fa fa-search ic-box"></i>
+                  <h4>Find Resumes</h4>
+                  <p>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, </p>
+                  <a href="#" class="btn btn-sm btn-pill btn-theme btn-line dark">Find Resumes</a>
+                </div>
+              </div>
+            </div><!-- box with icon center -->
+
+          </div>
+        </div><!-- end block top -->
+
+        <!-- testimonial -->
+        <div class="bg-color2 block-section line-bottom">
+          <div class="container text-center">
+            <h2>Testimonial</h2>
+            <div class="white-space-30"></div>
+            <div class="row">
+              <div class="col-md-3">
+                <div class="box-testimonial">
+                  <p class="desc"> Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo.</p>
+                  <img src="./assets/theme/images/people/1.jpg" alt="">
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="box-testimonial">
+                  <p class="desc"> Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo.</p>
+                  <img src="./assets/theme/images/people/2.jpg" alt="">
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="box-testimonial">
+                  <p class="desc"> Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo.</p>
+                  <img src="./assets/theme/images/people/3.jpg" alt="">
+                </div>
+              </div>
+              <div class="col-md-3">
+                <div class="box-testimonial">
+                  <p class="desc"> Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo.</p>
+                  <img src="./assets/theme/images/people/5.jpg" alt="">
+                </div>
+              </div>
+            </div>
+          </div>
+        </div> <!-- end testimonial -->
+
+        <!-- patners logo-->
+        <div class="bg-color1 block-section line-bottom">
+          <div class="container text-center clients ">
+            <a href="#"><img src="./assets/theme/images/patner/1.png" alt=""></a>
+            <a href="#"><img src="./assets/theme/images/patner/2.png" alt=""></a>
+            <a href="#"><img src="./assets/theme/images/patner/3.png" alt=""></a>
+            <a href="#"><img src="./assets/theme/images/patner/4.png" alt=""></a>
+            <a href="#"><img src="./assets/theme/images/patner/5.png" alt=""></a>
+          </div>
+        </div> <!-- end patners logo-->        
+      </div><!--end body-content -->
+{% endblock content %}
