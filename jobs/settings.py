@@ -40,6 +40,7 @@ INSTALLED_APPS = (
     'board',
     'email_user',
     'tinymce',
+    'django_ajax',
 )
 
 MIDDLEWARE_CLASSES = (
