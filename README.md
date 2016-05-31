@@ -5,4 +5,3 @@ Things that I have installed:
 - Django
 - MySQL-python
 - Pillow
-- Django-Ajax
