@@ -61,8 +61,12 @@ def index(request, category_slug=None, template='board/index.html', extra_contex
 def categories(request):
     context = {}
 
-    # Gets all categories in alphabetical order that have more than 0 related posts
-    context['categories'] = filter(lambda x: x.post_count() > 0, Category.objects.all().order_by('name'))
+    # Gets all categories and counts in alphabetical order that have more than 0 valid posts
+    context['categories'] = []
+    for category in Category.objects.all().order_by('name'):
+        valid_posts_len = len(get_valid_category_posts(category))
+        if valid_posts_len > 0:
+            context['categories'].append((category, valid_posts_len))
 
     return render(request, 'board/categories.html', context)
 
@@ -70,7 +74,12 @@ def categories(request):
 def company_list(request):
     context = {}
 
-    context['companies'] = filter(lambda x: x.post_count() > 0, Company.objects.all().order_by('name'))
+    # Gets all companies and counts in alphabetical order that have more than 0 valid posts
+    context['companies'] = []
+    for company in Company.objects.all().order_by('name'):
+        valid_posts_len = len(get_valid_company_posts(company))
+        if valid_posts_len > 0:
+            context['companies'].append((company, valid_posts_len))
 
     return render(request, 'board/company_list.html', context)
 
@@ -108,12 +117,12 @@ def page_not_found(request):
 
 
 def get_valid_posts():
-    return Post.objects.filter(paid=True)
+    return Post.objects.filter(paid=True, verified=True)
 
 
 def get_valid_category_posts(category):
-    return category.post_set.filter(paid=True)
+    return category.post_set.filter(paid=True, verified=True)
 
 
 def get_valid_company_posts(company):
-    return company.post_set.filter(paid=True)
+    return company.post_set.filter(paid=True, verified=True)

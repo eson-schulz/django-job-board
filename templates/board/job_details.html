@@ -22,14 +22,23 @@
                 <div class="text-right"><a style="cursor:pointer;" onclick="history.back();">&laquo; Go back to job listings</a></div>
               </div>
             </div>
+
           </div>
         </div><!-- end link top -->
 
         <div class="bg-color2">
           <div class="container">
+          {% if not job.paid or not job.verified %}
+              <div class="alert alert-danger" role="alert">
+                {% if not job.paid %}
+                    This post is not findable yet due to not yet being enabled. <a href="{% url 'update_posts' %}">Enable this post</a> or <a href="{% url 'checkout' job.slug %}">Upgrade your account!</a>
+                {% elif not job.verified %}
+                    This post is not findable yet due to not yet being verified. It'll be up extremely soon!
+                {% endif %}
+              </div>
+          {% endif %}
             <div class="row">
               <div class="col-md-9">
-
                 <!-- box item details -->
                 <div class="block-section box-item-details">
                   <div class="row">

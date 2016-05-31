@@ -50,6 +50,9 @@ class Post(models.Model):
     # Used for dealing with purchases
     paid = models.BooleanField(default=False)
 
+    # Used for an admin to verify posts to make sure they are OK
+    verified = models.BooleanField(default=False)
+
     slug = models.SlugField(unique=True)
 
     categories = models.ManyToManyField('Category', blank=True)

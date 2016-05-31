@@ -30,12 +30,12 @@ Post a Job - Owatonna Jobs Online
               <div class="col-md-8 col-md-offset-2">
                   <div class="form-group">
                   <div class="row clearfix">
-                  {% for category in categories %}
+                  {% for category, count in categories %}
                     <div class="col-md-4">
                         <div>
                           <a href="{% url 'category_search' category.slug %}">
                               <h4 class="text-center">
-                                {{ category.name }} ({{ category.post_count }})
+                                {{ category.name }} ({{ count }})
                               </h4>
                           </a>
                         </div>

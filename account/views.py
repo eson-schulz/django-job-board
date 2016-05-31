@@ -10,6 +10,7 @@ from jobs import settings
 from .forms import CompanyForm, UserForm, CompanyUpdateForm
 from board.forms import PostForm
 from board.models import Category, Post
+from board.views import get_valid_company_posts
 
 import stripe
 import logging
@@ -241,6 +242,7 @@ def update_posts_base(request):
     company = request.user.company
     context['company'] = company
     context['posts'] = company.post_set.all()
+    context['enabled_posts_count'] = len(get_valid_company_posts(company))
 
     return render(request, 'account/update_posts_base.html', context)
 

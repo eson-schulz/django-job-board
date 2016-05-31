@@ -9,7 +9,14 @@ Update Posts
 
 {% block info %}
     <!-- body-content -->
-    <h3 class="no-margin-top">Update Posts</h3>
+    <div class="row">
+        <div class="col-md-6">
+            <h3 class="no-margin-top">Update Posts</h3>
+        </div>
+        <div class="col-md-6 text-right">
+            <h3 class="no-margin-top">{{ enabled_posts_count }}/{{ company.max_posts }} Allowed Posts Used</h3>
+        </div>
+    </div>
     <hr/>
     <div class="row">
       <div class="col-md-12">
@@ -22,7 +29,13 @@ Update Posts
                       <h3 class="no-margin-top">
                           <a href="{% url 'job_details' post.company.slug post.slug %}" class="">{{ post.title }}<i class="fa fa-link color-white-mute font-1x"></i></a>
                           <a role="button" style="padding-top:5px; padding-bottom:5px" class="btn btn-theme btn-primary pull-right" href="{% url 'update_post' post.slug %}">Edit</a>
-                          {% if not post.paid %}<a role="button" style="padding-top:5px; padding-bottom:5px; margin-right:5px;" class="btn btn-theme btn-success pull-right" href="{% url 'update_post' post.slug %}">Purchase</a> {% endif %}
+                          <a role="button" style="padding-top:5px; padding-bottom:5px; margin-right:5px;" class="btn btn-theme btn-success pull-right"
+                              {% if not post.paid %}
+                                href="{% url 'update_post' post.slug %}">Enable
+                              {% else %}
+                                href="{% url 'update_post' post.slug %}">Disable
+                              {% endif %}
+                          </a>
                           </h3>
                       <p class="text-truncate ">{{ post.description|striptags }}</p>
                       <div>
@@ -31,8 +44,16 @@ Update Posts
                             <a data-toggle="modal" class="btn btn-xs btn-theme btn-default">{{ category.name }}</a>{% if not forloop.last %} -{% endif %}
                           {% endfor %}
                       </div>
-                      {% if not post.paid %}
-                        <small style="padding-top:10px; color:red;">This post is currently not displayed due to not being paid for</small>
+                      {% if not post.paid or not post.verified %}
+                          <small style="padding-top:10px; color:red;">
+                          {% if not post.paid and not post.verified %}
+                            This post is currently not displayed due to not being enabled and verified
+                          {% elif not post.paid %}
+                            This post is currently not displayed due to not being enabled
+                          {% elif not post.verified %}
+                            This post is currently not displayed due to not being verified. It should happen soon!
+                          {% endif %}
+                          </small>
                       {% endif %}
                     </div>
                   </div>

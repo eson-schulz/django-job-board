@@ -30,7 +30,7 @@ Post a Job - Owatonna Jobs Online
               <div class="col-md-8 col-md-offset-2">
                   <div class="form-group">
                   <div class="row clearfix">
-                  {% for company in companies %}
+                  {% for company, count in companies %}
                     <div class="col-md-4">
                         <div>
                           <a href="{% url 'company_details' company.slug %}">
@@ -44,7 +44,7 @@ Post a Job - Owatonna Jobs Online
                               " />
                           </div>
                               <h4 class="text-center">
-                                {{ company.name }} ({{ company.post_count }})
+                                {{ company.name }} ({{ count }})
                               </h4>
                           </a>
                         </div>
