@@ -19,7 +19,7 @@ urlpatterns = [
     url(r'^password-reset/complete/$', views.password_reset_complete, name='password_reset_complete'),
 
     url(r'^password-change/$', password_change, {'template_name': 'account/password/password_change.html'}, name='password_change'),
-    url(r'^update/$', views.update_info, name='password_change_done'),
+    url(r'^password-change/done/$', views.password_change_complete, name='password_change_done'),
 
     url(r'^company/post-a-job/$', views.post_a_job, name='post_a_job'),
     url(r'^company/checkout/(?P<post_slug>[\w\-]+)/$', views.checkout, name='checkout'),

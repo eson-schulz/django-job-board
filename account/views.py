@@ -212,11 +212,6 @@ def update_info(request):
             print form.errors
             message = "Company settings failed, look for errors below"
     else:
-        referer = request.META.get('HTTP_REFERER')
-        if referer and '/account/password-change/' in referer:
-            message = "Password updated successfully"
-            update_success = True
-
         form = CompanyUpdateForm(initial={'description': company.description, 'website': company.website, 'location': company.location, 'picture': company.picture})
 
     context['company'] = company
@@ -311,3 +306,8 @@ def password_reset_done(request):
 def password_reset_complete(request):
 
     return redirect('login')
+
+
+def password_change_complete(request):
+
+    return render(request, 'account/password/password_change_complete.html')
