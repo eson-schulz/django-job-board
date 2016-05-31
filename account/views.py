@@ -10,7 +10,6 @@ from jobs import settings
 from .forms import CompanyForm, UserForm, CompanyUpdateForm
 from board.forms import PostForm
 from board.models import Category, Post
-from board.views import get_valid_company_posts
 
 import stripe
 import logging
@@ -62,10 +61,7 @@ def post_a_job(request, post_slug=None):
     context = {}
 
     # Checks to see if we can post any more
-    if request.user.company.max_posts > len(request.user.company.post_set.filter(paid=True)):
-        context['can_post'] = True
-    else:
-        context['can_post'] = False
+    context['can_post'] = request.user.company.can_post()
 
     if post_slug:
         context['post_slug'] = True
@@ -240,9 +236,39 @@ def update_posts_base(request):
     context = {}
 
     company = request.user.company
+
+    # POST is used to switch the enabled on various posts
+    # Checks to make sure post is owned by user, then
+    # sees if they are enabling or disabling the post,
+    # then does check to make sure they can enable/disable
+    if request.method == 'POST':
+        if request.POST.get('post'):
+            post = Post.objects.get(id=request.POST.get('post'))
+            if post and post.company.id == company.id:
+                if post.paid:
+                    post.paid = False
+                    post.save()
+                    context['success'] = True
+                    context['message'] = post.title + " job successfully disabled"
+                else:
+                    if company.can_post():
+                        post.paid = True
+                        post.save()
+                        context['success'] = True
+                        context['message'] = post.title + " job successfully enabled"
+                    else:
+                        context['success'] = False
+                        context['message'] = post.title + " job can't be enabled because the allowed posts limit has been reached. Upgrade to increase limit"
+            else:
+                context['success'] = False
+                context['message'] = "Action can't be completed. If you think this is an error please contact us."
+        else:
+            context['success'] = False
+            context['message'] = "Action can't be completed. If you think this is an error, please contact us."
+
     context['company'] = company
     context['posts'] = company.post_set.all()
-    context['enabled_posts_count'] = len(get_valid_company_posts(company))
+    context['enabled_posts_count'] = len(company.post_set.filter(paid=True))
 
     return render(request, 'account/update_posts_base.html', context)
 

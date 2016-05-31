@@ -27,7 +27,11 @@ class Company(models.Model):
 
     slug = models.SlugField(unique=True)
 
-    # Returns a customer that is
+    # Returns a boolean telling whether or not the company can enable any more posts
+    def can_post(self):
+        return self.max_posts > len(self.post_set.filter(paid=True))
+
+    # Returns a customer
     def get_stripe_customer(self):
         try:
             if not self.stripe_id:

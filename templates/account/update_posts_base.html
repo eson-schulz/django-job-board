@@ -18,24 +18,27 @@ Update Posts
         </div>
     </div>
     <hr/>
+    {% if message %}
+        {% if success %}
+            <div class="alert alert-success" role="alert">
+        {% else %}
+            <div class="alert alert-danger" role="alert">
+        {% endif %}
+        {{ message }}</div>
+    {% endif %}
     <div class="row">
       <div class="col-md-12">
         <div class="box-list">
             {% if posts %}
             {% for post in posts %}
-                <div class="item" {% if not post.paid %}style="padding-bottom:5px"{% endif %}>
+                <div class="item" {% if not post.paid %}style="padding-bottom:18px"{% endif %}>
                   <div class="row">
                     <div class="col-md-12">
+                      <form action="#" method="post" id="{{ post.id }}">{% csrf_token %}</form>
                       <h3 class="no-margin-top">
                           <a href="{% url 'job_details' post.company.slug post.slug %}" class="">{{ post.title }}<i class="fa fa-link color-white-mute font-1x"></i></a>
-                          <a role="button" style="padding-top:5px; padding-bottom:5px" class="btn btn-theme btn-primary pull-right" href="{% url 'update_post' post.slug %}">Edit</a>
-                          <a role="button" style="padding-top:5px; padding-bottom:5px; margin-right:5px;" class="btn btn-theme btn-success pull-right"
-                              {% if not post.paid %}
-                                href="{% url 'update_post' post.slug %}">Enable
-                              {% else %}
-                                href="{% url 'update_post' post.slug %}">Disable
-                              {% endif %}
-                          </a>
+                          <a role="button" class="btn btn-xs btn-theme btn-primary pull-right" href="{% url 'update_post' post.slug %}">Edit</a>
+                          <button class="btn btn-xs btn-theme btn-success pull-right" type="submit" form="{{ post.id }}" style="margin-right:10px;" name="post" value="{{ post.id }}">{% if post.paid %}Disable{% else %}Enable{% endif %}</button>
                           </h3>
                       <p class="text-truncate ">{{ post.description|striptags }}</p>
                       <div>
