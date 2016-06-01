@@ -19,17 +19,43 @@ class Company(models.Model):
     website = models.URLField(blank=True)
     location = models.CharField(blank=True, max_length=30, default="Owatonna, MN")
 
-    # Max amount of posts allowed
-    max_posts = models.SmallIntegerField(default=2)
-
     # Used for Stripe communication
     stripe_id = models.CharField(max_length=50, blank=True, null=True)
 
     slug = models.SlugField(unique=True)
 
+    BASIC = 'B'
+    ADVANCED = 'A'
+    PREMIUM = 'P'
+    CUSTOM = 'C'
+
+    PLAN_CHOICES = (
+        (BASIC, 'Basic'),
+        (ADVANCED, 'Advanced'),
+        (PREMIUM, 'Premium'),
+        (CUSTOM, 'Custom')
+    )
+
+    plan = models.CharField(max_length=1, choices=PLAN_CHOICES, default=BASIC)
+
+
+    # Returns a value of how many posts a user can have based off their plan
+    def max_posts(self):
+        if self.plan == self.BASIC:
+            return 2
+        elif self.plan == self.ADVANCED:
+            return 5
+        elif self.plan == self.PREMIUM:
+            return 10
+        elif self.plan == self.CUSTOM:
+            return 20
+        else:
+            logger.error("Company " + self.name + " has an invalid plan: " + str(self.plan))
+            return 0
+
     # Returns a boolean telling whether or not the company can enable any more posts
     def can_post(self):
-        return self.max_posts > len(self.post_set.filter(paid=True))
+        return self.max_posts() > len(self.post_set.filter(paid=True))
 
     # Returns a customer
     def get_stripe_customer(self):

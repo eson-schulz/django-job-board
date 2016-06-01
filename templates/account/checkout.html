@@ -32,10 +32,80 @@ Post a Job - Owatonna Jobs Online
 
             <!-- text centered -->
             <div class="text-center">
-              <strong class="text-uppercase">select your plan</strong>
-              <h2>{{ post.title }}</h2>
+              <strong class="text-uppercase">current plan</strong>
+              <h2>{{ company.get_plan_display }}</h2>
               <div class="white-space-30"></div>
             </div><!-- text centered -->
+
+           <div class="row plan-nospace">
+              <div class=" col-md-4 plan-item">
+                <!-- plan box -->
+                <div class="plan">
+                  <div class="plan-title">
+                    <h3>Basic Plan</h3>
+                  </div>
+
+                  <div class="plan-price">
+                    <span class="price ">FREE</span>
+                  </div>
+
+                  <div class="plan-list">
+                    <ul class="item-list list-unstyled">
+                      <li><strong>2</strong> Posts</li>
+                      <li><strong>0</strong> Upgraded Posts</li>
+                      <li><strong>0</strong> Front-Page Ads</li>
+                    </ul>
+                    <button type="button" class="btn btn-t-primary btn-theme btn-lg btn-square btn-block"> Free</button>
+                  </div>
+                </div><!-- plan box -->
+              </div>
+
+              <div class=" col-md-4 plan-item">
+                <!-- plan box -->
+                <div class="plan popular">
+                  <div class="plan-title">
+                    <h3>Advanced Plan</h3>
+
+                  </div>
+
+                  <div class="plan-price">
+                    <span class="price ">$100</span>
+                  </div>
+
+                  <div class="plan-list">
+                    <ul class="item-list list-unstyled">
+                      <li><strong>5</strong> Posts</li>
+                      <li><strong>1</strong> Upgraded Post</li>
+                      <li><strong>0</strong> Front-Page Ads</li>
+                    </ul>
+                    <button type="button" class="btn btn-t-primary btn-theme btn-lg btn-square btn-block"> Purchase</button>
+                  </div>
+                </div><!-- end plan box -->
+              </div>
+
+              <div class=" col-md-4 plan-item">
+                <!-- plan box -->
+                <div class="plan">
+                  <div class="plan-title">
+                    <h3>Premium Plan</h3>
+                  </div>
+
+                  <div class="plan-price">
+                    <span class="price ">$500</span>
+                  </div>
+
+                  <div class="plan-list">
+                    <ul class="item-list list-unstyled">
+                      <li><strong>Unlimited</strong> Posts</li>
+                      <li><strong>3</strong> Upgraded Posts</li>
+                      <li><strong>1</strong> Front-Page Ad</li>
+                    </ul>
+                    <button type="button" class="btn btn-t-primary btn-theme btn-lg btn-square btn-block"> Purchase</button>
+                  </div>
+                </div><!-- end plan box -->
+              </div>
+
+            </div>
 
             <div class="row plan-nospace">
               <div class=" col-md-4 plan-item">

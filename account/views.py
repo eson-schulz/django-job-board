@@ -128,6 +128,7 @@ def checkout(request, post_slug=None):
     context = {}
 
     company = request.user.company
+    context['company'] = company
     post = get_object_or_404(Post, company=company, slug=post_slug)
 
     # Makes sure the user doesn't pay for a post twice
