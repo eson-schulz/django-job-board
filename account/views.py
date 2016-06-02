@@ -10,8 +10,8 @@ from jobs import settings
 from .forms import CompanyForm, UserForm, CompanyUpdateForm
 from board.forms import PostForm
 from board.models import Category, Post
+from .models import Plan
 
-import stripe
 import logging
 
 # Get an instance of the logger
@@ -24,29 +24,34 @@ def register(request):
         user_form = UserForm(data=request.POST)
         company_form = CompanyForm(data=request.POST)
 
-        if user_form.is_valid() and company_form.is_valid():
-            user = user_form.save()
-            
-            company = company_form.save(commit=False)
-            company.user = user
-
-            company.save()
-
-            # Tries to generate stripe id
-            # Not important that it gets generated here
-            try:
-                company.get_stripe_customer()
-            except Exception, e:
-                logger.error(e.message)
-
-            user = authenticate(email=user_form.cleaned_data['email'],
-                                password=user_form.cleaned_data['password'])
-
-            login(request, user)
-            return redirect('update_info')
-
+        if len(Plan.objects.all()) == 0:
+            logger.error("No posts are created, so a new user cannot be created")
+            user_form.add_error("password", "Error in creating account. Contact administration.")
         else:
-            print user_form.errors, company_form.errors
+            if user_form.is_valid() and company_form.is_valid():
+                user = user_form.save()
+
+                company = company_form.save(commit=False)
+                company.user = user
+                company.plan = Plan.objects.all().order_by("cost")[0]
+
+                company.save()
+
+                # Tries to generate stripe id
+                # Not important that it gets generated here
+                try:
+                    company.get_stripe_customer()
+                except Exception, e:
+                    logger.error(e.message)
+
+                user = authenticate(email=user_form.cleaned_data['email'],
+                                    password=user_form.cleaned_data['password'])
+
+                login(request, user)
+                return redirect('update_info')
+
+            else:
+                print user_form.errors, company_form.errors
 
     else:
         user_form = UserForm()
@@ -122,65 +127,6 @@ def post_a_job(request, post_slug=None):
 
     return render(request, 'board/job_post.html', context)
 
-
-@login_required
-def checkout(request, post_slug=None):
-    context = {}
-
-    company = request.user.company
-    context['company'] = company
-    post = get_object_or_404(Post, company=company, slug=post_slug)
-
-    # Makes sure the user doesn't pay for a post twice
-    if post.paid:
-        return redirect('job_details', company_slug=company.slug, post_slug=post.slug)
-
-    error = None
-    customer = None
-    try:
-        customer = company.get_stripe_customer()
-    except Exception as error:
-        error = "Can't connect to payment processing"
-
-    if not error and request.method == 'POST':
-
-        # Subscribe them to the job
-        token = request.POST.get("stripeToken", "")
-
-        # if they inputted a new card, or otherwise
-        if token:
-            try:
-                company.subscribe_user(settings.STRIPE_PLAN_NAME, customer=customer, token=token)
-
-                post.paid = True
-                post.save()
-            except stripe.error.CardError as error:
-                error = "Credit card declined. Try using a new one."
-            except Exception as Error:
-                error = "An error occurred."
-        else:
-            # TODO - make sure that the customer actually has previous payments
-            try:
-                company.subscribe_user(settings.STRIPE_PLAN_NAME, customer=customer)
-
-                post.paid = True
-                post.save()
-            except stripe.error.CardError as error:
-                error = "Credit card declined. Try using a new one."
-            except Exception as Error:
-                error = "An error occurred."
-
-    if customer:
-        try:
-            context['four_digits'] = company.get_four_digits(customer=customer)
-        except Exception as error:
-            error = "Can't get previous card info"
-
-    context['pushable_key'] = settings.STRIPE_PUSHABLE_KEY
-    context['post'] = post
-    context['error'] = error
-
-    return render(request, 'account/checkout.html', context)
 
 @login_required
 def update_info(request):

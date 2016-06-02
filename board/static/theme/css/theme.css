@@ -1692,6 +1692,21 @@ a:focus {
   -ms-transition: all 0.6s ease 0s;
   -webkit-backface-visibility: hidden;
 }
+
+.plan .primary-price {
+  display: block;
+  font-size: 72px;
+  color: #337ab7;
+  line-height: 101px;
+  font-weight: bold;
+  transition: all 0.6s ease 0s;
+  -webkit-transition: all 0.6s ease 0s;
+  -moz-transition: all 0.6s ease 0s;
+  -o-transition: all 0.6s ease 0s;
+  -ms-transition: all 0.6s ease 0s;
+  -webkit-backface-visibility: hidden;
+}
+
 .plan .period {
   font-size: 14px;
 }

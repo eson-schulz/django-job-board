@@ -190,3 +190,5 @@ except ImportError:
 #
 # stripe.api_key = "sk_test_999"
 # STRIPE_PUSHABLE_KEY = "pk_test_999"
+# STRIPE_ADVANCED_PLAN = "id of plan"
+# STRIPE_PREMIUM_PLAN = "id of plan"

@@ -1,7 +1,11 @@
-from django.shortcuts import render, render_to_response, get_object_or_404
+from django.shortcuts import render, render_to_response, get_object_or_404, redirect
 from django.template.context import RequestContext
 from .models import Post, Category, Company
 from endless_pagination.decorators import page_template
+from jobs import settings
+from account.models import Plan
+
+import stripe
 
 import logging
 
@@ -58,6 +62,63 @@ def index(request, category_slug=None, template='board/index.html', extra_contex
         template, context, context_instance=RequestContext(request))
 
 
+def company_plans(request):
+    context = {}
+
+    context['plans'] = Plan.objects.all().order_by('cost')
+
+    if request.user.is_anonymous():
+        pass
+    else:
+        company = request.user.company
+        context['company'] = company
+
+        error = None
+        customer = None
+        try:
+            customer = company.get_stripe_customer()
+        except Exception as error:
+            error = "Can't connect to payment processing"
+
+        if not error and request.method == 'POST':
+            # Subscribe them to the job
+            token = request.POST.get("stripeToken", "")
+
+            # if they inputted a new card, or otherwise
+            if token:
+                try:
+                    company.subscribe_user(settings.STRIPE_PLAN_NAME, customer=customer, token=token)
+
+                    post.paid = True
+                    post.save()
+                except stripe.error.CardError as error:
+                    error = "Credit card declined. Try using a new one."
+                except Exception as Error:
+                    error = "An error occurred."
+            else:
+                # TODO - make sure that the customer actually has previous payments
+                try:
+                    company.subscribe_user(settings.STRIPE_PLAN_NAME, customer=customer)
+
+                    post.paid = True
+                    post.save()
+                except stripe.error.CardError as error:
+                    error = "Credit card declined. Try using a new one."
+                except Exception as Error:
+                    error = "An error occurred."
+
+        if customer:
+            try:
+                context['four_digits'] = company.get_four_digits(customer=customer)
+            except Exception as error:
+                error = "Can't get previous card info"
+
+        context['pushable_key'] = settings.STRIPE_PUSHABLE_KEY
+        context['error'] = error
+
+    return render(request, 'board/company_plans.html', context)
+
+
 def categories(request):
     context = {}
 
@@ -102,10 +163,6 @@ def company_details(request, company_slug):
     context['jobs'] = get_valid_company_posts(context['company'])
 
     return render(request, 'board/company_details.html', context)
-
-
-def employer_information(request):
-    return render(request, 'board/information/employer_info.html')
 
 
 def about_us(request):

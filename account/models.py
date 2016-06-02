@@ -24,34 +24,11 @@ class Company(models.Model):
 
     slug = models.SlugField(unique=True)
 
-    BASIC = 'B'
-    ADVANCED = 'A'
-    PREMIUM = 'P'
-    CUSTOM = 'C'
-
-    PLAN_CHOICES = (
-        (BASIC, 'Basic'),
-        (ADVANCED, 'Advanced'),
-        (PREMIUM, 'Premium'),
-        (CUSTOM, 'Custom')
-    )
-
-    plan = models.CharField(max_length=1, choices=PLAN_CHOICES, default=BASIC)
-
+    plan = models.OneToOneField('Plan')
 
     # Returns a value of how many posts a user can have based off their plan
     def max_posts(self):
-        if self.plan == self.BASIC:
-            return 2
-        elif self.plan == self.ADVANCED:
-            return 5
-        elif self.plan == self.PREMIUM:
-            return 10
-        elif self.plan == self.CUSTOM:
-            return 20
-        else:
-            logger.error("Company " + self.name + " has an invalid plan: " + str(self.plan))
-            return 0
+        return self.plan.max_posts
 
     # Returns a boolean telling whether or not the company can enable any more posts
     def can_post(self):
@@ -145,6 +122,19 @@ class Company(models.Model):
 
     class Meta:
         verbose_name_plural = 'companies'
+
+    def __unicode__(self):
+        return self.name
+
+
+class Plan(models.Model):
+    name = models.CharField(max_length=20)
+    stripe_id = models.CharField(max_length=20)
+
+    max_posts = models.PositiveSmallIntegerField()
+    max_upgraded_posts = models.PositiveSmallIntegerField()
+
+    cost = models.PositiveSmallIntegerField()
 
     def __unicode__(self):
         return self.name
