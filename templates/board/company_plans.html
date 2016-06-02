@@ -62,7 +62,25 @@ Post a Job - Owatonna Jobs Online
                           <li><strong>{{ plan.max_upgraded_posts }}</strong> Upgraded Posts</li>
                           <li><strong>0</strong> Front-Page Ads</li>
                         </ul>
-                        <button type="button" class="btn btn-t-primary btn-theme btn-lg btn-square btn-block"> {% if company.plan == plan %}In Use{% else %}{% if plan.cost == 0 %}Free{% else %}Purchase{% endif %}{% endif %}</button>
+                        {% if company.plan != plan and plan.cost != 0 %}
+                            <form action="#" method="POST">
+                                {% csrf_token %}
+                                  <script
+                                    src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                                    data-key="{{ pushable_key }}"
+                                    data-image="{% static 'theme/images/logo/case.png' %}"
+                                    data-name="Owatonna Jobs Online"
+                                    data-description="{{ plan.name }} Subscription"
+                                    data-amount="{{ plan.cost }}00"
+                                    data-locale="auto"
+                                    data-panel-label="Subscribe for {{ amount }}"
+                                    data-label="Purchase">
+                                  </script>
+                                <input type="hidden" name="plan" value="{{ plan.id }}">
+                            </form>
+                        {% else %}
+                            <button type="button" class="btn btn-t-primary btn-theme btn-lg btn-square btn-block"> {% if company.plan == plan %}In Use{% else %}Free{% endif %}</button>
+                        {% endif %}
                       </div>
                     </div><!-- plan box -->
                   </div>
@@ -70,60 +88,6 @@ Post a Job - Owatonna Jobs Online
               {% else %}
                   <h3 class="text-center">No Plans Created</h3>
               {% endif %}
-            </div>
-
-            <div class="row plan-nospace">
-              <div class=" col-md-4 plan-item">
-
-              </div>
-
-              <div class=" col-md-4 plan-item">
-                <!-- plan box -->
-                <div class="plan popular">
-                  <div class="plan-title">
-                    <h3 >1 Job Posting</h3>
-
-                  </div>
-
-                  <div class="plan-price">
-                    <span class="price ">$49.99</span>
-                  </div>
-
-                  <div class="plan-list" style="padding-bottom:20px;">
-                    <ul class="item-list list-unstyled">
-                      <li>1 Month</li>
-                      <li>Auto Renews Monthly</li>
-                    </ul>
-                    {% if four_digits %}
-                        <button type="button" class="btn btn-default" data-toggle="modal" data-target="#confirmPayment">Subscribe with Card {{ four_digits }}</button>
-                        <p class="text-center" style="margin-top:10px;"><span class="span-line">or</span></p>
-                    {% endif %}
-                    <form action="#" method="POST">
-                        {% csrf_token %}
-                      <script
-                        src="https://checkout.stripe.com/checkout.js" class="stripe-button btn btn-t-primary btn-theme btn-lg btn-square btn-block"
-                        data-key="{{ pushable_key }}"
-                        data-image="{% static 'theme/images/logo/case.png' %}"
-                        data-name="Owatonna Jobs Online"
-                        data-description="Monthly Job Post Subscription"
-                        data-amount="4999"
-                        data-locale="auto"
-                        data-panel-label="Subscribe for {{ amount }}"
-                        {% if four_digits %}
-                            data-label="Change Subscription Card"
-                        {% else %}
-                            data-label="Checkout"
-                        {% endif %}>
-                      </script>
-                    </form>
-                  </div>
-                </div><!-- end plan box -->
-              </div>
-
-              <div class=" col-md-4 plan-item">
-
-              </div>
-
             </div>
 
             <p class="text-center"><span class="span-line">Learn More</span></p>
@@ -219,3 +183,14 @@ Post a Job - Owatonna Jobs Online
       </div><!--end body-content -->
 
 {% endblock content %}
+
+{% block js %}
+    <script>
+        $(document).ready(function(){
+            $(".stripe-button-el").addClass("btn btn-t-primary btn-theme btn-lg btn-square btn-block");
+            $(".stripe-button-el").attr("id", "stripe-button");
+            $(".stripe-button-el").removeClass("stripe-button-el");
+            $("#stripe-button > span").css("min-height", "");
+        });
+    </script>
+{% endblock %}

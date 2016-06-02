@@ -83,29 +83,21 @@ def company_plans(request):
         if not error and request.method == 'POST':
             # Subscribe them to the job
             token = request.POST.get("stripeToken", "")
+            plan = get_object_or_404(Plan, id=request.POST.get("plan"))
 
             # if they inputted a new card, or otherwise
             if token:
                 try:
-                    company.subscribe_user(settings.STRIPE_PLAN_NAME, customer=customer, token=token)
+                    company.subscribe_user(plan.stripe_id, customer=customer, token=token)
 
-                    post.paid = True
-                    post.save()
+                    company.plan = plan
+                    company.save()
                 except stripe.error.CardError as error:
                     error = "Credit card declined. Try using a new one."
                 except Exception as Error:
                     error = "An error occurred."
             else:
-                # TODO - make sure that the customer actually has previous payments
-                try:
-                    company.subscribe_user(settings.STRIPE_PLAN_NAME, customer=customer)
-
-                    post.paid = True
-                    post.save()
-                except stripe.error.CardError as error:
-                    error = "Credit card declined. Try using a new one."
-                except Exception as Error:
-                    error = "An error occurred."
+                error = "Payment not received. Try again"
 
         if customer:
             try:
