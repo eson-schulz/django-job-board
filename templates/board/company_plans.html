@@ -62,7 +62,7 @@ Post a Job - Owatonna Jobs Online
                           <li><strong>{{ plan.max_upgraded_posts }}</strong> Upgraded Posts</li>
                           <li><strong>0</strong> Front-Page Ads</li>
                         </ul>
-                        {% if company.plan != plan and plan.cost != 0 %}
+                        {% if company and company.plan != plan and plan.cost != 0 %}
                             <form action="#" method="POST">
                                 {% csrf_token %}
                                   <script
@@ -79,7 +79,7 @@ Post a Job - Owatonna Jobs Online
                                 <input type="hidden" name="plan" value="{{ plan.id }}">
                             </form>
                         {% else %}
-                            <button type="button" class="btn btn-t-primary btn-theme btn-lg btn-square btn-block"> {% if company.plan == plan %}In Use{% else %}Free{% endif %}</button>
+                            <button type="button" class="btn btn-t-primary btn-theme btn-lg btn-square btn-block"> {% if company.plan == plan %}In Use{% else %}{% if company %}Free{% else %}Sign Up{% endif %}{% endif %}</button>
                         {% endif %}
                       </div>
                     </div><!-- plan box -->
