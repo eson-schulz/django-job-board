@@ -60,7 +60,6 @@
                     <li><a href="{% url 'company_list' %}">Companies</a></li>
                   </ul>
                 </li>
-                <li  class=""><a href="job_post_1.html"><strong>Resumes</strong></a></li>
                 <li  class=""><a href="{% url 'company_plans' %}"><strong>Employers</strong></a></li>
                 <li class="dropdown">
                   <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" >About Us <span class="caret"></span></a>
@@ -98,30 +97,20 @@
               </a>      
 
               <ul class="nav navbar-nav">
-                <li class="active"><a href="job_list.html"><strong>Find a Job</strong></a></li>
-                <li  class=""><a href="job_post_1.html"><strong>Post a Job</strong></a></li>
-                <li><a href="login.html"><strong>Login</strong></a></li>
-                <li><a href="register.html"><strong>Register</strong></a></li>
+                <li class="active"><a href="{% url 'index' %}"><strong>Find a Job</strong></a></li>
                 <li class="dropdown">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" >Pages <span class="caret"></span></a>
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" >Info <span class="caret"></span></a>
                   <ul class="dropdown-menu" role="menu">
-                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="{% url 'about_us' %}">About Us</a></li>
                     <li><a href="contact.html">Contact Us</a></li>
-                    <li><a href="blog.html">Articles &amp; Blog</a></li>
-                    <li><a href="terms_privacy.html">Terms &amp; Privacy</a></li>
-                    <li><a href="error_404.html">Error 404</a></li>
-                    <li><a href="shortcode.html">Short Code</a></li>
                   </ul>
                 </li>
                 <li class="dropdown">
-                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" >Features <span class="caret"></span></a>
+                  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" >Employers <span class="caret"></span></a>
                   <ul class="dropdown-menu" role="menu">
-                    <li><a href="job_list.html">Find a Job</a></li>
-                    <li><a href="job_details.html">Job Details</a></li>
-                    <li><a href="resume_list.html">Find Resumes</a></li>
-                    <li><a href="resume_details.html">Resume Details</a></li>
-                    <li><a href="job_post_2.html">Post a Job</a></li>
-                    <li><a href="company_page.html">Company Profile</a></li>
+                    <li><a href="{% url 'company_plans' %}">Plans and Info</a></li>
+                    <li><a href="{% url 'login' %}">Login</a></li>
+                    <li><a href="{% url 'register' %}">Register</a></li>
                   </ul>
                 </li>
               </ul>    
@@ -142,19 +131,16 @@
           <div class="row">
             <div class="col-sm-6">
               <ul class="list-inline link-footer text-center-xs">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="blog.html">Blog</a></li>
-                <li><a href="about.html">About Us</a></li>
+                <li><a href="{% url 'index' %}">Home</a></li>
+                <li><a href="{% url 'about_us' %}">About Us</a></li>
                 <li><a href="contact.html">Contact Us</a></li>
               </ul>
             </div>
             <div class="col-sm-6 ">
-              <p class="text-center-xs hidden-lg hidden-md hidden-sm">Stay Connect</p>
+              <p class="text-center-xs hidden-lg hidden-md hidden-sm">Stay Connected</p>
               <div class="socials text-right text-center-xs">
-                <a href="#"><i class="fa fa-facebook"></i></a>
-                <a href="#"><i class="fa fa-twitter"></i></a>
-                <a href="#"><i class="fa fa-youtube-play"></i></a>
-                <a href="#"><i class="fa fa-linkedin"></i></a>
+                <a href="https://www.facebook.com/owatonnajobs/"><i class="fa fa-facebook"></i></a>
+                <a href="https://twitter.com/OwatonnaJobs"><i class="fa fa-twitter"></i></a>
               </div>
             </div>
           </div>
