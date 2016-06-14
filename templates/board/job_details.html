@@ -13,6 +13,16 @@
 
         <!-- link top -->
         <div class="bg-color2 block-section-xs line-bottom">
+          {% if not job.paid or not job.verified %}
+              <div class="col-md-2"></div>
+              <div class="alert alert-danger col-md-8" role="alert">
+                {% if not job.paid %}
+                    This post is not findable yet due to not yet being enabled. <a href="{% url 'update_posts' %}">Enable this post</a> or <a href="{% url 'company_plans' %}">Upgrade your account!</a>
+                {% elif not job.verified %}
+                    This post is not findable yet due to not yet being verified. It'll be up extremely soon!
+                {% endif %}
+              </div>
+          {% endif %}
           <div class="container">
             <div class="row">
               <div class="col-sm-6 hidden-xs">
@@ -28,15 +38,6 @@
 
         <div class="bg-color2">
           <div class="container">
-          {% if not job.paid or not job.verified %}
-              <div class="alert alert-danger" role="alert">
-                {% if not job.paid %}
-                    This post is not findable yet due to not yet being enabled. <a href="{% url 'update_posts' %}">Enable this post</a> or <a href="{% url 'checkout' job.slug %}">Upgrade your account!</a>
-                {% elif not job.verified %}
-                    This post is not findable yet due to not yet being verified. It'll be up extremely soon!
-                {% endif %}
-              </div>
-          {% endif %}
             <div class="row">
               <div class="col-md-9">
                 <!-- box item details -->

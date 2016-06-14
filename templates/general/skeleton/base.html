@@ -60,9 +60,9 @@
                     <li><a href="{% url 'company_list' %}">Companies</a></li>
                   </ul>
                 </li>
-                <li  class=""><a href="{% url 'company_plans' %}"><strong>Employers</strong></a></li>
-                <li><a href="{% url 'about_us' %}">About Us</a></li>
-                <li><a href="{% url 'contact_us' %}">Contact Us</a></li>
+                <li><a href="{% url 'company_plans' %}"><strong>Employers</strong></a></li>
+                <li><a href="{% url 'about_us' %}"><strong>About Us</strong></a></li>
+                <li><a href="{% url 'contact_us' %}"><strong>Contact Us</strong></a></li>
               </ul>      
               <ul class="nav navbar-nav navbar-right">
                   {% if user.is_authenticated %}

@@ -105,10 +105,7 @@ def post_a_job(request, post_slug=None):
                     post.categories = form.cleaned_data['categories']
                     post.save()
 
-                    if context['can_post']:
-                        return redirect('job_details', request.user.company.slug, post.slug)
-                    else:
-                        return redirect('checkout', post.slug)
+                    return redirect('job_details', request.user.company.slug, post.slug)
         else:
             print form.errors
     else:

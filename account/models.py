@@ -24,7 +24,7 @@ class Company(models.Model):
 
     slug = models.SlugField(unique=True)
 
-    plan = models.OneToOneField('Plan')
+    plan = models.ForeignKey('Plan')
 
     # Returns a value of how many posts a user can have based off their plan
     def max_posts(self):
