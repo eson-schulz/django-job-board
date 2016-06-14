@@ -19,7 +19,7 @@ Post a Job - Owatonna Jobs Online
       <div class="body-content clearfix" >
 
         <!-- pricing 3 cols -->
-        <div class="block-section bg-color1 line-bottom">
+        <div class="block-section bg-color1">
           {% if error %}
           <div class="container ">
             <div class="col-md-8 col-md-offset-2">
@@ -59,8 +59,8 @@ Post a Job - Owatonna Jobs Online
                       <div class="plan-list">
                         <ul class="item-list list-unstyled">
                           <li><strong>{{ plan.max_posts }}</strong> Posts</li>
-                          <li><strong>{{ plan.max_upgraded_posts }}</strong> Upgraded Posts</li>
-                          <li><strong>0</strong> Front-Page Ads</li>
+                          <li><strong>{% if plan.social_post %}{% if plan.email_post %}5{% else %}4{% endif %}{% else %}0{% endif %}</strong> Extras</li>
+                          <li><strong>{{ plan.max_upgraded_posts }}</strong> Highlighted Posts</li>
                         </ul>
                         {% if company and company.plan != plan and plan.cost != 0 %}
                             <form action="#" method="POST">
@@ -100,13 +100,13 @@ Post a Job - Owatonna Jobs Online
           <div class="container">
             <div class="row">
               <div class="col-md-6 text-center-sm">
-                <h2>Post a Job</h2>
-                <p>Post your jobs directly to JobPlanet in minutes. You'll get quality applicants sent directly to your inbox, no website required.</p>
-                <p><a href="job_post_2.html" class=" btn btn-theme btn-t-primary">Post On JobPlanet</a></p>
-                <p><a href="#">Learn more about posting your jobs on JobPlanet</a></p>
+                <h2>Posts</h2>
+                <p>Post your jobs directly to Owatonna Jobs Online in minutes. You'll get quality applicants sent directly to your inbox, no website required. Switch out your posts as much as you want, when you want.</p>
+                <p><a href="{% url 'login' %}" class=" btn btn-theme btn-t-primary">Post On JobPlanet</a></p>
+                <!--<p><a href="#">Learn more about posting your jobs on JobPlanet</a></p>-->
               </div>
               <div class="col-md-6 text-center hidden-sm hidden-xs">
-                <img src="./assets/theme/images/mac1.png" alt="">
+                <img src="{% static 'theme/images/mac2-new.png' %}" alt="">
               </div>
             </div>
           </div>
@@ -117,12 +117,11 @@ Post a Job - Owatonna Jobs Online
           <div class="container">
             <div class="row">
 
-              <div class="col-md-6 text-center hidden-sm hidden-xs"> <img src="./assets/theme/images/mac.png" alt=""></div>
+              <div class="col-md-6 text-center hidden-sm hidden-xs"> <img src="{% static 'theme/images/mac-new.png' %}" alt=""></div>
               <div class="col-md-6 text-center-sm">
                 <h2>Company Profile</h2>
-                <p>Post your jobs directly to JobPlanet in minutes. You'll get quality applicants sent directly to your inbox, no website required.</p>
-                <p><a href="company_page.html" class=" btn btn-theme btn-t-primary">Learn more about company pages</a></p>
-
+                <p>A custom website showcasing your company is automatically created. With upgraded accounts, connect with users through the company logo and social media.</p>
+                <p><a href="{% url 'company_list' %}" class=" btn btn-theme btn-t-primary">Look at other company pages</a></p>
               </div>
             </div>
           </div>
@@ -134,20 +133,108 @@ Post a Job - Owatonna Jobs Online
           <div class="container">
             <div class="row">
               <div class="col-md-6 text-center-sm">
-                <h2>Resume Search</h2>
-                <p>Post your jobs directly to JobPlanet in minutes. You'll get quality applicants sent directly to your inbox, no website required.</p>
-                <p><a href="resume_list.html" class=" btn btn-theme btn-t-primary">Find Resumes</a></p>
-                <p><a href="#">Learn more about JobPlanet Resume</a></p>
+                <h2>Highlighted Posts</h2>
+                <p>With highlighted posts, make your job postings noticed. Highlighted posts get put to the top of the category lists.</p>
+                <p><a href="resume_list.html" class=" btn btn-theme btn-t-primary">Upgrade to premium</a></p>
               </div>
               <div class="col-md-6 text-center hidden-sm hidden-xs">
-                <img src="./assets/theme/images/mac2.png" alt="">
+                <img src="{% static 'theme/images/mac1-new.png' %}" alt="">
               </div>
             </div>
           </div>
         </div><!-- end block promo -->
 
+        <div class="block-section bg-color1 line-bottom">
+            <div class="container table-responsive">
+                <div class="text-center">
+                  <h2>Detailed Comparison</h2>
+                <div class="white-space-30"></div>
+                </div>
+                <table class="table table-bordered text-center">
+                    <thead>
+                      <tr>
+                        <th width="19%;"></th>
+                        {% for plan in plans %}
+                          <th width="27%"><h4 class="text-center">{{ plan.name }} Plan</h4></th>
+                        {% endfor %}
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>Cost</td>
+                        {% for plan in plans %}
+                            <td>{{ plan.cost }}</td>
+                        {% endfor %}
+                      </tr>
+                      <tr>
+                        <td>Max Posts</td>
+                        {% for plan in plans %}
+                            <td>{{ plan.max_posts }}</td>
+                        {% endfor %}
+                      </tr>
+                      <tr>
+                        <td>Company Logo</td>
+                        {% for plan in plans %}
+                            {% if plan.company_image %}
+                                <td style="color:#34495e;"><i class="fa fa-check" aria-hidden="true"></i></td>
+                            {% else %}
+                                <td style="color:#f71115;"><i class="fa fa-times" aria-hidden="true"></i></td>
+                            {% endif %}
+                        {% endfor %}
+                      </tr>
+                      <tr>
+                        <td>Company Social Media Links</td>
+                        {% for plan in plans %}
+                            {% if plan.social_links %}
+                                <td style="color:#34495e;"><i class="fa fa-check" aria-hidden="true"></i></td>
+                            {% else %}
+                                <td style="color:#f71115;"><i class="fa fa-times" aria-hidden="true"></i></td>
+                            {% endif %}
+                        {% endfor %}
+                      </tr>
+                      <tr>
+                        <td>Social Media Post</td>
+                        {% for plan in plans %}
+                            {% if plan.social_post %}
+                                <td style="color:#34495e;"><i class="fa fa-check" aria-hidden="true"></i></td>
+                            {% else %}
+                                <td style="color:#f71115;"><i class="fa fa-times" aria-hidden="true"></i></td>
+                            {% endif %}
+                        {% endfor %}
+                      </tr>
+                      <tr>
+                        <td>Instant Posting</td>
+                        {% for plan in plans %}
+                            {% if plan.cost != 0 %}
+                                <td style="color:#34495e;"><i class="fa fa-check" aria-hidden="true"></i></td>
+                            {% else %}
+                                <td style="color:#f71115;"><i class="fa fa-times" aria-hidden="true"></i></td>
+                            {% endif %}
+                        {% endfor %}
+                      </tr>
+                      <tr>
+                        <td>Email Newsletter</td>
+                        {% for plan in plans %}
+                            {% if plan.email_post %}
+                                <td style="color:#34495e;"><i class="fa fa-check" aria-hidden="true"></i></td>
+                            {% else %}
+                                <td style="color:#f71115;"><i class="fa fa-times" aria-hidden="true"></i></td>
+                            {% endif %}
+                        {% endfor %}
+                      </tr>
+                      <tr>
+                        <td>Highlighted Posts</td>
+                        {% for plan in plans %}
+                            <td>{{ plan.max_upgraded_posts }}</td>
+                        {% endfor %}
+                      </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
         <!-- block bottom -->
-        <div class="block-section bg-color1">
+        <div class="block-section bg-color2">
           <div class="container text-center">
             <strong class="text-uppercase">support</strong>
             <h2 >Any questions?</h2>
@@ -155,6 +242,8 @@ Post a Job - Owatonna Jobs Online
             <a href="#" class="btn btn-t-primary  btn-theme">Contact Us</a>
           </div>
         </div><!-- end block bottom -->
+
+
 
       {% if four_digits %}
         <!-- Modal -->

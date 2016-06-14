@@ -65,7 +65,7 @@ def index(request, category_slug=None, template='board/index.html', extra_contex
 def company_plans(request):
     context = {}
 
-    context['plans'] = Plan.objects.all().order_by('cost')
+    context['plans'] = Plan.objects.all().order_by('cost').filter(visible=True)
 
     if request.user.is_anonymous():
         pass

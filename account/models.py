@@ -134,6 +134,13 @@ class Plan(models.Model):
     max_posts = models.PositiveSmallIntegerField()
     max_upgraded_posts = models.PositiveSmallIntegerField()
 
+    company_image = models.BooleanField(default=False)
+    social_links = models.BooleanField(default=False)
+    social_post = models.BooleanField(default=False)
+    email_post = models.BooleanField(default=False)
+
+    visible = models.BooleanField(default=True)
+
     cost = models.PositiveSmallIntegerField()
 
     def __unicode__(self):

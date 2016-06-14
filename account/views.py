@@ -95,6 +95,9 @@ def post_a_job(request, post_slug=None):
                     # Check to see if this is posted right away or not
                     if context['can_post']:
                         post.paid = True
+
+                    if post.company.plan.cost != 0:
+                        post.verified = True
                     
                     post.save()
 
