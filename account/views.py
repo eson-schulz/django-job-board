@@ -115,7 +115,7 @@ def post_a_job(request, post_slug=None):
         if post_slug:
             form = PostForm(instance=post)
         else:
-            form = PostForm()
+            form = PostForm(initial={"email": request.user.email})
 
     context['form'] = form
     context['allowed_tags'] = ", ".join(settings.ALLOWED_TAGS)

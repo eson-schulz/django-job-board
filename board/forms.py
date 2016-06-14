@@ -25,6 +25,10 @@ class PostForm(forms.ModelForm):
 
     categories = forms.ModelMultipleChoiceField(queryset=Category.objects.order_by('name'), widget=forms.CheckboxSelectMultiple())
 
+    email = forms.EmailField(widget=forms.EmailInput(attrs={'type': 'text', 'class':'form-control', 'placeholder': 'Enter Email'}))
+
+    application_details = forms.CharField(required=False, max_length=600, widget=forms.Textarea(attrs={'type': 'text', 'class':'form-control', 'placeholder': 'Enter Instructions', 'rows':'5'}))
+
     class Meta:
         model = Post
         exclude = ['company', 'date', 'slug', 'paid', 'verified']

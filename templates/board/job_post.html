@@ -95,7 +95,7 @@ Post a Job - Owatonna Jobs Online
                   </div><!-- end checkboxs -->
 
 
-                  <div class="form-group">
+                  <div class="form-group line-bottom">
                     <label>Salary (optional)</label>
                     <div class="row clearfix">
                       <div class="col-xs-4">
@@ -111,8 +111,21 @@ Post a Job - Owatonna Jobs Online
                           <small style="color:red">{{ form.type_salary.errors|striptags }}</small>
                       </div>
                     </div>
+                    <br />
                   </div>
-                  <p>Applications will be emailed to: <a href="#">your@email.com</a> – <a href="#">change email</a></p>
+
+                  <br />
+
+                  <div class="form-group">
+                      <label>Application Instructions (optional)</label>
+                      {{ form.application_details }}
+                      <small style="color:red">{{ form.application_details.errors|striptags }}</small>
+                  </div>
+                  <div class="form-group">
+                      <label>Applications will be emailed to:</label>
+                      {{ form.email }}
+                      <small style="color:red">{{ form.email.errors|striptags }}</small>
+                  </div>
 
                   <div class="form-group ">
                     <button class="btn btn-t-primary btn-theme">
@@ -127,7 +140,6 @@ Post a Job - Owatonna Jobs Online
                         {% endif %}
                     </button>
                   </div>
-
 
                 </form> <!-- end form post a job -->
               </div>

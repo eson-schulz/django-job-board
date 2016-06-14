@@ -53,6 +53,12 @@ class Post(models.Model):
     # Used for an admin to verify posts to make sure they are OK
     verified = models.BooleanField(default=False)
 
+    # Instructions for application
+    application_details = models.CharField(max_length=600, blank=True, null=True)
+
+    # The address posts are sent to (if blank, sends to original email address)
+    email = models.EmailField()
+
     slug = models.SlugField(unique=True)
 
     categories = models.ManyToManyField('Category', blank=True)

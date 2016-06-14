@@ -29,6 +29,9 @@ urlpatterns = [
 
     # About us page
     url(r'^about-us/$', views.about_us, name='about_us'),
+
+    # Contact us page
+    url(r'^contact-us/$', views.contact_us, name='contact_us'),
 ]
 
 

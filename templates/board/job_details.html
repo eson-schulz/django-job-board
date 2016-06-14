@@ -87,10 +87,8 @@
                 <!-- box affix right -->
                 <div class="block-section " id="affix-box">
                   <div class="text-right">
-                    <p><a href="#" class="btn btn-theme btn-line dark btn-block-xs">Apply With Linkedin</a></p>
                     <p><a href="#modal-apply"  data-toggle="modal" class="btn btn-theme btn-t-primary btn-block-xs">Apply for this Job</a></p>
-                    <p><a href="#" class="btn btn-theme btn-t-primary btn-block-xs">Login to Save This Job</a></p>
-                    <p>Share This Job <span class="space-inline-10"></span> :</p>
+                    <p>Share This Job <span class="space-inline-10"></span></p>
                     <p class="share-btns btn-block-xs">
                       <a href="#" class="btn btn-primary"><i class="fa fa-facebook"></i></a>
                       <a href="#" class="btn btn-info"><i class="fa fa-twitter"></i></a>
@@ -113,37 +111,19 @@
               <form>
                 <div class="modal-header ">
                   <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                  <h4 class="modal-title" >Apply</h4>
+                  <h4 class="modal-title" >Application</h4>
                 </div>
                 <div class="modal-body">
-                  <div class="form-group">
-                    <label>Full name</label>
-                    <input type="email" class="form-control "  placeholder="Enter Email">
-                  </div>
-                  <div class="form-group">
-                    <label>Email address</label>
-                    <input type="email" class="form-control "  placeholder="Enter Email">
-                  </div>
-                  <div class="form-group">
-                    <label>Tell us why you better?</label>
-                    <textarea class="form-control" rows="6" placeholder="Something Comment"></textarea>
-                  </div>
-                  <div class="form-group">
-                    <label>Your Resume</label>
-                    <div class="input-group">
-                      <span class="input-group-btn">
-                        <span class="btn btn-default btn-theme btn-file">
-                          File  <input type="file" >
-                        </span>
-                      </span>
-                      <input type="text" class="form-control form-flat" readonly>
-                    </div>
-                    <small>Upload your CV/resume. Max. file size: 24 MB.</small>
-                  </div>
+                  {% if job.application_details %}
+                  <h4>Instructions</h4>
+                  <p>{{ job.application_details|linebreaks }}</p>
+                  <br />
+                  {% endif %}
+                  <h4>Application Email</h4>
+                  <a href="mailto:{{ job.email }}"><p>{{ job.email }}</p></a>
                 </div>
                 <div class="modal-footer">
                   <button type="button" class="btn btn-default btn-theme" data-dismiss="modal">Close</button>
-                  <button type="submit" class="btn btn-success btn-theme">Send Application</button>
                 </div>
               </form>
             </div>
