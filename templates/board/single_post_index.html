@@ -9,10 +9,10 @@
           <div class="row">
             <div class="col-md-1 hidden-sm hidden-xs">
                 <div class="img-item">
-                    {% if post.company.picture %}
+                    {% if post.company.picture and post.company.plan.company_image %}
                         <img src="{{ post.company.picture.url }}" alt="{{ post.company.name }} logo">
                     {% else %}
-                        <img src="{% static 'theme/images/patner/2.png' %}" alt="{{ post.company.name }} logo">
+                        <img src="{% static 'theme/images/logo/case.png' %}" />
                     {% endif %}
                 </div>
             </div>

@@ -31,7 +31,7 @@ Post a Job - Owatonna Jobs Online
           <div class="container ">
 
             <!-- text centered -->
-            <div class="text-center">
+            <div class="text-center" id="plan-list">
                 {% if company %}
                   <strong class="text-uppercase">current plan</strong>
                   <h2>{{ company.plan.name }} Plan</h2>
@@ -135,7 +135,7 @@ Post a Job - Owatonna Jobs Online
               <div class="col-md-6 text-center-sm">
                 <h2>Highlighted Posts</h2>
                 <p>With highlighted posts, make your job postings noticed. Highlighted posts get put to the top of the category lists.</p>
-                <p><a href="resume_list.html" class=" btn btn-theme btn-t-primary">Upgrade to premium</a></p>
+                <p><a href="#plan-list" class="btn btn-theme btn-t-primary link-innerpage">Upgrade to premium</a></p>
               </div>
               <div class="col-md-6 text-center hidden-sm hidden-xs">
                 <img src="{% static 'theme/images/mac1-new.png' %}" alt="">
