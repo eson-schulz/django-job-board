@@ -7,6 +7,7 @@ from django.db import models, migrations
 class Migration(migrations.Migration):
 
     dependencies = [
+        ('account', '0001_initial'),
     ]
 
     operations = [
@@ -15,31 +16,31 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('name', models.CharField(max_length=80)),
+                ('slug', models.SlugField(unique=True)),
             ],
-        ),
-        migrations.CreateModel(
-            name='Company',
-            fields=[
-                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('name', models.CharField(max_length=80)),
-                ('picture', models.ImageField(upload_to=b'')),
-                ('description', models.TextField()),
-                ('website', models.URLField()),
-                ('location', models.CharField(default=b'Owatonna, MN', max_length=30)),
-            ],
+            options={
+                'verbose_name_plural': 'categories',
+            },
         ),
         migrations.CreateModel(
             name='Post',
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
-                ('title', models.CharField(max_length=80)),
+                ('title', models.CharField(max_length=60)),
                 ('description', models.TextField()),
                 ('date', models.DateField()),
                 ('job_type', models.CharField(max_length=2, choices=[(b'FL', b'Full-time'), (b'PT', b'Part-time'), (b'CT', b'Contract'), (b'TY', b'Temporary'), (b'CN', b'Commission'), (b'IN', b'Internship')])),
                 ('location', models.CharField(default=b'Owatonna, MN', max_length=30)),
-                ('low_salary', models.IntegerField()),
-                ('high_salary', models.IntegerField()),
-                ('company', models.ForeignKey(to='board.Company')),
+                ('low_salary', models.IntegerField(null=True, blank=True)),
+                ('high_salary', models.IntegerField(null=True, blank=True)),
+                ('type_salary', models.CharField(blank=True, max_length=2, null=True, choices=[(b'HR', b'Hourly'), (b'DA', b'Daily'), (b'WK', b'Weekly'), (b'MO', b'Monthly'), (b'YR', b'Yearly')])),
+                ('paid', models.BooleanField(default=False)),
+                ('verified', models.BooleanField(default=False)),
+                ('application_details', models.CharField(max_length=600, null=True, blank=True)),
+                ('email', models.EmailField(max_length=254)),
+                ('slug', models.SlugField(unique=True)),
+                ('categories', models.ManyToManyField(to='board.Category', blank=True)),
+                ('company', models.ForeignKey(to='account.Company')),
             ],
         ),
         migrations.CreateModel(
@@ -47,12 +48,8 @@ class Migration(migrations.Migration):
             fields=[
                 ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
                 ('name', models.CharField(max_length=50)),
+                ('resume', models.FileField(null=True, upload_to=b'', blank=True)),
                 ('posts', models.ManyToManyField(to='board.Post')),
             ],
-        ),
-        migrations.AddField(
-            model_name='category',
-            name='posts',
-            field=models.ManyToManyField(to='board.Post'),
         ),
     ]
