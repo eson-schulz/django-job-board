@@ -34,7 +34,7 @@
                   <!-- logo company-->
                   <div class="row">
                     <div class="col-md-8">
-                        {% if company.picture %}
+                        {% if company.picture and company.plan.company_image %}
                             <a><img style="max-width:220px; max-height:60px;" src="{{ company.picture.url }}" alt=""></a>
                         {% else %}
                             <h2 style="margin-top:10px">{{ company.name }}</h2>

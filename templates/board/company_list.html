@@ -36,7 +36,7 @@ Post a Job - Owatonna Jobs Online
                           <a href="{% url 'company_details' company.slug %}">
                           <div class="image-div">
                               <img class="image-in-image-div" src="
-                                  {% if company.picture %}
+                                  {% if company.picture and company.plan.company_image %}
                                     {{ company.picture.url }}
                                   {% else %}
                                     {% static 'theme/images/logo/case.png' %}
