@@ -170,8 +170,7 @@ LOGGING = {
 
 # Database settings for Heroku
 db_from_env = dj_database_url.config(conn_max_age=500)
-DATABASES = {}
-DATABASES['default'].update(db_from_env)
+DATABASES = {'default': dj_database_url.config()}
 
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
