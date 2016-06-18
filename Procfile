@@ -1,1 +1,1 @@
-web: gunicorn owatonnajobsonline.wsgi --log-file -
+web: gunicorn jobs.wsgi --log-file -
