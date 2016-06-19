@@ -28,8 +28,6 @@ class Company(models.Model):
 
     plan = models.ForeignKey('Plan')
 
-    verified = models.BooleanField(default=False)
-
     # Returns a value of how many posts a user can have based off their plan
     def max_posts(self):
         return self.plan.max_posts

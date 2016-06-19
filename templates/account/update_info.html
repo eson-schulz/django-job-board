@@ -10,13 +10,13 @@ Update Posts
     <!-- body-content -->
     <h3 class="no-margin-top">Update Information</h3>
     <hr/>
-      {% if message %}
-        {% if update_success %}
-            <div class="alert alert-success" role="alert">{{ message }}</div>
-        {% else %}
-            <div class="alert alert-danger" role="alert">{{ message }}</div>
-        {% endif %}
-      {% endif %}
+    {% if message %}
+      {% if update_success %}
+          <div class="alert alert-success" role="alert">{{ message }}</div>
+      {% else %}
+          <div class="alert alert-danger" role="alert">{{ message }}</div>
+    {% endif %}
+  {% endif %}
     <div class="row">
       <div class="col-md-12">
         <form id="update-form" method="post" action="{% url 'update_info' %}" enctype="multipart/form-data">
