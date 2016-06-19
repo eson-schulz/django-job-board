@@ -178,7 +178,9 @@ DATABASES = {'default': dj_database_url.config()}
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
 # Use https only
-SECURE_SSL_REDIRECT = True
+# Currently commented out because Heroku SSL
+# costs $20/month and the free beta is full
+# SECURE_SSL_REDIRECT = True
 
 # Import local settings
 try:
