@@ -149,11 +149,14 @@ LOGGING = {
             'filename': 'jobs.log',
             'formatter': 'verbose'
         },
+        'console': {
+            'class': 'logging.StreamHandler',
+        },
     },
 
     'loggers': {
         'django': {
-            'handlers':['file'],
+            'handlers':['file', 'console'],
             'propagate': True,
             'level':'ERROR',
         },
