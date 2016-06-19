@@ -32,8 +32,10 @@ class CompanyForm(forms.ModelForm):
 
 class CompanyUpdateForm(forms.ModelForm):
     description = forms.CharField(required=False, widget=TinyMCE(attrs={'class':'form-control', 'rows':'28', 'placeholder': 'Enter Company Description'}))
-    website = forms.URLField(required=False, widget=forms.EmailInput(attrs={'class': 'form-control', 'type': 'url', 'placeholder': 'Website URL', 'maxlength': '200'}))
+    website = forms.URLField(required=False, widget=forms.URLInput(attrs={'class': 'form-control', 'type': 'url', 'placeholder': 'Website URL', 'maxlength': '200'}))
     location = forms.CharField(required=False, widget=forms.TextInput(attrs={'class': 'form-control', 'type': 'text', 'placeholder': 'Location, Ex: Owatonna, MN', 'maxlength': '200'}))
+    facebook_url = forms.URLField(required=False, widget=forms.URLInput(attrs={'class': 'form-control', 'type': 'url', 'placeholder': 'Facebook URL', 'maxlength': '200'}))
+    twitter_url = forms.URLField(required=False, widget=forms.URLInput(attrs={'class': 'form-control', 'type': 'url', 'placeholder': 'Twitter URL', 'maxlength': '200'}))
     picture = forms.ImageField(required=False)
 
     def clean_picture(self):
@@ -46,4 +48,4 @@ class CompanyUpdateForm(forms.ModelForm):
 
     class Meta:
         model = Company
-        fields = ('description', 'picture', 'website', 'location')
+        fields = ('description', 'picture', 'website', 'location', 'facebook_url', 'twitter_url')

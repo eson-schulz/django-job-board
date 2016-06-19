@@ -23,13 +23,15 @@
                     <div class="white-space-20"></div>
                   {% endif %}
                 <h4>{{ company.name }}</h4>
-                <div class="white-space-20"></div>
+                <hr />
                 <ul class="list-unstyled">
                     <li><a href="{% url 'update_posts' %}"> Update Posts</a></li>
                   <li><a href="{% url 'password_change' %}"> Change Password</a></li>
                 </ul>
                 <div class="white-space-20"></div>
-                <a href="{% url 'post_a_job' %}" class="btn btn-pill btn-theme btn-block btn-success">Post a Job</a>
+                <a href="{% url 'post_a_job' %}" class="btn btn-theme btn-block btn-success">Post a Job</a>
+                <div class="white-space-10"></div>
+                <a href="{% url 'company_plans' %}" class="btn btn-theme btn-block btn-primary">Upgrade Account</a>
               </div>
             </div>
             <div class="col-md-9 col-sm-9">

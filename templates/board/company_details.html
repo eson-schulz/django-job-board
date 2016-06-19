@@ -89,6 +89,18 @@
                       <li>
                         <a href="#cp-jobs" class="link-innerpage">Jobs</a>
                       </li>
+                      {% if company.plan.is_paid %}
+                         {% if company.facebook_url %}
+                            <li>
+                                <a href="{{ company.facebook_url }}">Facebook</a>
+                            </li>
+                         {% endif %}
+                         {% if company.twitter_url %}
+                            <li>
+                                <a href="{{ company.twitter_url }}">Twitter</a>
+                            </li>
+                         {% endif %}
+                      {% endif %}
                     </ul>
                     <p>Share This Company </p>
                     <p class="share-btns">

@@ -28,14 +28,9 @@ Update Posts
             <small style="color:red">{{ form.description.errors|striptags }}</small>
           </div>
           <div class="form-group">
-            <label>Picture</label>
-            <br/>
-            {{ form.picture }}
-            <small style="color:red">{{ form.picture.errors|striptags }}</small>
-          </div>
-          <div class="form-group">
             <label>Website</label>
             {{ form.website }}
+            <small>Example: http://google.com</small>
             <small style="color:red">{{ form.website.errors|striptags }}</small>
           </div>
           <div class="form-group">
@@ -43,6 +38,28 @@ Update Posts
             {{ form.location }}
             <small style="color:red">{{ form.location.errors|striptags }}</small>
           </div>
+          <hr />
+          <div class="form-group" style="margin-top:30px;">
+              <h4>Premium Features</h4>
+              <small>All features below will only be visible if you have a paid account{% if company.plan.cost != 0 %} <span class="focused-color">(you do!)</span>{% else %}<a href="{% url 'company_plans' %}"> - upgrade your account</a>{% endif %}</small>
+          </div>
+          <div class="form-group">
+            <label>Picture</label>
+            <br/>
+            {{ form.picture }}
+            <small style="color:red">{{ form.picture.errors|striptags }}</small>
+          </div>
+          <div class="form-group">
+            <label>Facebook</label>
+            {{ form.facebook_url }}
+            <small style="color:red">{{ form.facebook_url.errors|striptags }}</small>
+          </div>
+          <div class="form-group">
+            <label>Twitter</label>
+            {{ form.twitter_url }}
+            <small style="color:red">{{ form.twitter_url.errors|striptags }}</small>
+          </div>
+          <hr />
           <div class="form-group">
             <button type="submit" class="btn btn-theme btn-t-primary">Save Changes</button>
           </div>

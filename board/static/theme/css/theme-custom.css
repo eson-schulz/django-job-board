@@ -7,3 +7,7 @@
     max-width: 80%;
     height:60px;
 }
+
+.focused-color {
+    color: #5cb85c;
+}

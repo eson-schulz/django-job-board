@@ -144,6 +144,8 @@ def update_info(request):
             company.website = form.cleaned_data['website']
             company.description = form.cleaned_data['description']
             company.location = form.cleaned_data['location']
+            company.facebook_url = form.cleaned_data['facebook_url']
+            company.twitter_url = form.cleaned_data['twitter_url']
 
             # This is used since if the user doesn't upload anything, it's None.
             # If they click clear, it is False
@@ -159,7 +161,7 @@ def update_info(request):
             print form.errors
             message = "Company settings failed, look for errors below"
     else:
-        form = CompanyUpdateForm(initial={'description': company.description, 'website': company.website, 'location': company.location, 'picture': company.picture})
+        form = CompanyUpdateForm(initial={'description': company.description, 'website': company.website, 'location': company.location, 'picture': company.picture, 'facebook_url': company.facebook_url, 'twitter_url': company.twitter_url})
 
     context['company'] = company
     context['form'] = form

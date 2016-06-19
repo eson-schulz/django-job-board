@@ -18,6 +18,8 @@ class Company(models.Model):
     description = models.TextField(blank=True)
     website = models.URLField(blank=True)
     location = models.CharField(blank=True, max_length=30, default="Owatonna, MN")
+    facebook_url = models.URLField(blank=True)
+    twitter_url = models.URLField(blank=True)
 
     # Used for Stripe communication
     stripe_id = models.CharField(max_length=50, blank=True, null=True)
@@ -25,6 +27,8 @@ class Company(models.Model):
     slug = models.SlugField(unique=True)
 
     plan = models.ForeignKey('Plan')
+
+    verified = models.BooleanField(default=False)
 
     # Returns a value of how many posts a user can have based off their plan
     def max_posts(self):
@@ -142,6 +146,9 @@ class Plan(models.Model):
     visible = models.BooleanField(default=True)
 
     cost = models.PositiveSmallIntegerField()
+
+    def is_paid(self):
+        return self.cost != 0;
 
     def __unicode__(self):
         return self.name
