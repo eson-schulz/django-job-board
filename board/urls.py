@@ -34,5 +34,4 @@ urlpatterns = [
     url(r'^contact-us/$', views.contact_us, name='contact_us'),
 ]
 
-
 handler404 = 'board.views.page_not_found'

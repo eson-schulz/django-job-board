@@ -18,11 +18,13 @@
             <div class="col-md-3 col-sm-3">
 
               <div class="block-section text-center ">
+                <a href="{% url 'company_details' company.slug %}">
                   {% if company.picture %}
                     <img style="max-width: 100%;" src="{{ company.picture.url }}" class="img-rounded" alt="">
                     <div class="white-space-20"></div>
                   {% endif %}
                 <h4>{{ company.name }}</h4>
+                </a>
                 <hr />
                 <ul class="list-unstyled">
                     <li><a href="{% url 'update_posts' %}"> Update Posts</a></li>

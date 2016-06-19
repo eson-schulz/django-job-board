@@ -33,7 +33,9 @@ def index(request, category_slug=None, template='board/index.html', extra_contex
     # Sort the companies from most to least jobs
     company_tuples = []
     for company in Company.objects.all():
-        company_tuples.append((company, len(get_valid_company_posts(company))))
+        count = len(get_valid_company_posts(company))
+        if count > 0:
+            company_tuples.append(company, count)
 
     context['companies'] = sorted(company_tuples, key=lambda comp: comp[1], reverse=True)[:5]
 
