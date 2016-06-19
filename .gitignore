@@ -54,6 +54,7 @@ media/
 jobs/local_settings.py
 *.log
 *.log~
+staticfiles/
 
 # PyCharm
 .idea/
