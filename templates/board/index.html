@@ -49,7 +49,7 @@ Owatonna Jobs Online
                     </div>
                     <div class="col-xs-6">
                       <p class="text-right">
-                        <strong>Relevance</strong> - <a href="#" class="link-black"><strong>Date</strong></a>
+                        <strong style="color:black">Date</strong>
                       </p>
                     </div>
                   </div>
@@ -62,9 +62,9 @@ Owatonna Jobs Online
                         {% for category in categories %}
                             <li>
                             {% if category.0.slug == category_slug %}
-                                <strong style="color:dimgrey"><a  href="{% url 'category_search' category.0.slug %}" style="color:black">{{ category.0 }}</a> ({{ category.1 }})</strong>
+                                <strong style="color:dimgrey"><a href="{% url 'category_search' category.0.slug %}" style="color:black">{{ category.0 }}</a> ({{ category.1 }})</strong>
                             {% else %}
-                                <a  href="{% url 'category_search' category.0.slug %}">{{ category.0 }}</a> ({{ category.1 }})
+                                <a  href="{% url 'category_search' category.0.slug %}">{{ category.0.name }}</a> ({{ category.1 }})
                             {% endif %}
 
                             </li>
@@ -84,7 +84,11 @@ Owatonna Jobs Online
                         <ul class="list-unstyled ">
                           {% for type in job_types %}
                             <li>
-                                <a  href="#" >{{ type.0 }} </a> ({{ type.1 }})
+                                {% if job_type_slug == type.0.slug %}
+                                    <strong style="color:dimgrey"><a href="{% url 'job_type_search' type.0.slug %}" style="color:black">{{ type.0.name }}</a> ({{ type.1 }})</strong>
+                                {% else %}
+                                    <a href="{% url 'job_type_search' type.0.slug %}" >{{ type.0.name }} </a> ({{ type.1 }})
+                                {% endif %}
                             </li>
                           {% endfor %}
                         </ul>

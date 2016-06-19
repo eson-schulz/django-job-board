@@ -5,22 +5,6 @@ import itertools
 
 
 class Post(models.Model):
-    FULL = 'FL'
-    PART = 'PT'
-    CONTRACT = 'CT'
-    TEMPORARY = 'TY'
-    COMMISSION = 'CN'
-    INTERNSHIP = 'IN'
-
-    JOB_TYPE_CHOICES = (
-        (FULL, 'Full-time'),
-        (PART, 'Part-time'),
-        (CONTRACT, 'Contract'),
-        (TEMPORARY, 'Temporary'),
-        (COMMISSION, 'Commission'),
-        (INTERNSHIP, 'Internship'),
-    )
-
     HOURLY = "HR"
     DAILY = "DA"
     WEEKLY = "WK"
@@ -40,7 +24,7 @@ class Post(models.Model):
     description = models.TextField()
     date = models.DateField()
 
-    job_type = models.CharField(max_length=2, choices=JOB_TYPE_CHOICES)
+    job_type = models.ForeignKey('JobType')
     location = models.CharField(max_length=30, default="Owatonna, MN")
 
     low_salary = models.IntegerField(blank=True, null=True)
@@ -61,7 +45,7 @@ class Post(models.Model):
 
     slug = models.SlugField(unique=True)
 
-    categories = models.ManyToManyField('Category', blank=True)
+    categories = models.ManyToManyField('Category')
 
     def save(self, *args, **kwargs):
 
@@ -85,7 +69,6 @@ class Post(models.Model):
 
 class Category(models.Model):
     name = models.CharField(max_length=80)
-
     slug = models.SlugField(unique=True)
 
     def post_count(self):
@@ -94,7 +77,7 @@ class Category(models.Model):
     def save(self, *args, **kwargs):
 
         if not self.id:
-            max_length = 50
+            max_length = 80
 
             self.slug = orig = slugify(self.name)[:max_length]
 
@@ -109,6 +92,32 @@ class Category(models.Model):
 
     class Meta:
         verbose_name_plural = 'categories'
+
+    def __unicode__(self):
+        return self.name
+
+
+class JobType(models.Model):
+    name = models.CharField(max_length=80)
+    slug = models.SlugField(unique=True)
+
+    def post_count(self):
+        return len(self.post_set.all())
+
+    def save(self, *args, **kwargs):
+        if not self.id:
+            max_length = 80
+
+            self.slug = orig = slugify(self.name)[:max_length]
+
+            for x in itertools.count(1):
+                if not Post.objects.filter(slug=self.slug).exists():
+                    break
+
+                # Truncate the original slug dynamically. Minus 1 for the hyphen.
+                self.slug = "%s-%d" % (orig[:max_length - len(str(x)) - 1], x)
+
+        super(JobType, self).save(*args, **kwargs)
 
     def __unicode__(self):
         return self.name

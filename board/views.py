@@ -1,6 +1,6 @@
 from django.shortcuts import render, render_to_response, get_object_or_404, redirect
 from django.template.context import RequestContext
-from .models import Post, Category, Company
+from .models import Post, Category, Company, JobType
 from endless_pagination.decorators import page_template
 from jobs import settings
 from account.models import Plan
@@ -14,12 +14,15 @@ logger = logging.getLogger(__name__)
 
 
 @page_template('board/single_post_index.html')  # just add this decorator
-def index(request, category_slug=None, template='board/index.html', extra_context=None):
+def index(request, category_slug=None, job_type_slug=None, template='board/index.html', extra_context=None):
     context = {}
 
     if category_slug:
         context['posts'] = get_valid_posts().filter(categories__slug=category_slug).order_by('-date', '-id')
         context['category_slug'] = category_slug
+    elif job_type_slug:
+        context['posts'] = get_valid_posts().filter(job_type__slug=job_type_slug).order_by('-date', '-id')
+        context['job_type_slug'] = job_type_slug
     else:
         context['posts'] = get_valid_posts().order_by('-date', '-id')
 
@@ -35,28 +38,17 @@ def index(request, category_slug=None, template='board/index.html', extra_contex
     for company in Company.objects.all():
         count = len(get_valid_company_posts(company))
         if count > 0:
-            company_tuples.append(company, count)
+            company_tuples.append((company, count))
 
     context['companies'] = sorted(company_tuples, key=lambda comp: comp[1], reverse=True)[:5]
 
     # Sort the job types from most to least job types
-    job_dict = {}
-    for job_type in Post.JOB_TYPE_CHOICES:
-        job_dict[job_type[0]] = 0
+    job_type_tuples = []
+    for job_type in JobType.objects.all():
+        count = len(get_valid_job_type_posts(job_type))
+        job_type_tuples.append((job_type, count))
 
-    # Create a count of job types
-    for post in get_valid_posts():
-        job_dict[post.job_type] += 1
-
-    job_type_list = job_dict.items()
-
-    # Convert job types from short name to full name
-    for job_index in range(0, len(job_type_list)):
-        for key, value in Post.JOB_TYPE_CHOICES:
-            if key == job_type_list[job_index][0]:
-                job_type_list[job_index] = (value, job_type_list[job_index][1])
-
-    context['job_types'] = sorted(job_type_list, key=lambda job: job[1], reverse=True)[:5]
+    context['job_types'] = sorted(job_type_tuples, key=lambda job: job[1], reverse=True)[:5]
 
     if extra_context is not None:
         context.update(extra_context)
@@ -181,3 +173,7 @@ def get_valid_category_posts(category):
 
 def get_valid_company_posts(company):
     return company.post_set.filter(paid=True, verified=True)
+
+
+def get_valid_job_type_posts(job_type):
+    return Post.objects.filter(paid=True, verified=True, job_type=job_type)

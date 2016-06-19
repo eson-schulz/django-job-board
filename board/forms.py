@@ -1,5 +1,5 @@
 from django import forms
-from .models import Post, Category
+from .models import Post, Category, JobType
 from tinymce.widgets import TinyMCE
 
 
@@ -17,7 +17,7 @@ class PostForm(forms.ModelForm):
     description = forms.CharField(widget=TinyMCE(attrs={'class':'form-control', 'rows':'28', 'placeholder': 'Enter Job Description'}))
 
     location = forms.CharField(max_length=30, initial="Owatonna, MN", widget=forms.TextInput(attrs={'type': 'text', 'class':'form-control', 'placeholder': 'Enter Location'}))
-    job_type = forms.ChoiceField(choices=Post.JOB_TYPE_CHOICES, widget=forms.Select(attrs={'class': 'form-control'}))
+    job_type = forms.ModelChoiceField(queryset=JobType.objects.all(), widget=forms.Select(attrs={'class': 'form-control'}))
 
     low_salary = forms.IntegerField(min_value=5, max_value=10000000, required=False, widget=forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Minimum Salary Ex: 40000'}))
     high_salary = forms.IntegerField(min_value=6, max_value=10000000, required=False, widget=forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Maximum Salary Ex: 50000'}))
@@ -31,4 +31,4 @@ class PostForm(forms.ModelForm):
 
     class Meta:
         model = Post
-        exclude = ['company', 'date', 'slug', 'paid', 'verified']
+        exclude = ['company', 'date', 'slug', 'paid']

@@ -26,7 +26,7 @@ def register(request):
 
         if len(Plan.objects.all()) == 0:
             logger.error("No posts are created, so a new user cannot be created")
-            user_form.add_error("password", "Error in creating account. Contact administration.")
+            user_form.add_error("password", "Error in creating account. Contact administration. Mention PLANS")
         else:
             if user_form.is_valid() and company_form.is_valid():
                 user = user_form.save()

@@ -21,6 +21,8 @@ class Migration(migrations.Migration):
                 ('description', models.TextField(blank=True)),
                 ('website', models.URLField(blank=True)),
                 ('location', models.CharField(default=b'Owatonna, MN', max_length=30, blank=True)),
+                ('facebook_url', models.URLField(blank=True)),
+                ('twitter_url', models.URLField(blank=True)),
                 ('stripe_id', models.CharField(max_length=50, null=True, blank=True)),
                 ('slug', models.SlugField(unique=True)),
             ],
