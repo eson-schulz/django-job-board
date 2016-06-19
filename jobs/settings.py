@@ -174,6 +174,9 @@ DATABASES = {'default': dj_database_url.config()}
 
 SECRET_KEY = os.environ.get('SECRET_KEY')
 
+# Use https only
+SECURE_SSL_REDIRECT = True
+
 # Import local settings
 try:
     from local_settings import *
