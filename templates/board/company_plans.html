@@ -79,7 +79,15 @@ Post a Job - Owatonna Jobs Online
                                 <input type="hidden" name="plan" value="{{ plan.id }}">
                             </form>
                         {% else %}
-                            <a href="{% url 'register' %}"><button type="button" class="btn btn-t-primary btn-theme btn-lg btn-square btn-block"> {% if company.plan == plan %}In Use{% else %}{% if company %}Free{% else %}Sign Up{% endif %}{% endif %}</button></a>
+                            {% if company %}
+                                {% if company.plan != plan %}
+                                    <a href="{% url 'register' %}"><button type="button" class="btn btn-t-primary btn-theme btn-lg btn-square btn-block">Downgrade</button></a>
+                                {% else %}
+                                    <button type="button" class="btn btn-t-primary btn-theme btn-lg btn-square btn-block">In Use</button>
+                                {% endif %}
+                            {% else %}
+                                <a href="{% url 'register' %}"><button type="button" class="btn btn-t-primary btn-theme btn-lg btn-square btn-block">Sign Up</button></a>
+                            {% endif %}
                         {% endif %}
                       </div>
                     </div><!-- plan box -->

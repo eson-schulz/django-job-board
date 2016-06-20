@@ -82,22 +82,18 @@ def company_plans(request):
             # if they inputted a new card, or otherwise
             if token:
                 try:
+                    # Removes the old subscription and subscribes the user to the new one
                     company.subscribe_user(plan.stripe_id, customer=customer, token=token)
 
                     company.plan = plan
                     company.save()
                 except stripe.error.CardError as error:
                     error = "Credit card declined. Try using a new one."
-                except Exception as Error:
+                except Exception as error:
+                    logger.error(error.message)
                     error = "An error occurred."
             else:
                 error = "Payment not received. Try again"
-
-        if customer:
-            try:
-                context['four_digits'] = company.get_four_digits(customer=customer)
-            except Exception as error:
-                error = "Can't get previous card info"
 
         context['pushable_key'] = settings.STRIPE_PUSHABLE_KEY
         context['error'] = error

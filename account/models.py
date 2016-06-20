@@ -36,7 +36,7 @@ class Company(models.Model):
     def can_post(self):
         return self.max_posts() > len(self.post_set.filter(paid=True))
 
-    # Returns a customer
+    # Gets the stripe customer associated with this company. If it doesn't exist, attempt to create a new one
     def get_stripe_customer(self):
         try:
             if not self.stripe_id:
@@ -78,24 +78,33 @@ class Company(models.Model):
             logger.error(error.message)
             raise
 
-    # Increases the subscription count for the user
+    # Subscribes the user to the given plan name
+    # Makes sure to remove all other plans before subscribing to the new one
     def subscribe_user(self, plan_name, customer=None, token=None):
         try:
+            # Try to generate customer if one doesn't exist
             if not customer:
                 customer = self.get_stripe_customer()
 
-            subscription = None
-            for sub in customer.subscriptions.data:
-                if sub.plan.id == plan_name:
-                    subscription = sub
+            self.remove_subscriptions(customer=customer)
 
-            if not subscription:
-                customer.subscriptions.create(plan=plan_name, source=token)
-            else:
-                if token:
-                    subscription.source = token
-                subscription.quantity += 1
-                subscription.save()
+            customer.subscriptions.create(plan=plan_name, source=token)
+
+        except (stripe.error.CardError, stripe.error.APIConnectionError, stripe.error.APIError,
+                stripe.error.AuthenticationError, stripe.error.InvalidRequestError,
+                stripe.error.RateLimitError, stripe.error.StripeError) as error:
+            logger.error(error.message)
+            raise
+
+    # Removes all subscriptions from a stripe customer object
+    def remove_subscriptions(self, customer=None):
+        try:
+            # Try to generate customer if one doesn't exist
+            if not customer:
+                customer = self.get_stripe_customer()
+
+            for sub in customer.subscriptions.data:
+                sub.delete()
 
         except (stripe.error.CardError, stripe.error.APIConnectionError, stripe.error.APIError,
                 stripe.error.AuthenticationError, stripe.error.InvalidRequestError,
