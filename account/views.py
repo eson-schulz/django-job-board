@@ -1,4 +1,6 @@
 from django import forms
+from django.conf import settings
+from django.core.mail import send_mail
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate, logout
 from django.contrib.auth.decorators import login_required
@@ -104,6 +106,16 @@ def post_a_job(request, post_slug=None):
                     # Post needs to be created before many-to-one relationship can be created
                     post.categories = form.cleaned_data['categories']
                     post.save()
+
+                    # Send email to notify about verification being required
+                    message = "New post on your site. " + request.user.company.name + " posted with title " + post.title
+                    header = 'New Post'
+                    if not post.verified:
+                        header = 'Verification Required - Post'
+                    try:
+                        send_mail(header, message, settings.DEFAULT_FROM_EMAIL, [settings.ADMINS[0][1]], fail_silently=True)
+                    except Exception as e:
+                        logger.error("Sending new post error: " + e.message)
 
                     return redirect('job_details', request.user.company.slug, post.slug)
         else:

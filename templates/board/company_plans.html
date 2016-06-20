@@ -74,7 +74,7 @@ Post a Job - Owatonna Jobs Online
                                     data-amount="{{ plan.cost }}00"
                                     data-locale="auto"
                                     data-panel-label="Subscribe for {{ amount }}"
-                                    data-label="Purchase">
+                                    data-label="Subscribe">
                                   </script>
                                 <input type="hidden" name="plan" value="{{ plan.id }}">
                             </form>
@@ -161,7 +161,7 @@ Post a Job - Owatonna Jobs Online
                     </thead>
                     <tbody>
                       <tr>
-                        <td>Cost</td>
+                        <td>Cost Per Month</td>
                         {% for plan in plans %}
                             <td>{{ plan.cost }}</td>
                         {% endfor %}
