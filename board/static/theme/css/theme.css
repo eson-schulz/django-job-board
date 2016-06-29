@@ -1371,7 +1371,7 @@ a:focus {
   }
 }
 .main-header .hero-header {
-  background: url(../images/home-bg.jpg) center no-repeat;
+  background: url(../images/launch/home-bg.jpg) center no-repeat;
   -webkit-background-size: 100%;
   -moz-background-size: 100%;
   -o-background-size: 100%;
@@ -1402,7 +1402,7 @@ a:focus {
 .main-header .hero-header:after {
   content: "";
   position: absolute;
-  background: url(../images/home-bgblur.jpg) center no-repeat;
+  background: url(../images/launch/home-bg.jpg) center no-repeat;
   -webkit-background-size: 100%;
   -moz-background-size: 100%;
   -o-background-size: 100%;

@@ -173,6 +173,9 @@ LOGGING = {
 
 ADMINS = [('Ethan', 'ethan@owatonnajobsonline.com'), ]
 
+# Setting to change the look of the site if in pre-launch mode
+EMPLOYERS_ONLY = False
+
 # Database settings for Heroku
 db_from_env = dj_database_url.config(conn_max_age=500)
 DATABASES = {'default': dj_database_url.config()}

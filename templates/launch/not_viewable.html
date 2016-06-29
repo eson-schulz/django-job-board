@@ -1,0 +1,31 @@
+{% extends 'general/skeleton/base_with_logo.html' %}
+
+{% load staticfiles %}
+{% load endless %}
+
+{% block title %}
+Owatonna Jobs Online
+{% endblock title %}
+
+{% block content %}
+
+      <!-- body-content -->
+      <div class="body-content clearfix" >
+
+        <div class="bg-color2">
+          <div class="container">
+            <div class="row">
+               <div class="text-center block-section">
+                 <h3>This page will be viewable when the site launches</h3>
+                 <p>While you wait, <a href="{% url 'register' %}">register your company</a> or <a href="{% url 'company_plans' %}">look at our plans</a>.</p>
+               </div>
+            </div>
+          </div>
+        </div>
+      </div><!--end body-content -->
+
+{% endblock content %}
+
+{% block js %}
+    <script src="{% static 'plugins/endless-pagination.js' %}"></script>
+{% endblock js %}

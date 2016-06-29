@@ -16,13 +16,25 @@ Including another URLconf
 from django.conf.urls.static import static
 from django.conf.urls import include, url
 from django.conf import settings
+from django.views.generic.base import RedirectView
+from board.views import employers_only_index
 from django.contrib import admin
 
 urlpatterns = [
     url(r'^admin/', include(admin.site.urls)),
 
-    url(r'^', include('board.urls')),
     url(r'^account/', include('account.urls')),
 
     url(r'^tinymce/', include('tinymce.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+if settings.EMPLOYERS_ONLY:
+    urlpatterns += [
+        url(r'^launch/', include('board.urls')),
+        url(r'^$', employers_only_index, name='employers_only_index'),
+    ]
+else:
+    urlpatterns += [
+        url(r'^', include('board.urls')),
+        url(r'^launch/', RedirectView.as_view(url='/', permanent=True), name='old_launch')
+    ]

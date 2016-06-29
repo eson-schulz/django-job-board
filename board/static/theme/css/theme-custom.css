@@ -11,3 +11,7 @@
 .focused-color {
     color: #5cb85c;
 }
+
+.socials a {
+	border: 0px;
+}

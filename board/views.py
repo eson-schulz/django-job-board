@@ -159,6 +159,15 @@ def page_not_found(request):
     return render(request, 'general/404.html')
 
 
+# Views for the launch parts of the site
+def employers_only_index(request):
+    return render(request, 'launch/index.html')
+
+
+def not_viewable_launch(request, category_slug=None, job_type_slug=None):
+    return render(request, 'launch/not_viewable.html')
+
+
 def get_valid_posts():
     return Post.objects.filter(paid=True, verified=True)
 
