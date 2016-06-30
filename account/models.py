@@ -117,6 +117,20 @@ class Company(models.Model):
             logger.error(error.message)
             raise
 
+    # Tells if company has plan
+    def has_plan(self, customer=None):
+        try:
+            if not customer:
+                customer = self.get_stripe_customer()
+
+            return len(customer.subscriptions.data) != 0
+
+        except (stripe.error.CardError, stripe.error.APIConnectionError, stripe.error.APIError,
+                stripe.error.AuthenticationError, stripe.error.InvalidRequestError,
+                stripe.error.RateLimitError, stripe.error.StripeError) as error:
+            logger.error(error.message)
+            raise
+
     def post_count(self):
         return len(self.post_set.all())
 

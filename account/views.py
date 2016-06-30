@@ -224,7 +224,7 @@ def update_posts_base(request):
             context['message'] = "Action can't be completed. If you think this is an error, please contact us."
 
     context['company'] = company
-    context['posts'] = company.post_set.all()
+    context['posts'] = company.post_set.order_by('-id')
     context['enabled_posts_count'] = len(company.post_set.filter(paid=True))
 
     return render(request, 'account/update_posts_base.html', context)
@@ -238,9 +238,9 @@ def checkout(request, plan_slug):
     context['company'] = company
     plan = get_object_or_404(Plan, slug=plan_slug)
     context['plan'] = plan
+    error = None
 
     if request.method == 'POST':
-        error = None
         customer = None
         try:
             customer = company.get_stripe_customer()
@@ -258,6 +258,20 @@ def checkout(request, plan_slug):
                     # Removes the old subscription and subscribes the user to the new one
                     company.subscribe_user(plan.stripe_id, customer=customer, token=token)
 
+                    # Disable all posts that are over the new max post limit
+                    if company.plan.max_posts > plan.max_posts:
+                        count = 0
+                        for post in company.post_set.filter(paid=True).order_by('-date'):
+                            count += 1
+                            if count > plan.max_posts:
+                                post.paid = False
+                                post.save()
+
+                    # Verify all posts
+                    for post in company.post_set.filter(verified=False):
+                        post.verified = True
+                        post.save()
+
                     company.plan = plan
                     company.save()
 
@@ -269,8 +283,21 @@ def checkout(request, plan_slug):
                     error = "An error occurred."
             else:
                 error = "Payment not received. Try again"
+    else:
+        # If company already has said plan, just redirect them to the company plans page
+        if company.plan == plan:
+            return redirect('company_plans')
 
-        context['error'] = error
+        # Otherwise, if they already have a plan, include the old plan in context for a notification of this
+        try:
+            if company.has_plan():
+                context['old_plan'] = company.plan
+
+
+        except Exception as error:
+            error = "Can't connect to payment processing"
+
+    context['error'] = error
 
     context['pushable_key'] = settings.STRIPE_PUSHABLE_KEY
 

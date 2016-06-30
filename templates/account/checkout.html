@@ -33,9 +33,20 @@ Owatonna Jobs Online
                                         {% if plan.social_post %}- email post{% endif %}</p>
                                 </div>
                                 <div class="col-md-2 text-center">
-                                    <h4 style="margin-bottom:0px;">${{ plan.cost }}</h4>
+                                    <h4 style="margin-bottom:0;">${{ plan.cost }}</h4>
                                     <small>Per month</small>
                                 </div>
+                                {% if old_plan %}
+                                <div class="alert alert-info col-md-12" style="margin-bottom:0;" role="alert">
+                                    {% if old_plan.cost == plan.cost %}
+                                        Since the old plan and the new plan are the same price, you won't be charged anything on your new card until the old plan cycle ends.
+                                    {% elif old_plan.cost > plan.cost %}
+                                        Since you are downgrading your account, you will be issued a credit based on the time that you didn't use your previous plan.
+                                    {% else %}
+                                        Since you are upgrading your account, you will not be charged immediately. You will be charged a prorated rate at your next billing cycle.
+                                    {% endif %}
+                                </div>
+                                {% endif %}
                             </div>
                         </div>
                     </div>
