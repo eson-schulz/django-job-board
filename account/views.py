@@ -15,6 +15,7 @@ from board.models import Category, Post
 from .models import Plan
 
 import logging
+import stripe
 
 # Get an instance of the logger
 logger = logging.getLogger(__name__)
@@ -227,6 +228,53 @@ def update_posts_base(request):
     context['enabled_posts_count'] = len(company.post_set.filter(paid=True))
 
     return render(request, 'account/update_posts_base.html', context)
+
+
+@login_required
+def checkout(request, plan_slug):
+
+    context = {}
+    company = request.user.company
+    context['company'] = company
+    plan = get_object_or_404(Plan, slug=plan_slug)
+    context['plan'] = plan
+
+    if request.method == 'POST':
+        error = None
+        customer = None
+        try:
+            customer = company.get_stripe_customer()
+        except Exception as error:
+            error = "Can't connect to payment processing"
+
+        # Subscribe them to the plan
+        if not error and request.method == 'POST':
+
+            # get the token from stripe (POST)
+            token = request.POST.get("stripeToken", "")
+
+            if token:
+                try:
+                    # Removes the old subscription and subscribes the user to the new one
+                    company.subscribe_user(plan.stripe_id, customer=customer, token=token)
+
+                    company.plan = plan
+                    company.save()
+
+                    context['success'] = True
+                except stripe.error.CardError as error:
+                    error = "Credit card declined. Try using a new one."
+                except Exception as error:
+                    logger.error(error.message)
+                    error = "An error occurred."
+            else:
+                error = "Payment not received. Try again"
+
+        context['error'] = error
+
+    context['pushable_key'] = settings.STRIPE_PUSHABLE_KEY
+
+    return render(request, 'account/checkout.html', context)
 
 
 def company_logout(request):

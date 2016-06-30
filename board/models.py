@@ -82,7 +82,7 @@ class Category(models.Model):
             self.slug = orig = slugify(self.name)[:max_length]
 
             for x in itertools.count(1):
-                if not Post.objects.filter(slug=self.slug).exists():
+                if not Category.objects.filter(slug=self.slug).exists():
                     break
 
                 # Truncate the original slug dynamically. Minus 1 for the hyphen.
@@ -111,7 +111,7 @@ class JobType(models.Model):
             self.slug = orig = slugify(self.name)[:max_length]
 
             for x in itertools.count(1):
-                if not Post.objects.filter(slug=self.slug).exists():
+                if not JobType.objects.filter(slug=self.slug).exists():
                     break
 
                 # Truncate the original slug dynamically. Minus 1 for the hyphen.

@@ -5,8 +5,6 @@ from endless_pagination.decorators import page_template
 from jobs import settings
 from account.models import Plan
 
-import stripe
-
 import logging
 
 # Get an instance of the logger
@@ -61,42 +59,26 @@ def company_plans(request):
 
     context['plans'] = Plan.objects.all().order_by('cost').filter(visible=True)
 
-    if request.user.is_anonymous():
-        pass
-    else:
+    if not request.user.is_anonymous():
         company = request.user.company
         context['company'] = company
 
-        error = None
-        customer = None
-        try:
-            customer = company.get_stripe_customer()
-        except Exception as error:
-            error = "Can't connect to payment processing"
+        # If the user request to be downgraded to a post with no cost
+        if request.method == 'POST':
+            plan = get_object_or_404(Plan, slug=request.POST.get("plan", ""), cost=0)
+            print plan.name
 
-        if not error and request.method == 'POST':
-            # Subscribe them to the job
-            token = request.POST.get("stripeToken", "")
-            plan = get_object_or_404(Plan, id=request.POST.get("plan"))
+            # Update the companies plan and remove other subscriptions
+            company.plan = plan
+            company.remove_subscriptions()
+            company.save()
 
-            # if they inputted a new card, or otherwise
-            if token:
-                try:
-                    # Removes the old subscription and subscribes the user to the new one
-                    company.subscribe_user(plan.stripe_id, customer=customer, token=token)
+            # Turn off all of the company's posts
+            for post in company.post_set.all():
+                post.paid = False
+                post.save()
 
-                    company.plan = plan
-                    company.save()
-                except stripe.error.CardError as error:
-                    error = "Credit card declined. Try using a new one."
-                except Exception as error:
-                    logger.error(error.message)
-                    error = "An error occurred."
-            else:
-                error = "Payment not received. Try again"
-
-        context['pushable_key'] = settings.STRIPE_PUSHABLE_KEY
-        context['error'] = error
+            return redirect('update_posts')
 
     return render(request, 'board/company_plans.html', context)
 

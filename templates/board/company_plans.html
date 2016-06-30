@@ -63,30 +63,16 @@ Post a Job - Owatonna Jobs Online
                           <li><strong>{{ plan.max_upgraded_posts }}</strong> Highlighted Posts</li>
                         </ul>
                         {% if company and company.plan != plan and plan.cost != 0 %}
-                            <form action="#" method="POST">
-                                {% csrf_token %}
-                                  <script
-                                    src="https://checkout.stripe.com/checkout.js" class="stripe-button"
-                                    data-key="{{ pushable_key }}"
-                                    data-image="{% static 'theme/images/logo/case.png' %}"
-                                    data-name="Owatonna Jobs Online"
-                                    data-description="{{ plan.name }} Subscription"
-                                    data-amount="{{ plan.cost }}00"
-                                    data-locale="auto"
-                                    data-panel-label="Subscribe for {{ amount }}"
-                                    data-label="Subscribe">
-                                  </script>
-                                <input type="hidden" name="plan" value="{{ plan.id }}">
-                            </form>
+                            <a href="{% url 'checkout' plan.slug %}"><button type="button" class="btn btn-t-primary btn-theme btn-lg btn-square btn-block">Subscribe</button></a>
                         {% else %}
                             {% if company %}
                                 {% if company.plan != plan %}
-                                    <a href="{% url 'register' %}"><button type="button" class="btn btn-t-primary btn-theme btn-lg btn-square btn-block">Downgrade</button></a>
+                                    <button type="button" class="btn btn-t-primary btn-theme btn-lg btn-square btn-block" data-toggle="modal" data-target="#confirmModal">Downgrade</button>
                                 {% else %}
                                     <button type="button" class="btn btn-t-primary btn-theme btn-lg btn-square btn-block">In Use</button>
                                 {% endif %}
                             {% else %}
-                                <a href="{% url 'register' %}"><button type="button" class="btn btn-t-primary btn-theme btn-lg btn-square btn-block">Sign Up</button></a>
+                                <a href="{% url 'register' %}"><button type="button" class="btn btn-t-primary btn-theme btn-lg btn-square btn-block">Subscribe</button></a>
                             {% endif %}
                         {% endif %}
                       </div>
@@ -163,7 +149,15 @@ Post a Job - Owatonna Jobs Online
                       <tr>
                         <th width="19%;"></th>
                         {% for plan in plans %}
-                          <th width="27%"><h4 class="text-center">{{ plan.name }} Plan</h4></th>
+                            <th width="27%">
+                                {% if company and company.plan != plan and plan.cost != 0 %}
+                                    <a href="{% url 'checkout' plan.slug %}">
+                                {% endif %}
+                                <h4 class="text-center">{{ plan.name }} Plan</h4>
+                                {% if company and company.plan != plan and plan.cost != 0 %}
+                                    </a>
+                                {% endif %}
+                            </th>
                         {% endfor %}
                       </tr>
                     </thead>
@@ -250,44 +244,36 @@ Post a Job - Owatonna Jobs Online
             <a href="{% url 'contact_us' %}" class="btn btn-t-primary btn-theme">Contact Us</a>
           </div>
         </div><!-- end block bottom -->
-
-
-
-      {% if four_digits %}
-        <!-- Modal -->
-      <div class="modal fade" id="confirmPayment" role="dialog">
-        <div class="modal-dialog modal-md">
-          <div class="modal-content">
-            <div class="modal-header">
-              <h4 class="modal-title">Confirm Purchase</h4>
-            </div>
-            <div class="modal-body">
-              <p>Confirm subscription for posting using card <b>{{ four_digits }}</b></p>
-            </div>
-            <div class="modal-footer">
-              <form action="" method = "post">
-                  {% csrf_token %}
-                  <input class="btn btn-primary" type="submit" name="checkout" value="Subscribe with Card {{ four_digits }}" />
-              <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-              </form>
-            </div>
-          </div>
-        </div>
-      </div>
-      {% endif %}
-
-
       </div><!--end body-content -->
 
-{% endblock content %}
+    {% for plan in plans %}
+        {% if plan.cost == 0 %}
+            <div id="confirmModal" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                    <form action="#" method="post" id="{{ plan.slug }}">
+                      {% csrf_token %}
+                      <input type="hidden" name="plan" value="{{ plan.slug }}">
+                    </form>
+                    <!-- Modal content-->
+                    <div class="modal-content">
+                      <div class="modal-header" style="padding-top:20px;padding-bottom:40px;">
+                          <div class="col-md-9" style="padding-top:10px;">
+                            <h4 class="modal-title">Confirm Downgrade of Account</h4>
+                          </div>
+                          <button type="button" class="btn-xs btn-primary pull-right" data-dismiss="modal"><i class="fa fa-times" aria-hidden="true"></i></button>
+                      </div>
+                      <div class="modal-body">
+                        <p>We're sorry for letting you leave our premium plans. If there's anything that we can do to change your mind, please email us at <a href="mailto:ethan@owatonnajobsonline.com">ethan@owatonnajobsonline.com</a></p>
+                        <p>If you decide to downgrade your subscription, you will be directed to your post manager to choose which posts to re-enable (by default, all posts will be disabled)</p>
+                      </div>
+                      <div class="modal-footer">
+                          <button type="submit" class="btn btn-danger" form="{{ plan.slug }}" value="Submit">Downgrade</button>
+                          <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+                      </div>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    {% endfor %}
 
-{% block js %}
-    <script>
-        $(document).ready(function(){
-            $(".stripe-button-el").addClass("btn btn-t-primary btn-theme btn-lg btn-square btn-block");
-            $(".stripe-button-el").attr("id", "stripe-button");
-            $(".stripe-button-el").removeClass("stripe-button-el");
-            $("#stripe-button > span").css("min-height", "");
-        });
-    </script>
-{% endblock %}
+{% endblock content %}

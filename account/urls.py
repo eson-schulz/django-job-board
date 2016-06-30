@@ -24,4 +24,6 @@ urlpatterns = [
     url(r'^company/post-a-job/$', views.post_a_job, name='post_a_job'),
     url(r'^update-posts/$', views.update_posts_base, name='update_posts'),
     url(r'^update-posts/(?P<post_slug>[\w\-]+)/$', views.post_a_job, name='update_post'),
+
+    url(r'^checkout/(?P<plan_slug>[\w\-]+)/$', views.checkout, name='checkout'),
 ]

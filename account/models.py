@@ -86,9 +86,14 @@ class Company(models.Model):
             if not customer:
                 customer = self.get_stripe_customer()
 
-            self.remove_subscriptions(customer=customer)
-
-            customer.subscriptions.create(plan=plan_name, source=token)
+            # Update old subscription to new if they are upgrading/updating
+            if customer.subscriptions.data:
+                customer.subscriptions.data[0].plan = plan_name
+                customer.subscriptions.data[0].source = token
+                customer.subscriptions.data[0].save()
+            # Otherwise create a new subscription for the user
+            else:
+                customer.subscriptions.create(plan=plan_name, source=token)
 
         except (stripe.error.CardError, stripe.error.APIConnectionError, stripe.error.APIError,
                 stripe.error.AuthenticationError, stripe.error.InvalidRequestError,
@@ -154,8 +159,26 @@ class Plan(models.Model):
 
     cost = models.PositiveSmallIntegerField()
 
+    slug = models.SlugField(unique=True)
+
     def is_paid(self):
-        return self.cost != 0;
+        return self.cost != 0
+
+    def save(self, *args, **kwargs):
+
+        if not self.id:
+            max_length = 50
+
+            self.slug = orig = slugify(self.name)[:max_length]
+
+            for x in itertools.count(1):
+                if not Plan.objects.filter(slug=self.slug).exists():
+                    break
+
+                # Truncate the original slug dynamically. Minus 1 for the hyphen.
+                self.slug = "%s-%d" % (orig[:max_length - len(str(x)) - 1], x)
+
+        super(Plan, self).save(*args, **kwargs)
 
     def __unicode__(self):
         return self.name

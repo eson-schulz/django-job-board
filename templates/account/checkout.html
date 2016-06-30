@@ -1,0 +1,95 @@
+{% extends 'general/skeleton/base_with_logo.html' %}
+
+{% load staticfiles %}
+{% load endless %}
+
+{% block title %}
+Owatonna Jobs Online
+{% endblock title %}
+
+{% block content %}
+
+      <!-- body-content -->
+      <div class="body-content clearfix" >
+
+        <div class="bg-color2">
+          <div class="container">
+            <div class="row">
+              {% if not success %}
+              <div class="col-md-9">
+                <div class="block-section-sm box-list-area">
+                    <h4>Review your subscription</h4>
+                    <div class="box-list">
+                        <div class="item">
+                            <div class="row">
+                                <div class="col-md-10">
+                                    <h5>Monthly subscription to our {{ plan.name }} Plan</h5>
+                                    <p>Includes: {{ plan.max_posts }} post{% if plan.max_posts > 1 %}s{% endif %}
+                                        {% if plan.max_upgraded_posts > 0 %}- {{ plan.max_upgraded_posts }} highlighted post
+                                        {% if plan.max_upgraded_posts > 1 %}s{% endif %}{% endif %}
+                                        {% if plan.company_image %}- company image{% endif %}
+                                        {% if plan.social_links %}- social links{% endif %}
+                                        {% if plan.social_post %}- social posts{% endif %}
+                                        {% if plan.social_post %}- email post{% endif %}</p>
+                                </div>
+                                <div class="col-md-2 text-center">
+                                    <h4 style="margin-bottom:0px;">${{ plan.cost }}</h4>
+                                    <small>Per month</small>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                <form action="#" method="POST" class="text-center">
+                        {% csrf_token %}
+                          <script
+                            src="https://checkout.stripe.com/checkout.js" class="stripe-button"
+                            data-key="{{ pushable_key }}"
+                            data-image="{% static 'theme/images/logo/case.png' %}"
+                            data-name="Owatonna Jobs Online"
+                            data-description="{{ plan.name }} Subscription"
+                            data-amount="{{ plan.cost }}00"
+                            data-locale="auto"
+                            data-panel-label="Subscribe for {{ amount }}"
+                            data-label="Secure Checkout">
+                          </script>
+                        <input type="hidden" name="plan" value="{{ plan.id }}">
+                </form>
+                <div class="col-md-2"></div>
+                <div class="col-md-8" style="line-height: 1em;margin-top:8px;margin-bottom:8px;">
+                    <small class="text-center"><p>After you click the checkout button, a form connected to Stripe appears to securely processes your credit card without it touching our servers. By clicking this button, you agree to our terms of service.</p></small>
+                </div>
+              </div>
+
+              </div>
+              <div class="col-md-3">
+                <div class="text-center block-section-sm side-right">
+                    <h5>Thank you for supporting local Owatonna businesses</h5>
+                    <hr />
+                    <h5>Questions?</h5>
+                    <a href="{% url 'contact_us' %}" class="btn btn-t-primary btn-theme">Contact Us</a>
+                </div>
+
+              </div>
+              {% else %}
+                 <div class="text-center block-section-sm">
+                     <h3 style="margin-top:0;">Payment successful</h3>
+                     <div class="col-md-2"></div>
+                     <div class="col-md-8">
+                         <p>Thank you for your purchase of a {{ plan.name }} Plan with Owatonna Jobs Online. If you have any questions, concerns, or comments, please contact me at <a href="mailto:ethan@owatonnajobsonline.com">ethan@owatonnajobsonline.com</a>. Thank you for supporting local Owatonna businesses!</p>
+                     </div>
+                     <div class="col-md-2"></div>
+                     <div class="col-md-12 margin-b-20">
+                         <a href="{% url 'post_a_job' %}" class="btn btn-t-primary btn-theme">Post a Job</a>
+                     </div>
+                 </div>
+              {% endif %}
+            </div>
+          </div>
+        </div>
+      </div><!--end body-content -->
+
+{% endblock content %}
+
+{% block js %}
+    <script src="{% static 'plugins/endless-pagination.js' %}"></script>
+{% endblock js %}
