@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 from django.shortcuts import render, render_to_response, get_object_or_404, redirect
 from django.template.context import RequestContext
 from .models import Post, Category, Company, JobType
@@ -149,6 +150,8 @@ def employers_only_index(request):
 def not_viewable_launch(request, category_slug=None, job_type_slug=None):
     return render(request, 'launch/not_viewable.html')
 
+def certbot(request):
+    return HttpResponse('PuxoVBqdToDrVSeZf6SGVjqG0JcdUEVOzKzav2TJNa0.4XJk6Wg4343AN72yMt-RmcJHUIR9cDBsnHqa4EpgWG8')
 
 def get_valid_posts():
     return Post.objects.filter(paid=True, verified=True)
