@@ -128,7 +128,7 @@ Post a Job - Owatonna Jobs Online
             <div class="row">
               <div class="col-md-6 text-center-sm">
                 <h2>Highlighted Posts</h2>
-                <p>With highlighted posts, make your job postings noticed. Highlighted posts get put to the top of the category lists.</p>
+                <p>With highlighted posts, make your job postings get noticed instantly. Highlighted posts get put to the top of the category lists.</p>
                 <p><a href="#plan-list" class="btn btn-theme btn-t-primary link-innerpage">Upgrade to premium</a></p>
               </div>
               <div class="col-md-6 text-center hidden-sm hidden-xs">
@@ -144,7 +144,7 @@ Post a Job - Owatonna Jobs Online
                   <h2>Detailed Comparison</h2>
                 <div class="white-space-30"></div>
                 </div>
-                <table class="table table-bordered text-center">
+                <table class="table table-bordered text-center no-margin-bottom">
                     <thead>
                       <tr>
                         <th width="19%;"></th>
@@ -163,19 +163,19 @@ Post a Job - Owatonna Jobs Online
                     </thead>
                     <tbody>
                       <tr>
-                        <td>Cost Per Month</td>
+                        <td data-toggle="tooltip" data-placement="left" title="How much you will pay per month for access to all of these features">Cost Per Month</td>
                         {% for plan in plans %}
                             <td>{{ plan.cost }}</td>
                         {% endfor %}
                       </tr>
                       <tr>
-                        <td>Max Posts</td>
+                        <td data-toggle="tooltip" data-placement="left" title="How many posts you can have posted per month (posts can be easily switched out as often as you want)">Max Posts</td>
                         {% for plan in plans %}
                             <td>{{ plan.max_posts }}</td>
                         {% endfor %}
                       </tr>
                       <tr>
-                        <td>Company Logo</td>
+                        <td data-toggle="tooltip" data-placement="left" title="Your own logo is displayed on all posts and your company profile">Company Logo</td>
                         {% for plan in plans %}
                             {% if plan.company_image %}
                                 <td style="color:#34495e;"><i class="fa fa-check" aria-hidden="true"></i></td>
@@ -185,7 +185,7 @@ Post a Job - Owatonna Jobs Online
                         {% endfor %}
                       </tr>
                       <tr>
-                        <td>Company Social Media Links</td>
+                        <td data-toggle="tooltip" data-placement="left" title="Insert links to all of your social media accounts on your pages">Company Social Media Links</td>
                         {% for plan in plans %}
                             {% if plan.social_links %}
                                 <td style="color:#34495e;"><i class="fa fa-check" aria-hidden="true"></i></td>
@@ -195,7 +195,7 @@ Post a Job - Owatonna Jobs Online
                         {% endfor %}
                       </tr>
                       <tr>
-                        <td>Social Media Post</td>
+                        <td data-toggle="tooltip" data-placement="left" title="A link to your job posting will be sent out to all of our followers on Facebook and Twitter">Social Media Post</td>
                         {% for plan in plans %}
                             {% if plan.social_post %}
                                 <td style="color:#34495e;"><i class="fa fa-check" aria-hidden="true"></i></td>
@@ -205,7 +205,7 @@ Post a Job - Owatonna Jobs Online
                         {% endfor %}
                       </tr>
                       <tr>
-                        <td>Instant Posting</td>
+                        <td data-toggle="tooltip" data-placement="left" title="Posts are instantly live when you click OK">Instant Posting</td>
                         {% for plan in plans %}
                             {% if plan.cost != 0 %}
                                 <td style="color:#34495e;"><i class="fa fa-check" aria-hidden="true"></i></td>
@@ -215,7 +215,7 @@ Post a Job - Owatonna Jobs Online
                         {% endfor %}
                       </tr>
                       <tr>
-                        <td>Email Newsletter</td>
+                        <td data-toggle="tooltip" data-placement="left" title="We will send out an email to our subscribers with a link to your post">Email Newsletter</td>
                         {% for plan in plans %}
                             {% if plan.email_post %}
                                 <td style="color:#34495e;"><i class="fa fa-check" aria-hidden="true"></i></td>
@@ -225,13 +225,14 @@ Post a Job - Owatonna Jobs Online
                         {% endfor %}
                       </tr>
                       <tr>
-                        <td>Highlighted Posts</td>
+                        <td data-toggle="tooltip" data-placement="left" title="Have your post at the top of any category page for increased visability">Highlighted Posts</td>
                         {% for plan in plans %}
                             <td>{{ plan.max_upgraded_posts }}</td>
                         {% endfor %}
                       </tr>
                     </tbody>
                 </table>
+                <small>Mouse over any feature for a more information</small>
             </div>
         </div>
 

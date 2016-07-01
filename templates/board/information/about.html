@@ -24,7 +24,11 @@ About Us - Owatonna Jobs Online
               </div>
             </div><!-- world map -->
 
-            <h4>Owatonna Jobs Online helps people get jobs</h4>
+            <div class="row">
+                <div class="col-md-8 col-md-offset-2">
+                    <h5>Owatonna Jobs Online's goal is to decrease unemployment in Owatonna. There are two major avenues we accomplish this through. One is advertisement of local jobs that may otherwise be not be listed on bigger websites. Two is advertisement of Owatonna itself. We want to show other people how great it can be to live and work here.</h5>
+                </div>
+            </div>
             <hr/>
             <div class="white-space-15"></div>
             <h2>We can help you get a job</h2>
@@ -68,16 +72,16 @@ About Us - Owatonna Jobs Online
                 <div class="box-ic-center">
                   <i class="fa fa-clipboard ic-box"></i>
                   <h4>Post a job</h4>
-                  <p>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, </p>
-                  <a href="#" class="btn btn-sm btn-pill btn-theme btn-line dark">Post a Job</a>
+                  <p>Post a job in minutes using our online interface. Quality, focused job seekers will be sent to your inbox or website within days.</p>
+                  <a href="{% url 'post_a_job' %}" class="btn btn-sm btn-pill btn-theme btn-line dark">Post a Job</a>
                 </div>
               </div>
               <div class="col-md-6">
                 <div class="box-ic-center ">
                   <i class="fa fa-search ic-box"></i>
                   <h4>Company Profile</h4>
-                  <p>Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, </p>
-                  <a href="#" class="btn btn-sm btn-pill btn-theme btn-line dark">Find Resumes</a>
+                  <p>Job seekers can find out what makes your company so great with an easily generated company profile.</p>
+                  <a href="{% url 'register' %}" class="btn btn-sm btn-pill btn-theme btn-line dark">Register Today</a>
                 </div>
               </div>
             </div><!-- box with icon center -->
