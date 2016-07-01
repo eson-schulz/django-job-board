@@ -174,7 +174,11 @@ LOGGING = {
 ADMINS = [('Ethan', 'ethan@owatonnajobsonline.com'), ]
 
 # Setting to change the look of the site if in pre-launch mode
-EMPLOYERS_ONLY = False
+EMPLOYERS_ONLY = os.environ.get('EMPLOYERS_ONLY') == 'True'
+
+# Stripe settings
+stripe.api_key = os.environ.get('API_KEY')
+STRIPE_PUSHABLE_KEY = os.environ.get('PUSH_KEY')
 
 # Database settings for Heroku
 db_from_env = dj_database_url.config(conn_max_age=500)
