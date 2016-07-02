@@ -150,8 +150,6 @@ def employers_only_index(request):
 def not_viewable_launch(request, category_slug=None, job_type_slug=None):
     return render(request, 'launch/not_viewable.html')
 
-def certbot(request):
-    return HttpResponse('PuxoVBqdToDrVSeZf6SGVjqG0JcdUEVOzKzav2TJNa0.4XJk6Wg4343AN72yMt-RmcJHUIR9cDBsnHqa4EpgWG8')
 
 def get_valid_posts():
     return Post.objects.filter(paid=True, verified=True)

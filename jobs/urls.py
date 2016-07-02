@@ -17,7 +17,7 @@ from django.conf.urls.static import static
 from django.conf.urls import include, url
 from django.conf import settings
 from django.views.generic.base import RedirectView
-from board.views import employers_only_index, certbot
+from board.views import employers_only_index
 from django.contrib import admin
 
 urlpatterns = [
@@ -26,8 +26,6 @@ urlpatterns = [
     url(r'^account/', include('account.urls')),
 
     url(r'^tinymce/', include('tinymce.urls')),
-
-    url(r'^.well-known/acme-challenge/PuxoVBqdToDrVSeZf6SGVjqG0JcdUEVOzKzav2TJNa0$', certbot),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 if settings.EMPLOYERS_ONLY:
