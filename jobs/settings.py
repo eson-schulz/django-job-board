@@ -24,7 +24,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ["jobs.owatonnajobsonline.com", "owatonnajobsonline.com", "owatonnajobsonline.herokuapp.com"]
+ALLOWED_HOSTS = ["owatonnajobsonline.com", "owatonnajobsonline.herokuapp.com", "www.owatonnajobsonline.com"]
 
 
 # Application definition
