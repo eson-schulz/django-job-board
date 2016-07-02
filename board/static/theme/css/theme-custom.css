@@ -15,3 +15,10 @@
 .socials a {
 	border: 0px;
 }
+
+.faq-image {
+    border: 2px solid #333;
+    border-radius: 5px;
+    margin-bottom: 28px;
+    width: 70%;
+}

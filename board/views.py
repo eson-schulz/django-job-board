@@ -138,6 +138,10 @@ def contact_us(request):
     return render(request, 'board/information/contact.html')
 
 
+def faq(request):
+    return render(request, 'board/information/faq.html')
+
+
 def page_not_found(request):
     return render(request, 'general/404.html')
 

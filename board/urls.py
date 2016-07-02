@@ -22,6 +22,9 @@ urlpatterns = [
 
     # Contact us page
     url(r'^contact-us/$', views.contact_us, name='contact_us'),
+
+    # FAQ
+    url(r'^faq/$', views.faq, name='faq'),
 ]
 
 # We want to display different urls without breaking them if we are in pre-launch mode

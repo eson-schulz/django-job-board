@@ -1,0 +1,172 @@
+{% extends 'general/skeleton/base_with_logo.html' %}
+
+{% load staticfiles %}
+
+{% block title %}
+Frequently Asked Questions - Owatonna Jobs Online
+{% endblock title %}
+
+{% block content %}
+      <!-- body-content -->
+      <div class="body-content clearfix" >
+
+        <!-- block top -->
+        <div class="bg-color1 block-section line-bottom">
+          <div class="container text-center">
+            <h2>Frequently Asked Questions</h2>
+            <hr/>
+            <div class="white-space-15"></div>
+
+            <h3>General</h3>
+              <div class="row">
+                  <div class="col-lg-10 col-md-offset-1">
+                      <div class="panel-group" id="accordion">
+                        <div class="panel panel-default">
+                          <div class="panel-heading">
+                            <h4 class="panel-title">
+                              <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">How secure is Owatonna Jobs Online?</a>
+                            </h4>
+                          </div>
+                          <div id="collapse1" class="panel-collapse collapse">
+                            <div class="panel-body text-left">
+                                <p>
+                                    All connections to Owatonna Jobs Online are encrypted using https, protecting general traffic to it.
+                                    The only confidential information that we store is employers'
+                                    passwords, which are protected with PBKDF2 and salted in our database. All credit card transactions
+                                    are handled and stored by <a href="https://stripe.com/">Stripe</a>, which was recently audited and
+                                    certified to be a PCI Service Provider Level 1, the highest level of certification available.
+                                </p>
+                                <p>
+                                    You can read more about Stripe's security <a href="https://stripe.com/docs/security">here</a>.
+                                </p>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="panel panel-default">
+                          <div class="panel-heading">
+                            <h4 class="panel-title">
+                              <a data-toggle="collapse" data-parent="#accordion" href="#collapse2">How can I contact you with questions or comments?</a>
+                            </h4>
+                          </div>
+                          <div id="collapse2" class="panel-collapse collapse">
+                            <div class="panel-body text-left">
+                                <p>
+                                    You can find our email on our <a href="{% url 'contact_us' %}">contact page</a>.
+                                </p>
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                 </div>
+              </div>
+
+            <h3>Employers</h3>
+              <div class="row">
+                  <div class="col-lg-10 col-md-offset-1">
+                      <div class="panel-group" id="accordion2">
+                        <div class="panel panel-default">
+                          <div class="panel-heading">
+                            <h4 class="panel-title">
+                              <a data-toggle="collapse" data-parent="#accordion2" href="#collapse11">Why should I upgrade to a paid account?</a>
+                            </h4>
+                          </div>
+                          <div id="collapse11" class="panel-collapse collapse">
+                            <div class="panel-body text-left">
+                                <p>
+                                    Paid account on Owatonna Jobs Online are given many features over the free accounts.
+                                    One of the best reasons to upgrade is the allowance of more posts to the site.
+                                </p>
+                                <p>
+                                    Also, with paid accounts, your company logo is displayed next to your postings on the search page,
+                                    on the post details page, and on your company page.
+                                </p>
+                                <p>
+                                    View from the homepage without the logo
+                                </p>
+                                <img src="{% static 'theme/images/faq/no-logo-search.png' %}" class="faq-image" />
+
+                                <p>
+                                    View from the homepage with the logo
+                                </p>
+                                <img src="{% static 'theme/images/faq/logo-search.png' %}" class="faq-image"/>
+
+                                <p>
+                                    View from the job details page without the logo
+                                </p>
+                                <img src="{% static 'theme/images/faq/no-logo-details.png' %}" class="faq-image"/>
+
+                                <p>
+                                    View from the job details page with the logo
+                                </p>
+                                <img src="{% static 'theme/images/faq/logo-details.png' %}" class="faq-image"/>
+                                <p>
+                                    As you can see, the addition of your own company logo makes your posts <i>pop</i>
+                                    more and become more attractive to job seekers. The company details page is similarity
+                                    drawn as the job details page.
+                                </p>
+                                <hr/>
+                                <p>
+                                    Along with a company logo, we include company social media links in all paid accounts.
+                                    This means that you can attach your social media (Twitter, Facebook) presence to your
+                                    job postings.
+                                </p>
+                                <p>
+                                    All paid posts also include a posting to our Facebook and Twitter pages. We will
+                                    automatically post a link to your job the first time your post any jobs on our website.
+                                </p>
+                                <p>
+                                    To prevent spam, all free accounts must have their posts verified before they are
+                                    posted. All paid accounts can instantly post their jobs with no delay.
+                                </p>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="panel panel-default">
+                          <div class="panel-heading">
+                            <h4 class="panel-title">
+                              <a data-toggle="collapse" data-parent="#accordion2" href="#collapse12">What is a highlighted post?</a>
+                            </h4>
+                          </div>
+                          <div id="collapse12" class="panel-collapse collapse">
+                            <div class="panel-body text-left">
+                                <p>
+                                    Highlighted posts are put at in position one or two of any category. Along with that,
+                                    a green outline is given to the posts to make them stand out even more.
+                                </p>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="panel panel-default">
+                          <div class="panel-heading">
+                            <h4 class="panel-title">
+                              <a data-toggle="collapse" data-parent="#accordion2" href="#collapse13">Can I advertise something besides jobs?</a>
+                            </h4>
+                          </div>
+                          <div id="collapse13" class="panel-collapse collapse">
+                            <div class="panel-body text-left">
+                                <p>
+                                    Yes, we have several areas for advertisements on different pages. If you are interested,
+                                    please <a href="{% url 'contact_us' %}">contact us</a>.
+                                </p>
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+                 </div>
+              </div>
+
+
+          </div>
+        </div><!-- end block top -->
+
+          <!-- block bottom -->
+            <div class="block-section bg-color2">
+              <div class="container text-center">
+                <strong class="text-uppercase">support</strong>
+                <h2>Didn't answer your question?</h2>
+                <div class="white-space-20"></div>
+                <a href="{% url 'contact_us' %}" class="btn btn-t-primary btn-theme">Contact Us</a>
+              </div>
+            </div><!-- end block bottom -->
+      </div><!--end body-content -->
+{% endblock content %}
