@@ -151,6 +151,11 @@ def not_viewable_launch(request, category_slug=None, job_type_slug=None):
     return render(request, 'launch/not_viewable.html')
 
 
+# The intro page for people interested in posting jobs online
+def employers_only_search(request):
+    return render(request, 'launch/search.html')
+
+
 def get_valid_posts():
     return Post.objects.filter(paid=True, verified=True)
 

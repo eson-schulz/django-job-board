@@ -27,7 +27,7 @@ urlpatterns = [
 # We want to display different urls without breaking them if we are in pre-launch mode
 if settings.EMPLOYERS_ONLY:
     urlpatterns += [
-        url(r'^$', views.not_viewable_launch, name='index'),
+        url(r'^$', views.employers_only_search, name='index'),
         url(r'^search/category/(?P<category_slug>[\w\-]+)/$', views.not_viewable_launch, name='category_search'),
         url(r'^search/job-types/(?P<job_type_slug>[\w\-]+)/$', views.not_viewable_launch, name='job_type_search'),
         url(r'^search/categories/$', views.not_viewable_launch, name='category_list'),

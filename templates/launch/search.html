@@ -1,0 +1,33 @@
+{% extends 'general/skeleton/base_with_logo.html' %}
+
+{% load staticfiles %}
+{% load endless %}
+
+{% block title %}
+Owatonna Jobs Online
+{% endblock title %}
+
+{% block content %}
+
+      <!-- body-content -->
+      <div class="body-content clearfix" >
+
+        <div class="bg-color2">
+          <div class="container">
+            <div class="row">
+               <div class="text-center col-md-10 col-md-offset-1" style="margin-top:30px;margin-bottom:50px;">
+                   <h3 class="margin-b-20">Thank you for your pre-launch interest in Owatonna Jobs Online</h3>
+                   <a href="{% url 'company_plans' %}" class="btn btn-t-primary btn-theme">View our Plans</a>
+                   <a href="{% url 'register' %}" class="btn btn-success btn-theme">Register</a>
+                   <a href="{% url 'about_us' %}" class="btn btn-t-primary btn-theme">Read about Us</a>
+               </div>
+            </div>
+          </div>
+        </div>
+      </div><!--end body-content -->
+
+{% endblock content %}
+
+{% block js %}
+    <script src="{% static 'plugins/endless-pagination.js' %}"></script>
+{% endblock js %}
