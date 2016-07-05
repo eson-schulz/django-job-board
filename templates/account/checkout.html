@@ -22,6 +22,9 @@
               {% if not success %}
               <div class="col-md-9">
                 <div class="block-section-sm box-list-area">
+                    {% if error %}
+                        <div class="alert alert-danger" role="alert">Error, please try again<br />{{ error }}</div>
+                    {% endif %}
                     <h4>Review your subscription</h4>
                     <div class="box-list">
                         <div class="item">
