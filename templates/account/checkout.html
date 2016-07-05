@@ -74,7 +74,9 @@
                 </form>
                 <div class="col-md-2"></div>
                 <div class="col-md-8" style="line-height: 1em;margin-top:8px;margin-bottom:8px;">
-                    <small class="text-center"><p>After you click the checkout button, a form connected to Stripe appears to securely processes your credit card without it touching our servers. By clicking this button, you agree to our terms of service.</p></small>
+                    <small class="text-center">
+                        <p>After you click the checkout button, a form connected to Stripe appears to securely processes your credit card without it touching our servers.</p>
+                    </small>
                 </div>
               </div>
 
@@ -97,9 +99,9 @@
                      </div>
                      <div class="col-md-2"></div>
                      <div class="col-md-12">
-                         <a href="{% url 'post_a_job' %}" class="btn btn-t-primary btn-theme">Post a Job</a>
+                         <a href="{% url 'update_posts' %}" class="btn btn-t-primary btn-theme">Manage Posts</a>
+                     <div class="white-space-40"></div>
                      </div>
-                     <div class="white-space-30"></div>
                  </div>
               {% endif %}
             </div>

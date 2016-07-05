@@ -12,7 +12,11 @@
     <hr/>
     {% if message %}
       {% if update_success %}
-          <div class="alert alert-success" role="alert">{{ message }}</div>
+          <div class="alert alert-success" role="alert">
+              {{ message }}
+              <br/>
+              View your company's page at <a href="{% url 'company_details' company.slug %}">here</a>
+          </div>
       {% else %}
           <div class="alert alert-danger" role="alert">{{ message }}</div>
     {% endif %}
