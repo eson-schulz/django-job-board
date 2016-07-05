@@ -90,10 +90,11 @@ class Company(models.Model):
             if customer.subscriptions.data:
                 customer.subscriptions.data[0].plan = plan_name
                 customer.subscriptions.data[0].source = token
+                customer.subscriptions.data[0].trial_end = 1469602800
                 customer.subscriptions.data[0].save()
             # Otherwise create a new subscription for the user
             else:
-                customer.subscriptions.create(plan=plan_name, source=token)
+                customer.subscriptions.create(plan=plan_name, source=token, trial_end=1469602800)
 
         except (stripe.error.CardError, stripe.error.APIConnectionError, stripe.error.APIError,
                 stripe.error.AuthenticationError, stripe.error.InvalidRequestError,
