@@ -4,7 +4,12 @@
 
 {% block header %}
         <div class="container text-center">
-            <div class="logo"> <a href="{% url 'index' %}"><img src="{% static 'theme/images/logo.png' %}" alt=""></a></div>
+            <div class="logo no-margin-bottom">
+                <a href="{% url 'index' %}"><img src="{% static 'theme/images/logo.png' %}" alt=""></a>
+            </div>
+            {% block header_small %}
+            {% endblock %}
+            <div class="white-space-50"></div>
         </div>
 
     </header><!-- end main-header -->

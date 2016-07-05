@@ -84,6 +84,11 @@ def company_plans(request):
     return render(request, 'board/company_plans.html', context)
 
 
+def company_info(request):
+
+    return render(request, 'board/information/company_info.html')
+
+
 def categories(request):
     context = {}
 

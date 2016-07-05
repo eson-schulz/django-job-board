@@ -1,0 +1,111 @@
+{% extends 'general/skeleton/base_with_logo.html' %}
+
+{% load staticfiles %}
+
+{% block title %}
+    Post a Job - Owatonna Jobs Online
+{% endblock title %}
+
+{% block head_extras %}
+    {{ form.media }}
+    <script>
+
+    </script>
+{% endblock head_extras %}
+
+
+{% block header_small %}
+    <h3 class="color-white">For Employers</h3>
+{% endblock header_small %}
+
+
+{% block content %}
+
+      <!-- body-content -->
+      <div class="body-content clearfix" >
+
+        <!-- block promo -->
+        <div class="block-section bg-color2 line-bottom">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-6 text-center-sm">
+                <h2>A Better Choice</h2>
+                <p>
+                    We know that the cost of being understaffed and the cost of posting a job on traditional job website
+                    can be expensive; that's why we work to reduce both of these costs for your company.
+                </p>
+                <p>
+                    Our paid job postings cost 18 times less than the average competitor. With a greater focus on the
+                    jobs located in Owatonna, you will get higher quality applicants sent to your inbox in no time.
+                </p>
+                <!--<p><a href="#">Learn more about posting your jobs on JobPlanet</a></p>-->
+              </div>
+              <div class="col-md-6 text-center hidden-sm hidden-xs">
+                <img src="{% static 'theme/images/mac2-new.png' %}" alt="">
+              </div>
+            </div>
+          </div>
+        </div><!-- end block promo -->
+
+        <!-- block promo -->
+        <div class="block-section bg-color1 line-bottom">
+          <div class="container">
+            <div class="row">
+
+              <div class="col-md-6 text-center hidden-sm hidden-xs"> <img src="{% static 'theme/images/mac-new.png' %}" alt=""></div>
+              <div class="col-md-6 text-center-sm">
+                <h2>A Modern Interface</h2>
+                <p>A sleek web interface is important in helping you find the employees that you're looking for.
+                    Built on the modern graphic framework Bootstrap, the layout of our website ensures that employees
+                    looking for your positions can find them on their desktops, tablets, or smartphones.
+                </p>
+                <p>
+                   Not only is the Owatonna Jobs Online optimised for job seekers, but the interface for your company
+                   is simple. Switch out and edit posts as often as you want with no additional costs.
+                </p>
+              </div>
+            </div>
+          </div>
+        </div> <!-- end block promo -->
+
+
+        <!-- block promo -->
+        <div class="block-section bg-color2 line-bottom">
+          <div class="container">
+            <div class="row">
+              <div class="col-md-6 text-center-sm">
+                <h2>A Local Solution</h2>
+                <p>
+                    As an Owatonna-based company, we know that helping out the local economy is an important effort to
+                    many companies. The goal of Owatonna Jobs Online is to help people to find jobs that they love in
+                    Owatonna.
+                </p>
+                <p>
+                    By helping support local business, your company will help others find jobs within Owatonna.
+                </p>
+              </div>
+              <div class="col-md-6 text-center hidden-sm hidden-xs">
+                <img src="{% static 'theme/images/mac1-new.png' %}" alt="">
+              </div>
+            </div>
+          </div>
+        </div><!-- end block promo -->
+
+        <!-- pricing 3 cols -->
+        <div class="block-section bg-color1">
+
+          <div class="container ">
+
+            <!-- text centered -->
+            <div class="text-center" id="plan-list">
+                <strong class="text-uppercase">Find out more</strong>
+                <h2>Plan Information</h2>
+                <div class="white-space-20"></div>
+                <a href="{% url 'company_plans' %}" class="btn btn-t-primary btn-theme">Check out our Plans</a>
+                <div class="white-space-10"></div>
+            </div><!-- text centered -->
+
+          </div>
+        </div><!-- end pricing 3 cols -->
+
+{% endblock content %}
