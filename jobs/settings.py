@@ -24,7 +24,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ["owatonnajobsonline.com", "owatonnajobsonline.herokuapp.com", "www.owatonnajobsonline.com"]
+ALLOWED_HOSTS = ["owatonnajobsonline.com", "www.owatonnajobsonline.com"]
 
 
 # Application definition
@@ -196,6 +196,14 @@ CSRF_COOKIE_SECURE = True
 
 os.environ['HTTPS'] = "on"
 os.environ['wsgi.url_scheme'] = 'https'
+
+# Email Settings
+EMAIL_HOST = os.environ.get('EMAIL_HOST')
+EMAIL_PORT = 465
+EMAIL_HOST_USER = os.environ.get('EMAIL_HOST_USER')
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_HOST_PASSWORD')
+EMAIL_USE_SSL = True
+DEFAULT_FROM_EMAIL = 'ethan@owatonnajobsonline.com'
 
 # Import local settings
 try:
