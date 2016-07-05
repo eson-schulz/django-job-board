@@ -69,7 +69,11 @@
                                     <button type="button" class="btn btn-t-primary btn-theme btn-lg btn-square btn-block">In Use</button>
                                 {% endif %}
                             {% else %}
-                                <a href="{% url 'register' %}"><button type="button" class="btn btn-t-primary btn-theme btn-lg btn-square btn-block">Subscribe</button></a>
+                                {% if plan.cost == 0 %}
+                                    <a href="{% url 'register' %}"><button type="button" class="btn btn-t-primary btn-theme btn-lg btn-square btn-block">Sign Up</button></a>
+                                {% else %}
+                                    <a href="{% url 'register' %}"><button type="button" class="btn btn-t-primary btn-theme btn-lg btn-square btn-block">Subscribe</button></a>
+                                {% endif %}
                             {% endif %}
                         {% endif %}
                       </div>
