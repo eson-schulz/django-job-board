@@ -40,7 +40,7 @@
                                     <h4 style="margin-bottom:0;">${{ plan.cost }}</h4>
                                     <small>Per month</small>
                                 </div>
-                                {% if old_plan %}
+                                {% if old_plan and old_plan.cost != 0 %}
                                 <div class="alert alert-info col-md-12" style="margin-bottom:0;" role="alert">
                                     {% if old_plan.cost == plan.cost %}
                                         Since the old plan and the new plan are the same price, you won't be charged anything on your new card until the old plan cycle ends.
@@ -93,9 +93,10 @@
                          <p>Thank you for your purchase of a {{ plan.name }} Plan with Owatonna Jobs Online. If you have any questions, concerns, or comments, please contact me at <a href="mailto:ethan@owatonnajobsonline.com">ethan@owatonnajobsonline.com</a>. Thank you for supporting local Owatonna businesses!</p>
                      </div>
                      <div class="col-md-2"></div>
-                     <div class="col-md-12 margin-b-20">
+                     <div class="col-md-12">
                          <a href="{% url 'post_a_job' %}" class="btn btn-t-primary btn-theme">Post a Job</a>
                      </div>
+                     <div class="white-space-30"></div>
                  </div>
               {% endif %}
             </div>
