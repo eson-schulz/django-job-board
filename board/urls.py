@@ -27,6 +27,12 @@ urlpatterns = [
 
     # FAQ
     url(r'^faq/$', views.faq, name='faq'),
+
+    # Terms of Service
+    url(r'^terms/$', views.tos, name='tos'),
+
+    # Privacy Policy
+    url(r'^privacy-policy/$', views.privacy_policy, name='privacy'),
 ]
 
 # We want to display different urls without breaking them if we are in pre-launch mode

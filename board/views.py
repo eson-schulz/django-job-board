@@ -147,6 +147,14 @@ def faq(request):
     return render(request, 'board/information/faq.html')
 
 
+def tos(request):
+    return render(request, 'board/information/terms.html')
+
+
+def privacy_policy(request):
+    return render(request, 'board/information/privacy-policy.html')
+
+
 def page_not_found(request):
     return render(request, 'general/404.html')
 
