@@ -125,6 +125,11 @@ TINYMCE_DEFAULT_CONFIG = {
     'theme_advanced_toolbar_align': 'left',
     'paste_text_sticky': True,
     'paste_text_sticky_default' : True,
+    'plugins': 'paste',
+    'paste_auto_cleanup_on_paste' : True,
+    'paste_remove_styles': True,
+    'paste_remove_styles_if_webkit': True,
+    'paste_strip_class_attributes': True,
 }
 
 LOGIN_URL = 'login'
