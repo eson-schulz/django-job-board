@@ -15,7 +15,7 @@
           <div class="alert alert-success" role="alert">
               {{ message }}
               <br/>
-              View your company's page at <a href="{% url 'company_details' company.slug %}">here</a>
+              View your company's page <a href="{% url 'company_details' company.slug %}">here</a> (you can click on your company's name in the future)
           </div>
       {% else %}
           <div class="alert alert-danger" role="alert">{{ message }}</div>
